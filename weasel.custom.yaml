@@ -1,0 +1,27 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.16.3
+  generator: "Weasel::UIStyleSettings"
+  modified_time: "Tue Jan 21 10:57:00 2025"
+  rime_version: 1.11.2
+patch:
+  preset_color_schemes:
+    blue_dark: {author: Liang, back_color: 0x342C28, border_color: 0x342C28, candidate_text_color: 0xFFFFFF, comment_text_color: 0xF9F0CA, hilited_back_color: 0xEFAF61, hilited_candidate_back_color: 0xEFAF61, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x7B7B7B, name: "Blue/Dark", text_color: 0x000000}
+    blue_light: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, comment_text_color: 0xF4C0A5, hilited_back_color: 0xFDF0E6, hilited_candidate_back_color: 0xFDF0E6, hilited_candidate_text_color: 0xE66F32, hilited_label_color: 0xE66F32, hilited_text_color: 0xFFFFFF, label_color: 0x989898, name: "Blue/Light", text_color: 0x454545}
+    darkgrey_light: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x000000, comment_text_color: 0x686358, hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0x6B6451, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0xACACAC, name: "Darkgrey/Light", text_color: 0x000000}
+    green_light: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, comment_text_color: 0x5E584B, hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0x769D00, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "Green/Light", text_color: 0x000000}
+    grey_light: {author: Liang, back_color: 0xF4EFEC, border_color: 0xF4EFEC, candidate_text_color: 0xC2A691, comment_text_color: 0xC2A691, hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0xE8DED9, hilited_candidate_text_color: 0xA78067, hilited_label_color: 0xA78067, hilited_text_color: 0xFFFFFF, label_color: 0xD2BEAF, name: "Grey/Light", text_color: 0x000000}
+    mac_light: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, comment_text_color: 0x5E584B, hilited_back_color: 0xD75A00, hilited_candidate_back_color: 0xD75A00, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "Mac/Light", text_color: 0x454545}
+    pink_dark: {author: Liang, back_color: 0x352B0F, border_color: 0xD2BEAF, candidate_text_color: 0x938081, comment_text_color: 0x686358, hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0x8044C0, hilited_candidate_text_color: 0xF7F4FB, hilited_label_color: 0xF7F4FB, hilited_text_color: 0xFFFFFF, label_color: 0x6B6451, name: "Pink/Dark", text_color: 0x000000}
+    purple_light: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x000000, comment_text_color: 0x686358, hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0xA94452, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0xACACAC, name: "Purple/Light", text_color: 0x000000}
+    taiji_light: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x000000, comment_text_color: 0x686358, hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0x000000, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0xACACAC, name: "Taiji/Light", text_color: 0x000000}
+    yellow_dark: {author: Liang, back_color: 0x3E3521, border_color: 0x3E3521, candidate_text_color: 0x909661, comment_text_color: 0x595836, hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0xD8E8EC, hilited_candidate_text_color: 0x4954BD, hilited_label_color: 0x4E7CBF, hilited_text_color: 0xFFFFFF, label_color: 0xB27B51, name: "Yellow/Dark", text_color: 0x000000}
+  style:
+    blur: true
+    font_face: "PingFang SC"
+    font_point: 13
+    horizontal: true
+    inline_preedit: true
+    label_font_point: 11
+    layout: {border: 2, candidate_spacing: 16, hilite_padding: 5, hilite_spacing: 5, margin_x: 6, margin_y: 6, round_corner: 5, spacing: 5}
+  "style/color_scheme": taiji_light
