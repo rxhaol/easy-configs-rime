@@ -17,48 +17,48 @@
 在 Windows 上，加载 `weasel.custom.yaml` 配置后的部分主题如下所示：
 
 > P.S. 在 Rime 中，颜色是 `BGR` 而不是 `RGB`
-- BlueDark
+- 蓝色.暗
 
 ![蓝色.暗](./assets/blue-dark.png)
 
-- BlueLight
+- 蓝色.亮
 
 ![蓝色.亮](./assets/blue-light.png)
 
 > P.S. my favorite~
 
-- DarkgreyLight
+- 深灰.亮（darkgrey-light）
 
 ![深灰.亮](./assets/darkgrey-light.png)
 
-- GreenLight (仿微信输入法)
+- 绿色.亮（green-light）
 
 ![绿色.亮](./assets/green-light.png)
 
-- GreyLight
+- 灰色.亮（grey-light）
 
 ![灰色.亮](./assets/grey-light.png)
 
-- MacOSLight (仿 MacOS)
+- MacOS.亮 (macos-light)
 
 ![MacOS.亮](./assets/macos.png)
 
-- PinkDark
+- 粉色.暗（pink-dark）
 
 ![粉色.暗](./assets/pink-dark.png)
 
-- PurpleLight
+- 紫色.亮（purple-light）
 
 ![紫色.亮](./assets/purple-light.png)
 
-- TaiJiDark
+- 黑白.暗（taiji-dark）
 
 ![太极.暗](./assets/taiji-dark.png)
 
-- TaiJiLight
+- 黑白.亮（taiji-light）
 
 ![太极.亮](./assets/taiji-light.png)
 
-- Yellow-Dark
+- 黄色.暗（yellow-dark）
 
 ![黄色.暗](./assets/yellow-dark.png)
