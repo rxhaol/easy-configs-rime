@@ -10,7 +10,7 @@
 
 ![Figma截图](./assets/figma.png)
 
-> P.S. 部分主题，如：`GreenLight`、`MacOSLight` 中的黑色并没有使用 `#000000`(BGR) 而是使用 `#454545`(BGR)，这是参考微信输入法的配色；标签（未选中）的颜色是 `#8E8E8E`(BGR)，这种灰色在亮色和暗色都表现得相当好。
+> P.S. 部分主题，如：`GreenLight`、`MacOSLight` 中的黑色并没有使用 `#000000`(BGR) 而是使用 `#454545`(BGR)，这是参考微信输入法的配色；标签（未选中）的颜色是 `#8E8E8E`(BGR)，这种灰色在亮色和暗色都表现得相当好。主题所用字体为 `苹方`。
 
 # 主题截图
 
@@ -24,6 +24,8 @@
 - BlueLight
 
 ![蓝色.亮](./assets/blue-light.png)
+
+> P.S. my favorite~
 
 - DarkgreyLight
 
