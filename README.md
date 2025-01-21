@@ -32,9 +32,9 @@
 
 ![灰色.亮](./assets/grey-light.png)
 
-- Mac (仿 MacOS)
+- MacOSLight (仿 MacOS)
 
-![Mac.亮](./assets/macos.png)
+![MacOS.亮](./assets/macos.png)
 
 - PinkDark
 
