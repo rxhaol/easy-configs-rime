@@ -19,10 +19,10 @@ patch:
     yellow_dark: {author: Liang, back_color: 0x3E3521, border_color: 0x3E3521, candidate_text_color: 0x909661, comment_text_color: 0x595836, hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0xD8E8EC, hilited_candidate_text_color: 0x4954BD, hilited_label_color: 0x4E7CBF, hilited_text_color: 0xFFFFFF, label_color: 0xB27B51, name: "Yellow/Dark", text_color: 0x000000}
   style:
     blur: true
-    font_face: "PingFang SC"
+    font_face: "PingFang SC:Bold"
     font_point: 12
     horizontal: true
     inline_preedit: true
     label_font_point: 10
-    layout: {border: 2, candidate_spacing: 14, hilite_padding: 5, hilite_spacing: 5, margin_x: 6, margin_y: 6, round_corner: 5, spacing: 5}
+    layout: {border: 2, candidate_spacing: 14, hilite_padding: 4, hilite_spacing: 4, margin_x: 5, margin_y: 5, round_corner: 5, spacing: 5}
   "style/color_scheme": blue_light
