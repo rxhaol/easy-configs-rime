@@ -149,6 +149,10 @@
 
   ![天蓝/暗](./chinese-colors/images/tianlan_dark.png)
 
+- 铜绿/暗
+
+  ![铜绿/暗](./chinese-colors/images/tonglv_dark.png)
+
 - 苋菜红/暗
 
   ![苋菜红/暗](./chinese-colors/images/xiancaihong_dark.png)
