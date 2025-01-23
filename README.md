@@ -8,7 +8,7 @@
 
 配色参考：[Rime 鼠须管输入法皮肤实验室](https://www.figma.com/community/file/1166934605535869911/rime)，预览图如下：
 
-![Figma截图](./assets/figma.png)
+![Figma截图](./legacy/images/figma.png)
 
 # 主题截图
 
@@ -16,49 +16,49 @@
 
 - 蓝色.暗
 
-![蓝色.暗](./assets/blue-dark.png)
+![蓝色.暗](./legacy/images/blue-dark.png)
 
 - 蓝色.亮
 
-![蓝色.亮](./assets/blue-light.png)
+![蓝色.亮](./legacy/images/blue-light.png)
 
 > P.S. my favorite~
 
 - 深灰.亮（darkgrey-light）
 
-![深灰.亮](./assets/darkgrey-light.png)
+![深灰.亮](./legacy/images/darkgrey-light.png)
 
 - 绿色.亮（green-light）
 
-![绿色.亮](./assets/green-light.png)
+![绿色.亮](./legacy/images/green-light.png)
 
 - 灰色.亮（grey-light）
 
-![灰色.亮](./assets/grey-light.png)
+![灰色.亮](./legacy/images/grey-light.png)
 
 - MacOS.亮 (macos-light)
 
-![MacOS.亮](./assets/macos.png)
+![MacOS.亮](./legacy/images/macos.png)
 
 - 粉色.暗（pink-dark）
 
-![粉色.暗](./assets/pink-dark.png)
+![粉色.暗](./legacy/images/pink-dark.png)
 
 - 紫色.亮（purple-light）
 
-![紫色.亮](./assets/purple-light.png)
+![紫色.亮](./legacy/images/purple-light.png)
 
 - 黑白.暗（taiji-dark）
 
-![太极.暗](./assets/taiji-dark.png)
+![太极.暗](./legacy/images/taiji-dark.png)
 
 - 黑白.亮（taiji-light）
 
-![太极.亮](./assets/taiji-light.png)
+![太极.亮](./legacy/images/taiji-light.png)
 
 - 黄色.暗（yellow-dark）
 
-![黄色.暗](./assets/yellow-dark.png)
+![黄色.暗](./legacy/images/yellow-dark.png)
 
 # 自定义主题
 
@@ -75,32 +75,32 @@
 
 - 柏林蓝
 
-  ![柏林蓝](./chinese-colors/bolinlan.png)
+  ![柏林蓝](./chinese-colors/images/bolinlan.png)
 
 - 高粱红
 
-  ![高粱红](./chinese-colors/gaolianghong.png)
+  ![高粱红](./chinese-colors/images/gaolianghong.png)
 
 - 蓝绿
 
-  ![蓝绿](./chinese-colors/lanlv.png)
+  ![蓝绿](./chinese-colors/images/lanlv.png)
 
 - 天蓝
 
-  ![天蓝](./chinese-colors/tianlan.png)
+  ![天蓝](./chinese-colors/images/tianlan.png)
 
 - 铜绿
 
-  ![铜绿](./chinese-colors/tonglv.png)
+  ![铜绿](./chinese-colors/images/tonglv.png)
 
 - 苋菜红
 
-  ![苋菜红](./chinese-colors/xiancaihong.png)
+  ![苋菜红](./chinese-colors/images/xiancaihong.png)
 
 - 苋菜紫
 
-  ![苋菜紫](./chinese-colors/xiancaizi.png)
+  ![苋菜紫](./chinese-colors/images/xiancaizi.png)
 
 - 亚丁绿
 
-  ![yadinglv](./chinese-colors/yadinglv.png)
+  ![yadinglv](./chinese-colors/images/yadinglv.png)
