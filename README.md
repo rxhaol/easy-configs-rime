@@ -10,13 +10,10 @@
 
 ![Figma截图](./assets/figma.png)
 
-> P.S. 部分主题，如：`GreenLight`、`MacOSLight` 中的黑色并没有使用 `#000000`(BGR) 而是使用 `#454545`(BGR)，这是参考微信输入法的配色；标签（未选中）的颜色是 `#8E8E8E`(BGR)，这种灰色在亮色和暗色都表现得相当好。主题所用字体为 `苹方`。
-
 # 主题截图
 
-在 Windows 上，加载 `weasel.custom.yaml` 配置后的部分主题如下所示：
+在 Windows 上，加载 `legacy/weasel.custom.yaml` 配置后的部分主题如下所示：
 
-> P.S. 在 Rime 中，颜色是 `BGR` 而不是 `RGB`
 - 蓝色.暗
 
 ![蓝色.暗](./assets/blue-dark.png)
@@ -62,3 +59,16 @@
 - 黄色.暗（yellow-dark）
 
 ![黄色.暗](./assets/yellow-dark.png)
+
+# 自定义主题
+
+对于亮色主题，我本人比较喜欢的设计原则遵循：
+
+- 背景色：`#FFFFFF`
+- 候选字颜色： `#454545`
+- 标签（未选中）颜色： `#8E8E8E`
+- 候选字（选中）文字颜色：根据个人喜好选择
+- 候选字（选中）背景颜色：`候选字（选中）文字`\*69%透明度（Alpha 的值为 80/0x50）
+- 标签（选中）颜色：和候选字（选中）文字颜色保持一致
+
+颜色参考：[中国传统颜色](https://www.zhongguose.com)
