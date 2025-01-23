@@ -1,0 +1,26 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.16.3
+  generator: "Weasel::UIStyleSettings"
+  modified_time: "Thu Jan 23 14:11:52 2025"
+  rime_version: 1.11.2
+patch:
+  preset_color_schemes:
+    blue: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x2666E426, hilited_candidate_text_color: 0x2666E4, hilited_label_color: 0x2666E4, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "君正蓝", text_color: 0x454545}
+    bolinlan: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x126BAE26, hilited_candidate_text_color: 0x126BAE, hilited_label_color: 0x126BAE, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "柏林蓝", text_color: 0x454545}
+    gaolianghong: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0xc02c3826, hilited_candidate_text_color: 0xc02c38, hilited_label_color: 0xc02c38, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "高粱红", text_color: 0x454545}
+    lanlv: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x12A18226, hilited_candidate_text_color: 0x12A182, hilited_label_color: 0x12A182, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "蓝绿", text_color: 0x454545}
+    tianlan: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x1677B326, hilited_candidate_text_color: 0x1677B3, hilited_label_color: 0x1677B3, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "天蓝", text_color: 0x454545}
+    tonglv: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x2bae8526, hilited_candidate_text_color: 0x2bae85, hilited_label_color: 0x2bae85, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "铜绿", text_color: 0x454545}
+    xiancaihong: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0xA61B2926, hilited_candidate_text_color: 0xA61B29, hilited_label_color: 0xA61B29, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "苋菜红", text_color: 0x454545}
+    xiancaizi: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x9B1E6426, hilited_candidate_text_color: 0x9B1E64, hilited_label_color: 0x9B1E64, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "苋菜紫", text_color: 0x454545}
+    yadinglv: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x42867526, hilited_candidate_text_color: 0x428675, hilited_label_color: 0x428675, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "亚丁绿", text_color: 0x454545}
+  style:
+    blur: true
+    font_face: "PingFang SC:Bold"
+    font_point: 12
+    horizontal: true
+    inline_preedit: true
+    label_font_point: 10
+    layout: {border: 2, candidate_spacing: 14, hilite_padding: 4, hilite_spacing: 4, margin_x: 5, margin_y: 5, round_corner: 5, spacing: 5}
+  "style/color_scheme": blue

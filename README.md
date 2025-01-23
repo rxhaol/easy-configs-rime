@@ -68,7 +68,39 @@
 - 候选字颜色： `#454545`
 - 标签（未选中）颜色： `#8E8E8E`
 - 候选字（选中）文字颜色：根据个人喜好选择
-- 候选字（选中）背景颜色：`候选字（选中）文字`\*69%透明度（Alpha 的值为 80/0x50）
+- 候选字（选中）背景颜色：`候选字（选中）文字`\*85%透明度（Alpha 的值约为 38/0x26）
 - 标签（选中）颜色：和候选字（选中）文字颜色保持一致
 
-颜色参考：[中国传统颜色](https://www.zhongguose.com)
+以下是根据：[中国传统颜色](https://www.zhongguose.com) 和上述设计原则做出来的主题（`chinese-colors/weasel.custom.yaml`）：
+
+- 柏林蓝
+
+  ![柏林蓝](./chinese-colors/bolinlan.png)
+
+- 高粱红
+
+  ![高粱红](./chinese-colors/gaolianghong.png)
+
+- 蓝绿
+
+  ![蓝绿](./chinese-colors/lanlv.png)
+
+- 天蓝
+
+  ![天蓝](./chinese-colors/tianlan.png)
+
+- 铜绿
+
+  ![铜绿](./chinese-colors/tonglv.png)
+
+- 苋菜红
+
+  ![苋菜红](./chinese-colors/xiancaihong.png)
+
+- 苋菜紫
+
+  ![苋菜紫](./chinese-colors/xiancaizi.png)
+
+- 亚丁绿
+
+  ![yadinglv](./chinese-colors/yadinglv.png)
