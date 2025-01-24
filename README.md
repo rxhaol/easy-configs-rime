@@ -82,6 +82,14 @@
 
 以下是根据 [中国传统色](https://www.zhongguose.com) 和上述设计原则做出来的部分主题的截图（`chinese-colors/weasel.custom.yaml`）：
 
+- 薄荷绿
+
+  ![薄荷绿](./chinese-colors/images/bohelv.png)
+
+- 薄荷绿/暗
+
+  ![薄荷绿/暗](./chinese-colors/images/bohelv_dark.png)
+
 - 靛青
 
   ![靛青](./chinese-colors/images/dianqing.png)
@@ -106,15 +114,6 @@
 
   ![古铜褐/暗](./chinese-colors/images/gutonghe_dark.png)
 
-- 蓝绿
-
-  ![蓝绿](./chinese-colors/images/lanlv.png)
-
-- 蓝绿/暗
-
-  ![蓝绿/暗](./chinese-colors/images/lanlv_dark.png)
-
-
 - 苋菜红
 
   ![苋菜红](./chinese-colors/images/xiancaihong.png)
@@ -138,6 +137,22 @@
 - 喜蛋红/暗
 
   ![喜蛋红/暗](./chinese-colors/images/xidanhong_dark.png)
+
+- 蟹蝥红
+
+  ![蟹蝥红](./chinese-colors/images/xiemaohong.png)
+
+- 蟹蝥红/暗
+
+  ![蟹蝥红/暗](./chinese-colors/images/xiemaohong_dark.png)
+
+- 蟹壳红
+
+  ![蟹壳红](./chinese-colors/images/xiekehong.png)
+
+- 蟹壳红/暗
+
+  ![蟹壳红/暗](./chinese-colors/images/xiekehong_dark.png)
 
 # 其他资源
 

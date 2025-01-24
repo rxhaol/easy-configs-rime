@@ -2,12 +2,14 @@ customization:
   distribution_code_name: Weasel
   distribution_version: 0.16.3
   generator: "Weasel::UIStyleSettings"
-  modified_time: "Fri Jan 24 11:22:24 2025"
+  modified_time: "Fri Jan 24 14:54:23 2025"
   rime_version: 1.11.2
 patch:
   preset_color_schemes:
     blue: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x2666E426, hilited_candidate_text_color: 0x2666E4, hilited_label_color: 0x2666E4, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "文渊蓝", text_color: 0x454545}
     blue_dark: {author: Liang, back_color: 0x000000, border_color: 0x000000, candidate_text_color: 0xBABABA, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x2666E4, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x717171, name: "文渊蓝/暗", text_color: 0x454545}
+    bohelv: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x207F4C26, hilited_candidate_text_color: 0x207F4C, hilited_label_color: 0x207F4C, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "薄荷绿", text_color: 0x454545}
+    bohelv_dark: {author: Liang, back_color: 0x000000, border_color: 0x000000, candidate_text_color: 0xBABABA, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x207F4C, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x717171, name: "薄荷绿/暗", text_color: 0x454545}
     dianqing: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x1661ab26, hilited_candidate_text_color: 0x1661ab, hilited_label_color: 0x1661ab, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "靛青", text_color: 0x454545}
     dianqing_dark: {author: Liang, back_color: 0x000000, border_color: 0x000000, candidate_text_color: 0xBABABA, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x1661ab, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x717171, name: "靛青/暗", text_color: 0x454545}
     gaolianghong: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0xc02c3826, hilited_candidate_text_color: 0xc02c38, hilited_label_color: 0xc02c38, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "高粱红", text_color: 0x454545}
@@ -22,6 +24,10 @@ patch:
     xiancaizi_dark: {author: Liang, back_color: 0x000000, border_color: 0x000000, candidate_text_color: 0xBABABA, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0x9B1E64, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x717171, name: "苋菜紫/暗", text_color: 0x454545}
     xidanhong: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0xec2c6426, hilited_candidate_text_color: 0xec2c64, hilited_label_color: 0xec2c64, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "喜蛋红", text_color: 0x454545}
     xidanhong_dark: {author: Liang, back_color: 0x000000, border_color: 0x000000, candidate_text_color: 0xBABABA, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0xec2c64, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x717171, name: "喜蛋红/暗", text_color: 0x454545}
+    xiekehong: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0xF2763526, hilited_candidate_text_color: 0xF27635, hilited_label_color: 0xF27635, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "蟹壳红", text_color: 0x454545}
+    xiekehong_dark: {author: Liang, back_color: 0x000000, border_color: 0x000000, candidate_text_color: 0xBABABA, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0xF27635, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x717171, name: "蟹壳红/暗", text_color: 0x454545}
+    xiemaohong: {author: Liang, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0xB14B2826, hilited_candidate_text_color: 0xB14B28, hilited_label_color: 0xB14B28, hilited_text_color: 0xFFFFFF, label_color: 0x8E8E8E, name: "蟹蝥红", text_color: 0x454545}
+    xiemaohong_dark: {author: Liang, back_color: 0x000000, border_color: 0x000000, candidate_text_color: 0xBABABA, color_format: rgba, comment_text_color: 0xA5C0F4, hilited_back_color: 0xE6F0FD, hilited_candidate_back_color: 0xB14B28, hilited_candidate_text_color: 0xFFFFFF, hilited_label_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x717171, name: "蟹蝥红/暗", text_color: 0x454545}
   style:
     blur: true
     font_face: "PingFang SC:Bold"
@@ -30,4 +36,4 @@ patch:
     inline_preedit: true
     label_font_point: 10
     layout: {border: 2, candidate_spacing: 14, hilite_padding: 4, hilite_spacing: 4, margin_x: 5, margin_y: 5, round_corner: 5, spacing: 5}
-  "style/color_scheme": blue
+  "style/color_scheme": bohelv
