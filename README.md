@@ -82,13 +82,13 @@
 
 以下是根据 [中国传统色](https://www.zhongguose.com) 和上述设计原则做出来的部分主题的截图（`chinese-colors/weasel.custom.yaml`）：
 
-- 柏林蓝
+- 靛青
 
-  ![柏林蓝](./chinese-colors/images/bolinlan.png)
+  ![靛青](./chinese-colors/images/dianqing.png)
 
-- 柏林蓝/暗
+- 靛青/暗
 
-  ![柏林蓝](./chinese-colors/images/bolinlan_dark.png)
+  ![靛青/暗](./chinese-colors/images/dianqing_dark.png)
 
 - 高粱红
 
@@ -106,23 +106,6 @@
 
   ![古铜褐/暗](./chinese-colors/images/gutonghe_dark.png)
 
-- 花青
-
-  ![花青](./chinese-colors/images/huaqing.png)
-
-- 花青/暗
-
-  ![花青/暗](./chinese-colors/images/huaqing_dark.png)
-
-
-- 碧螺春绿
-
-  ![碧螺春绿](./chinese-colors/images/biluochunlv.png)
-
-- 碧螺春绿/暗
-
-  ![碧螺春绿/暗](./chinese-colors/images/biluochunlv_dark.png)
-
 - 蓝绿
 
   ![蓝绿](./chinese-colors/images/lanlv.png)
@@ -131,21 +114,6 @@
 
   ![蓝绿/暗](./chinese-colors/images/lanlv_dark.png)
 
-- 天蓝
-
-  ![天蓝](./chinese-colors/images/tianlan.png)
-
-- 天蓝/暗
-
-  ![天蓝/暗](./chinese-colors/images/tianlan_dark.png)
-
-- 铜绿
-
-  ![铜绿](./chinese-colors/images/tonglv.png)
-
-- 铜绿/暗
-
-  ![铜绿/暗](./chinese-colors/images/tonglv_dark.png)
 
 - 苋菜红
 
@@ -163,10 +131,10 @@
 
   ![苋菜紫/暗](./chinese-colors/images/xiancaizi_dark.png)
 
-- 亚丁绿
+- 喜蛋红
 
-  ![亚丁绿](./chinese-colors/images/yadinglv.png)
+  ![喜蛋红](./chinese-colors/images/xidanhong.png)
 
-- 亚丁绿/暗
+- 喜蛋红/暗
 
-  ![亚丁绿/暗](./chinese-colors/images/yadinglv_dark.png)
+  ![喜蛋红/暗](./chinese-colors/images/xidanhong_dark.png)
