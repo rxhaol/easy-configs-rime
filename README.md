@@ -14,51 +14,51 @@
 
 在 Windows 上，加载 `legacy/weasel.custom.yaml` 配置后的部分主题如下所示：
 
-- 蓝色.暗
+- 蓝色·暗
 
-![蓝色.暗](./legacy/images/blue-dark.png)
+![蓝色·暗](./legacy/images/blue-dark.png)
 
-- 蓝色.亮
+- 蓝色·亮
 
-![蓝色.亮](./legacy/images/blue-light.png)
+![蓝色·亮](./legacy/images/blue-light.png)
 
 > P.S. my favorite~
 
-- 深灰.亮（darkgrey-light）
+- 深灰·亮（darkgrey-light）
 
-![深灰.亮](./legacy/images/darkgrey-light.png)
+![深灰·亮](./legacy/images/darkgrey-light.png)
 
-- 绿色.亮（green-light）
+- 绿色·亮（green-light）
 
-![绿色.亮](./legacy/images/green-light.png)
+![绿色·亮](./legacy/images/green-light.png)
 
-- 灰色.亮（grey-light）
+- 灰色·亮（grey-light）
 
-![灰色.亮](./legacy/images/grey-light.png)
+![灰色·亮](./legacy/images/grey-light.png)
 
-- MacOS.亮 (macos-light)
+- MacOS·亮 (macos-light)
 
-![MacOS.亮](./legacy/images/macos.png)
+![MacOS·亮](./legacy/images/macos.png)
 
-- 粉色.暗（pink-dark）
+- 粉色·暗（pink-dark）
 
-![粉色.暗](./legacy/images/pink-dark.png)
+![粉色·暗](./legacy/images/pink-dark.png)
 
-- 紫色.亮（purple-light）
+- 紫色·亮（purple-light）
 
-![紫色.亮](./legacy/images/purple-light.png)
+![紫色·亮](./legacy/images/purple-light.png)
 
-- 黑白.暗（taiji-dark）
+- 黑白·暗（taiji-dark）
 
-![太极.暗](./legacy/images/taiji-dark.png)
+![太极·暗](./legacy/images/taiji-dark.png)
 
-- 黑白.亮（taiji-light）
+- 黑白·亮（taiji-light）
 
-![太极.亮](./legacy/images/taiji-light.png)
+![太极·亮](./legacy/images/taiji-light.png)
 
-- 黄色.暗（yellow-dark）
+- 黄色·暗（yellow-dark）
 
-![黄色.暗](./legacy/images/yellow-dark.png)
+![黄色·暗](./legacy/images/yellow-dark.png)
 
 # 自定义主题
 
@@ -86,42 +86,41 @@
 
   ![薄荷绿](./chinese-colors/images/bohelv.png)
 
-- 薄荷绿/暗
+- 薄荷绿·暗
 
-  ![薄荷绿/暗](./chinese-colors/images/bohelv_dark.png)
+  ![薄荷绿·暗](./chinese-colors/images/bohelv_dark.png)
 
 - 靛青
 
   ![靛青](./chinese-colors/images/dianqing.png)
 
-- 靛青/暗
+- 靛青·暗
 
-  ![靛青/暗](./chinese-colors/images/dianqing_dark.png)
+  ![靛青·暗](./chinese-colors/images/dianqing_dark.png)
 
 - 高粱红
 
   ![高粱红](./chinese-colors/images/gaolianghong.png)
 
-- 高粱红/暗
+- 高粱红·暗
 
-  ![高粱红/暗](./chinese-colors/images/gaolianghong_dark.png)
+  ![高粱红·暗](./chinese-colors/images/gaolianghong_dark.png)
 
 - 古铜褐
 
   ![古铜褐](./chinese-colors/images/gutonghe.png)
 
-- 古铜褐/暗
+- 古铜褐·暗
 
-  ![古铜褐/暗](./chinese-colors/images/gutonghe_dark.png)
+  ![古铜褐·暗](./chinese-colors/images/gutonghe_dark.png)
 
 - 苋菜紫
 
   ![苋菜紫](./chinese-colors/images/xiancaizi.png)
 
-- 苋菜紫/暗
+- 苋菜紫·暗
 
-  ![苋菜紫/暗](./chinese-colors/images/xiancaizi_dark.png)
-
+  ![苋菜紫·暗](./chinese-colors/images/xiancaizi_dark.png)
 
 # 其他资源
 
