@@ -138,3 +138,42 @@
 - 喜蛋红/暗
 
   ![喜蛋红/暗](./chinese-colors/images/xidanhong_dark.png)
+
+# 其他资源
+
+- [传统色](https://colors.masantu.com/#/)
+
+- [Adobe color wheel](https://color.adobe.com/zh/create/color-wheel)
+
+<div style="display: flex; flex-wrap: wrap;">
+    <div style="width: 50px; height: 50px; background-color: #8F77B5; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: white; font-size: 12px;">紫苑</span>
+    </div>
+    <div style="width: 50px; height: 50px; background-color: #725338; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: white; font-size: 12px;">醤色</span>
+    </div>
+    <div style="width: 50px; height: 50px; background-color: #25446B; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: white; font-size: 12px;">労働布色</span>
+    </div>
+    <div style="width: 50px; height: 50px; background-color: #F5CEBE; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: black; font-size: 12px;">果肉色</span>
+    </div>
+    <div style="width: 50px; height: 50px; background-color: #F6C555; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: white; font-size: 12px;">梔子</span>
+    </div>
+    <div style="width: 50px; height: 50px; background-color: #FB9966; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: white; font-size: 12px;">深支子</span>
+    </div>
+    <div style="width: 50px; height: 50px; background-color: #3F486C; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: white; font-size: 12px;">紺青</span>
+    </div>
+    <div style="width: 50px; height: 50px; background-color: #D15D5E; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: black; font-size: 12px;">銀朱</span>
+    </div>
+    <div style="width: 50px; height: 50px; background-color: #A71368; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: white; font-size: 12px;">品紅</span>
+    </div>
+    <div style="width: 50px; height: 50px; background-color: #1F3696; margin: 5px; display: flex; align-items: center; justify-content: center;">
+        <span style="color: white; font-size: 12px;">宝石藍</span>
+    </div>
+</div>
