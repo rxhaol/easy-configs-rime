@@ -80,11 +80,15 @@
 - 候选字（选中）背景颜色：亮色主题中`候选字（选中）背景颜色`
 - 标签（选中）颜色：和候选字（选中）文字颜色保持一致
 
-以下是根据：[中国传统颜色](https://www.zhongguose.com) 和上述设计原则做出来的部分主题（`chinese-colors/weasel.custom.yaml`）：
+以下是根据 [中国传统色](https://www.zhongguose.com) 和上述设计原则做出来的部分主题的截图（`chinese-colors/weasel.custom.yaml`）：
 
 - 柏林蓝
 
   ![柏林蓝](./chinese-colors/images/bolinlan.png)
+
+- 柏林蓝/暗
+
+  ![柏林蓝](./chinese-colors/images/bolinlan_dark.png)
 
 - 高粱红
 
@@ -106,6 +110,11 @@
 
   ![花青](./chinese-colors/images/huaqing.png)
 
+- 花青/暗
+
+  ![花青/暗](./chinese-colors/images/huaqing_dark.png)
+
+
 - 碧螺春绿
 
   ![碧螺春绿](./chinese-colors/images/biluochunlv.png)
@@ -117,6 +126,10 @@
 - 蓝绿
 
   ![蓝绿](./chinese-colors/images/lanlv.png)
+
+- 蓝绿/暗
+
+  ![蓝绿/暗](./chinese-colors/images/lanlv_dark.png)
 
 - 天蓝
 
@@ -152,4 +165,8 @@
 
 - 亚丁绿
 
-  ![yadinglv](./chinese-colors/images/yadinglv.png)
+  ![亚丁绿](./chinese-colors/images/yadinglv.png)
+
+- 亚丁绿/暗
+
+  ![亚丁绿/暗](./chinese-colors/images/yadinglv_dark.png)
