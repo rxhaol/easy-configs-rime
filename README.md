@@ -114,14 +114,6 @@
 
   ![古铜褐/暗](./chinese-colors/images/gutonghe_dark.png)
 
-- 苋菜红
-
-  ![苋菜红](./chinese-colors/images/xiancaihong.png)
-
-- 苋菜红/暗
-
-  ![苋菜红/暗](./chinese-colors/images/xiancaihong_dark.png)
-
 - 苋菜紫
 
   ![苋菜紫](./chinese-colors/images/xiancaizi.png)
@@ -130,29 +122,6 @@
 
   ![苋菜紫/暗](./chinese-colors/images/xiancaizi_dark.png)
 
-- 喜蛋红
-
-  ![喜蛋红](./chinese-colors/images/xidanhong.png)
-
-- 喜蛋红/暗
-
-  ![喜蛋红/暗](./chinese-colors/images/xidanhong_dark.png)
-
-- 蟹蝥红
-
-  ![蟹蝥红](./chinese-colors/images/xiemaohong.png)
-
-- 蟹蝥红/暗
-
-  ![蟹蝥红/暗](./chinese-colors/images/xiemaohong_dark.png)
-
-- 蟹壳红
-
-  ![蟹壳红](./chinese-colors/images/xiekehong.png)
-
-- 蟹壳红/暗
-
-  ![蟹壳红/暗](./chinese-colors/images/xiekehong_dark.png)
 
 # 其他资源
 
