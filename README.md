@@ -124,20 +124,20 @@
 
 # 一键生成
 
-在 `shell/themes.csv` 文件里，每行表示一种配色方案，格式为： `配色 16 进制 RGB 值,配色英文名,配色中文名`
+在 `scripts/themes.csv` 文件里，每行表示一种配色方案，格式为： `配色 16 进制 RGB 值,配色英文名,配色中文名`
 
-## 使用 `shell/generate.py`
+## 使用 `scripts/generate.py`
 
 - 前置要求：python 3
 - 使用方式：
-  - 将 `shell/themes.csv` 和 `shell/generate.py`保存到本地
+  - 将 `scripts/themes.csv` 和 `scripts/generate.py`保存到本地
   - 保存路径打开终端，运行 `python generate.py`
 
-## 使用 `shell/Generate.java`
+## 使用 `scripts/Generate.java`
 
 - 前置要求: JDK 15+ （使用了文本块语法）
 - 使用方式：
-  - 将 `shell/themes.csv` 和 `shell/Generate.class` 保存到本地
+  - 将 `scripts/themes.csv` 和 `scripts/Generate.class` 保存到本地
   - 保存路径打开终端，运行 `java Generate` (或者自己编译 `Generate.java` 文件)
 
 经过上述两种方式，均可生成 `weasel.custom.yaml` 文件，拷贝到 Rime 用户文件夹中即可
