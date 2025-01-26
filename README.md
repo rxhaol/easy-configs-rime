@@ -142,6 +142,13 @@
 
 经过上述两种方式，均可生成 `weasel.custom.yaml` 文件，拷贝到 Rime 用户文件夹中即可
 
+## 使用远程脚本
+
+```shell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/rxhaol/easy-configs-rime/refs/heads/main/scripts/install.ps1" -UseBasicParsing | Select-Object -ExpandProperty Content | Invoke-Expression
+```
+
 # 其他资源
 
 - [传统色](https://colors.masantu.com/#/)
