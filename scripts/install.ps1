@@ -54,7 +54,7 @@ $rimePath = Join-Path $env:APPDATA -ChildPath "rime"
 $rimeConfigPath = Join-Path $rimePath -ChildPath "weasel.custom.yaml"
 if (Test-Path $rimeConfigPath) {
 	$timestamp = Get-Date -Format "yyyyMMddHHmmss"
-	$newFileName = "weasel.custom.$timestamp.yaml"
+	$newFileName = "weasel.$timestamp.custom.yaml"
 	$newFilePath = Join-Path $rimePath -ChildPath $newFileName
 	Rename-Item -Path $rimeConfigPath -NewName $newFilePath
 }
