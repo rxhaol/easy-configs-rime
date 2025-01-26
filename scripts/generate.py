@@ -152,7 +152,7 @@ def get_csv_path() -> str:
     获取 CSV 文件路径，对应 Java 中的 getCsvPath 方法
     :return: CSV 文件路径
     """
-    return os.path.join(get_current_dir(), "themes.csv")
+    return os.path.join(get_current_dir(), "colors.csv")
 
 
 def get_rime_config_path() -> str:
@@ -170,7 +170,7 @@ def generate_rime_config():
     # 读取 csv 文件
     csv_path = get_csv_path()
     if not os.path.exists(csv_path):
-        raise RuntimeError("找不到主题配置文件：[themes.csv]")
+        raise RuntimeError("找不到主题配置文件：[colors.csv]")
     csv_lines = read_file(csv_path)
     if not csv_lines:
         raise RuntimeError("主题配置文件内容为空")

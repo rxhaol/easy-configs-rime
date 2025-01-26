@@ -21,9 +21,9 @@ public class Generate {
 
     public static void generateRimeConfig() {
         // 读取csv文件
-        Path csv = Paths.get(getCurrentDir(), "themes.csv");
+        Path csv = Paths.get(getCurrentDir(), "colors.csv");
         if (!Files.exists(csv)) {
-            throw new RuntimeException("找不到主题配置文件：[themes.csv]");
+            throw new RuntimeException("找不到主题配置文件：[colors.csv]");
         }
         List<String> csvs = readFile(csv);
         if (csvs.isEmpty()) {
@@ -174,7 +174,7 @@ public class Generate {
     }
 
     public static Path getCsvPath() {
-        return Paths.get(getCurrentDir(), "themes.csv");
+        return Paths.get(getCurrentDir(), "colors.csv");
     }
 
     public static Path getRimeConfigPath() {

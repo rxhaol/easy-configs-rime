@@ -142,6 +142,7 @@
 
 经过上述两种方式，均可生成 `weasel.custom.yaml` 文件，拷贝到 Rime 用户文件夹中即可
 
+`chinese-colors/weasel.custom.yaml` 文件是根据 `scripts/colors.json` 生成的，⚠️ 主题巨多！⚠️ 慎用！
 ## 使用远程脚本
 
 ```shell

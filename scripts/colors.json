@@ -1,0 +1,2632 @@
+[
+    {
+        "pinyin": "rubai",
+        "hex": "#f9f4dc",
+        "name": "乳白"
+    },
+    {
+        "pinyin": "xingrenhuang",
+        "hex": "#f7e8aa",
+        "name": "杏仁黄"
+    },
+    {
+        "pinyin": "molihuang",
+        "hex": "#f8df72",
+        "name": "茉莉黄"
+    },
+    {
+        "pinyin": "maiganhuang",
+        "hex": "#f8df70",
+        "name": "麦秆黄"
+    },
+    {
+        "pinyin": "youcaihuahuang",
+        "hex": "#fbda41",
+        "name": "油菜花黄"
+    },
+    {
+        "pinyin": "foshouhuang",
+        "hex": "#fed71a",
+        "name": "佛手黄"
+    },
+    {
+        "pinyin": "miehuang",
+        "hex": "#f7de98",
+        "name": "篾黄"
+    },
+    {
+        "pinyin": "kuishanhuang",
+        "hex": "#f8d86a",
+        "name": "葵扇黄"
+    },
+    {
+        "pinyin": "ningmenghuang",
+        "hex": "#fcd337",
+        "name": "柠檬黄"
+    },
+    {
+        "pinyin": "jinguahuang",
+        "hex": "#fcd217",
+        "name": "金瓜黄"
+    },
+    {
+        "pinyin": "tenghuang",
+        "hex": "#ffd111",
+        "name": "藤黄"
+    },
+    {
+        "pinyin": "laohuang",
+        "hex": "#f6dead",
+        "name": "酪黄"
+    },
+    {
+        "pinyin": "xiangshuimeiguihuang",
+        "hex": "#f7da94",
+        "name": "香水玫瑰黄"
+    },
+    {
+        "pinyin": "danmihuang",
+        "hex": "#f9d367",
+        "name": "淡密黄"
+    },
+    {
+        "pinyin": "dadouhuang",
+        "hex": "#fbcd31",
+        "name": "大豆黄"
+    },
+    {
+        "pinyin": "suxinhuang",
+        "hex": "#fccb16",
+        "name": "素馨黄"
+    },
+    {
+        "pinyin": "xiangrikuihuang",
+        "hex": "#fecc11",
+        "name": "向日葵黄"
+    },
+    {
+        "pinyin": "yalihuang",
+        "hex": "#fbc82f",
+        "name": "雅梨黄"
+    },
+    {
+        "pinyin": "huanglianhuang",
+        "hex": "#fcc515",
+        "name": "黄连黄"
+    },
+    {
+        "pinyin": "jinzhanhuang",
+        "hex": "#fcc307",
+        "name": "金盏黄"
+    },
+    {
+        "pinyin": "dankehuang",
+        "hex": "#f8c387",
+        "name": "蛋壳黄"
+    },
+    {
+        "pinyin": "rouse",
+        "hex": "#f7c173",
+        "name": "肉色"
+    },
+    {
+        "pinyin": "ezhanghuang",
+        "hex": "#fbb929",
+        "name": "鹅掌黄"
+    },
+    {
+        "pinyin": "jidanhuang",
+        "hex": "#fbb612",
+        "name": "鸡蛋黄"
+    },
+    {
+        "pinyin": "youhuang",
+        "hex": "#fcb70a",
+        "name": "鼬黄"
+    },
+    {
+        "pinyin": "liuehuang",
+        "hex": "#f9a633",
+        "name": "榴萼黄"
+    },
+    {
+        "pinyin": "danjucheng",
+        "hex": "#fba414",
+        "name": "淡橘橙"
+    },
+    {
+        "pinyin": "pipahuang",
+        "hex": "#fca106",
+        "name": "枇杷黄"
+    },
+    {
+        "pinyin": "chengpihuang",
+        "hex": "#fca104",
+        "name": "橙皮黄"
+    },
+    {
+        "pinyin": "beiguahuang",
+        "hex": "#fc8c23",
+        "name": "北瓜黄"
+    },
+    {
+        "pinyin": "xinghuang",
+        "hex": "#f28e16",
+        "name": "杏黄"
+    },
+    {
+        "pinyin": "xionghuang",
+        "hex": "#ff9900",
+        "name": "雄黄"
+    },
+    {
+        "pinyin": "wanshoujuhuang",
+        "hex": "#fb8b05",
+        "name": "万寿菊黄"
+    },
+    {
+        "pinyin": "juleibai",
+        "hex": "#e9ddb6",
+        "name": "菊蕾白"
+    },
+    {
+        "pinyin": "qiukuihuang",
+        "hex": "#eed045",
+        "name": "秋葵黄"
+    },
+    {
+        "pinyin": "liuhuahuang",
+        "hex": "#f2ce2b",
+        "name": "硫华黄"
+    },
+    {
+        "pinyin": "youhuang",
+        "hex": "#f1ca17",
+        "name": "柚黄"
+    },
+    {
+        "pinyin": "mangguohuang",
+        "hex": "#ddc871",
+        "name": "芒果黄"
+    },
+    {
+        "pinyin": "haohuang",
+        "hex": "#dfc243",
+        "name": "蒿黄"
+    },
+    {
+        "pinyin": "jianghuang",
+        "hex": "#e2c027",
+        "name": "姜黄"
+    },
+    {
+        "pinyin": "xiangjiaohuang",
+        "hex": "#e4bf11",
+        "name": "香蕉黄"
+    },
+    {
+        "pinyin": "caohuang",
+        "hex": "#d2b42c",
+        "name": "草黄"
+    },
+    {
+        "pinyin": "xinhelv",
+        "hex": "#d2b116",
+        "name": "新禾绿"
+    },
+    {
+        "pinyin": "yuehui",
+        "hex": "#b7ae8f",
+        "name": "月灰"
+    },
+    {
+        "pinyin": "danhuilv",
+        "hex": "#ad9e5f",
+        "name": "淡灰绿"
+    },
+    {
+        "pinyin": "caohuilv",
+        "hex": "#8e804b",
+        "name": "草灰绿"
+    },
+    {
+        "pinyin": "tailv",
+        "hex": "#887322",
+        "name": "苔绿"
+    },
+    {
+        "pinyin": "biluochunlv",
+        "hex": "#867018",
+        "name": "碧螺春绿"
+    },
+    {
+        "pinyin": "yanyuhui",
+        "hex": "#685e48",
+        "name": "燕羽灰"
+    },
+    {
+        "pinyin": "xiekehui",
+        "hex": "#695e45",
+        "name": "蟹壳灰"
+    },
+    {
+        "pinyin": "tanshuilv",
+        "hex": "#645822",
+        "name": "潭水绿"
+    },
+    {
+        "pinyin": "ganlanlv",
+        "hex": "#5e5314",
+        "name": "橄榄绿"
+    },
+    {
+        "pinyin": "bangroubai",
+        "hex": "#f9f1db",
+        "name": "蚌肉白"
+    },
+    {
+        "pinyin": "douzhihuang",
+        "hex": "#f8e8c1",
+        "name": "豆汁黄"
+    },
+    {
+        "pinyin": "danjianhuang",
+        "hex": "#f9d770",
+        "name": "淡茧黄"
+    },
+    {
+        "pinyin": "ruyahuang",
+        "hex": "#ffc90c",
+        "name": "乳鸭黄"
+    },
+    {
+        "pinyin": "liroubai",
+        "hex": "#f2e6ce",
+        "name": "荔肉白"
+    },
+    {
+        "pinyin": "xiangyahuang",
+        "hex": "#f0d695",
+        "name": "象牙黄"
+    },
+    {
+        "pinyin": "chaomihuang",
+        "hex": "#f4ce69",
+        "name": "炒米黄"
+    },
+    {
+        "pinyin": "yingwuguanhuang",
+        "hex": "#f6c430",
+        "name": "鹦鹉冠黄"
+    },
+    {
+        "pinyin": "muguahuang",
+        "hex": "#f9c116",
+        "name": "木瓜黄"
+    },
+    {
+        "pinyin": "qianlaohuang",
+        "hex": "#f9bd10",
+        "name": "浅烙黄"
+    },
+    {
+        "pinyin": "lianzibai",
+        "hex": "#e5d3aa",
+        "name": "莲子白"
+    },
+    {
+        "pinyin": "guhuang",
+        "hex": "#e8b004",
+        "name": "谷黄"
+    },
+    {
+        "pinyin": "zhizihuang",
+        "hex": "#ebb10d",
+        "name": "栀子黄"
+    },
+    {
+        "pinyin": "jiehuang",
+        "hex": "#d9a40e",
+        "name": "芥黄"
+    },
+    {
+        "pinyin": "yinshuhui",
+        "hex": "#b5aa90",
+        "name": "银鼠灰"
+    },
+    {
+        "pinyin": "chenhui",
+        "hex": "#b6a476",
+        "name": "尘灰"
+    },
+    {
+        "pinyin": "kulv",
+        "hex": "#b78d12",
+        "name": "枯绿"
+    },
+    {
+        "pinyin": "jiaoqing",
+        "hex": "#87723e",
+        "name": "鲛青"
+    },
+    {
+        "pinyin": "zongyelv",
+        "hex": "#876818",
+        "name": "粽叶绿"
+    },
+    {
+        "pinyin": "huilv",
+        "hex": "#8a6913",
+        "name": "灰绿"
+    },
+    {
+        "pinyin": "hehui",
+        "hex": "#4a4035",
+        "name": "鹤灰"
+    },
+    {
+        "pinyin": "dansongyan",
+        "hex": "#4d4030",
+        "name": "淡松烟"
+    },
+    {
+        "pinyin": "anhaishuilv",
+        "hex": "#584717",
+        "name": "暗海水绿"
+    },
+    {
+        "pinyin": "zonglvlv",
+        "hex": "#5b4913",
+        "name": "棕榈绿"
+    },
+    {
+        "pinyin": "mise",
+        "hex": "#f9e9cd",
+        "name": "米色"
+    },
+    {
+        "pinyin": "danrouse",
+        "hex": "#f8e0b0",
+        "name": "淡肉色"
+    },
+    {
+        "pinyin": "maiyatanghuang",
+        "hex": "#f9d27d",
+        "name": "麦芽糖黄"
+    },
+    {
+        "pinyin": "hupohuang",
+        "hex": "#feba07",
+        "name": "琥珀黄"
+    },
+    {
+        "pinyin": "gancaohuang",
+        "hex": "#f3bf4c",
+        "name": "甘草黄"
+    },
+    {
+        "pinyin": "chushuxinghuang",
+        "hex": "#f8bc31",
+        "name": "初熟杏黄"
+    },
+    {
+        "pinyin": "qiantuose",
+        "hex": "#e2c17c",
+        "name": "浅驼色"
+    },
+    {
+        "pinyin": "shashihuang",
+        "hex": "#e5b751",
+        "name": "沙石黄"
+    },
+    {
+        "pinyin": "hupihuang",
+        "hex": "#eaad1a",
+        "name": "虎皮黄"
+    },
+    {
+        "pinyin": "tuhuang",
+        "hex": "#d6a01d",
+        "name": "土黄"
+    },
+    {
+        "pinyin": "bailingniaohui",
+        "hex": "#b4a992",
+        "name": "百灵鸟灰"
+    },
+    {
+        "pinyin": "shanjihuang",
+        "hex": "#b78b26",
+        "name": "山鸡黄"
+    },
+    {
+        "pinyin": "guibeihuang",
+        "hex": "#826b48",
+        "name": "龟背黄"
+    },
+    {
+        "pinyin": "canghuang",
+        "hex": "#806332",
+        "name": "苍黄"
+    },
+    {
+        "pinyin": "laiyanglihuang",
+        "hex": "#815f25",
+        "name": "莱阳梨黄"
+    },
+    {
+        "pinyin": "yililv",
+        "hex": "#835e1d",
+        "name": "蜴蜊绿"
+    },
+    {
+        "pinyin": "songshuhui",
+        "hex": "#4f4032",
+        "name": "松鼠灰"
+    },
+    {
+        "pinyin": "ganlanhui",
+        "hex": "#503e2a",
+        "name": "橄榄灰"
+    },
+    {
+        "pinyin": "xiekelv",
+        "hex": "#513c20",
+        "name": "蟹壳绿"
+    },
+    {
+        "pinyin": "gutonglv",
+        "hex": "#533c1b",
+        "name": "古铜绿"
+    },
+    {
+        "pinyin": "jiaochalv",
+        "hex": "#553b18",
+        "name": "焦茶绿"
+    },
+    {
+        "pinyin": "fenbai",
+        "hex": "#fbf2e3",
+        "name": "粉白"
+    },
+    {
+        "pinyin": "luoyingdanfen",
+        "hex": "#f9e8d0",
+        "name": "落英淡粉"
+    },
+    {
+        "pinyin": "guarangfen",
+        "hex": "#f9cb8b",
+        "name": "瓜瓤粉"
+    },
+    {
+        "pinyin": "mihuang",
+        "hex": "#fbb957",
+        "name": "蜜黄"
+    },
+    {
+        "pinyin": "jinyehuang",
+        "hex": "#ffa60f",
+        "name": "金叶黄"
+    },
+    {
+        "pinyin": "jinyinghuang",
+        "hex": "#f4a83a",
+        "name": "金莺黄"
+    },
+    {
+        "pinyin": "lujiaozong",
+        "hex": "#e3bd8d",
+        "name": "鹿角棕"
+    },
+    {
+        "pinyin": "diaoyezong",
+        "hex": "#e7a23f",
+        "name": "凋叶棕"
+    },
+    {
+        "pinyin": "daimaohuang",
+        "hex": "#daa45a",
+        "name": "玳瑁黄"
+    },
+    {
+        "pinyin": "ruanmuhuang",
+        "hex": "#de9e44",
+        "name": "软木黄"
+    },
+    {
+        "pinyin": "fengfanhuang",
+        "hex": "#dc9123",
+        "name": "风帆黄"
+    },
+    {
+        "pinyin": "guipidanzong",
+        "hex": "#c09351",
+        "name": "桂皮淡棕"
+    },
+    {
+        "pinyin": "houmaohui",
+        "hex": "#97846c",
+        "name": "猴毛灰"
+    },
+    {
+        "pinyin": "shanjihe",
+        "hex": "#986524",
+        "name": "山鸡褐"
+    },
+    {
+        "pinyin": "tuose",
+        "hex": "#66462a",
+        "name": "驼色"
+    },
+    {
+        "pinyin": "chahe",
+        "hex": "#5d3d21",
+        "name": "茶褐"
+    },
+    {
+        "pinyin": "gutonghe",
+        "hex": "#5c3719",
+        "name": "古铜褐"
+    },
+    {
+        "pinyin": "hehuabai",
+        "hex": "#fbecde",
+        "name": "荷花白"
+    },
+    {
+        "pinyin": "meiguifen",
+        "hex": "#f8b37f",
+        "name": "玫瑰粉"
+    },
+    {
+        "pinyin": "jucheng",
+        "hex": "#f97d1c",
+        "name": "橘橙"
+    },
+    {
+        "pinyin": "meirenjiaocheng",
+        "hex": "#fa7e23",
+        "name": "美人焦橙"
+    },
+    {
+        "pinyin": "runhong",
+        "hex": "#f7cdbc",
+        "name": "润红"
+    },
+    {
+        "pinyin": "dantaohong",
+        "hex": "#f6cec1",
+        "name": "淡桃红"
+    },
+    {
+        "pinyin": "hailuocheng",
+        "hex": "#f0945d",
+        "name": "海螺橙"
+    },
+    {
+        "pinyin": "taohong",
+        "hex": "#f0ada0",
+        "name": "桃红"
+    },
+    {
+        "pinyin": "jiahong",
+        "hex": "#eeaa9c",
+        "name": "颊红"
+    },
+    {
+        "pinyin": "danyingsuhong",
+        "hex": "#eea08c",
+        "name": "淡罂粟红"
+    },
+    {
+        "pinyin": "chenxihong",
+        "hex": "#ea8958",
+        "name": "晨曦红"
+    },
+    {
+        "pinyin": "xiekehong",
+        "hex": "#f27635",
+        "name": "蟹壳红"
+    },
+    {
+        "pinyin": "jinlianhuacheng",
+        "hex": "#f86b1d",
+        "name": "金莲花橙"
+    },
+    {
+        "pinyin": "caomeihong",
+        "hex": "#ef6f48",
+        "name": "草莓红"
+    },
+    {
+        "pinyin": "longjingyuhong",
+        "hex": "#ef632b",
+        "name": "龙睛鱼红"
+    },
+    {
+        "pinyin": "qingtinghong",
+        "hex": "#f1441d",
+        "name": "蜻蜓红"
+    },
+    {
+        "pinyin": "dahong",
+        "hex": "#f04b22",
+        "name": "大红"
+    },
+    {
+        "pinyin": "shihong",
+        "hex": "#f2481b",
+        "name": "柿红"
+    },
+    {
+        "pinyin": "liuhuahong",
+        "hex": "#f34718",
+        "name": "榴花红"
+    },
+    {
+        "pinyin": "yinzhu",
+        "hex": "#f43e06",
+        "name": "银朱"
+    },
+    {
+        "pinyin": "zhuhong",
+        "hex": "#ed5126",
+        "name": "朱红"
+    },
+    {
+        "pinyin": "guiyuhong",
+        "hex": "#f09c5a",
+        "name": "鲑鱼红"
+    },
+    {
+        "pinyin": "jinhuang",
+        "hex": "#f26b1f",
+        "name": "金黄"
+    },
+    {
+        "pinyin": "lupihe",
+        "hex": "#d99156",
+        "name": "鹿皮褐"
+    },
+    {
+        "pinyin": "zuiguarou",
+        "hex": "#db8540",
+        "name": "醉瓜肉"
+    },
+    {
+        "pinyin": "jizong",
+        "hex": "#de7622",
+        "name": "麂棕"
+    },
+    {
+        "pinyin": "danyinhui",
+        "hex": "#c1b2a3",
+        "name": "淡银灰"
+    },
+    {
+        "pinyin": "danzhe",
+        "hex": "#be7e4a",
+        "name": "淡赭"
+    },
+    {
+        "pinyin": "binglangzong",
+        "hex": "#c1651a",
+        "name": "槟榔综"
+    },
+    {
+        "pinyin": "yinhui",
+        "hex": "#918072",
+        "name": "银灰"
+    },
+    {
+        "pinyin": "haiouhui",
+        "hex": "#9a8878",
+        "name": "海鸥灰"
+    },
+    {
+        "pinyin": "dankafei",
+        "hex": "#945833",
+        "name": "淡咖啡"
+    },
+    {
+        "pinyin": "yanshizong",
+        "hex": "#964d22",
+        "name": "岩石棕"
+    },
+    {
+        "pinyin": "mangguozong",
+        "hex": "#954416",
+        "name": "芒果棕"
+    },
+    {
+        "pinyin": "shibanhui",
+        "hex": "#624941",
+        "name": "石板灰"
+    },
+    {
+        "pinyin": "zhumuhui",
+        "hex": "#64483d",
+        "name": "珠母灰"
+    },
+    {
+        "pinyin": "dingxiangzong",
+        "hex": "#71361d",
+        "name": "丁香棕"
+    },
+    {
+        "pinyin": "kafei",
+        "hex": "#753117",
+        "name": "咖啡"
+    },
+    {
+        "pinyin": "sunpizong",
+        "hex": "#732e12",
+        "name": "筍皮棕"
+    },
+    {
+        "pinyin": "yanhanhong",
+        "hex": "#fc6315",
+        "name": "燕颔红"
+    },
+    {
+        "pinyin": "yufenhong",
+        "hex": "#e8b49a",
+        "name": "玉粉红"
+    },
+    {
+        "pinyin": "jintuo",
+        "hex": "#e46828",
+        "name": "金驼"
+    },
+    {
+        "pinyin": "tiezong",
+        "hex": "#d85916",
+        "name": "铁棕"
+    },
+    {
+        "pinyin": "zhuwanghui",
+        "hex": "#b7a091",
+        "name": "蛛网灰"
+    },
+    {
+        "pinyin": "dankekezong",
+        "hex": "#b7511d",
+        "name": "淡可可棕"
+    },
+    {
+        "pinyin": "zhonghonghui",
+        "hex": "#8b614d",
+        "name": "中红灰"
+    },
+    {
+        "pinyin": "dantuhuang",
+        "hex": "#8c4b31",
+        "name": "淡土黄"
+    },
+    {
+        "pinyin": "dandousha",
+        "hex": "#873d24",
+        "name": "淡豆沙"
+    },
+    {
+        "pinyin": "yekezong",
+        "hex": "#883a1e",
+        "name": "椰壳棕"
+    },
+    {
+        "pinyin": "dantiehui",
+        "hex": "#5b423a",
+        "name": "淡铁灰"
+    },
+    {
+        "pinyin": "zhonghuituo",
+        "hex": "#603d30",
+        "name": "中灰驼"
+    },
+    {
+        "pinyin": "danlizong",
+        "hex": "#673424",
+        "name": "淡栗棕"
+    },
+    {
+        "pinyin": "kekezong",
+        "hex": "#652b1c",
+        "name": "可可棕"
+    },
+    {
+        "pinyin": "zhayezong",
+        "hex": "#692a1b",
+        "name": "柞叶棕"
+    },
+    {
+        "pinyin": "yeqiangweihong",
+        "hex": "#fb9968",
+        "name": "野蔷薇红"
+    },
+    {
+        "pinyin": "boluohong",
+        "hex": "#fc7930",
+        "name": "菠萝红"
+    },
+    {
+        "pinyin": "ouhe",
+        "hex": "#edc3ae",
+        "name": "藕荷"
+    },
+    {
+        "pinyin": "taocihong",
+        "hex": "#e16723",
+        "name": "陶瓷红"
+    },
+    {
+        "pinyin": "xiaohui",
+        "hex": "#d4c4b7",
+        "name": "晓灰"
+    },
+    {
+        "pinyin": "yujinhong",
+        "hex": "#cf7543",
+        "name": "余烬红"
+    },
+    {
+        "pinyin": "huozhuanhong",
+        "hex": "#cd6227",
+        "name": "火砖红"
+    },
+    {
+        "pinyin": "huonizong",
+        "hex": "#aa6a4c",
+        "name": "火泥棕"
+    },
+    {
+        "pinyin": "ganhong",
+        "hex": "#a6522c",
+        "name": "绀红"
+    },
+    {
+        "pinyin": "xiangshuzong",
+        "hex": "#773d31",
+        "name": "橡树棕"
+    },
+    {
+        "pinyin": "haibaohui",
+        "hex": "#483332",
+        "name": "海报灰"
+    },
+    {
+        "pinyin": "meiguihui",
+        "hex": "#4b2e2b",
+        "name": "玫瑰灰"
+    },
+    {
+        "pinyin": "huoshanzong",
+        "hex": "#482522",
+        "name": "火山棕"
+    },
+    {
+        "pinyin": "dousha",
+        "hex": "#481e1c",
+        "name": "豆沙"
+    },
+    {
+        "pinyin": "danmifen",
+        "hex": "#fbeee2",
+        "name": "淡米粉"
+    },
+    {
+        "pinyin": "chutaofenhong",
+        "hex": "#f6dcce",
+        "name": "初桃粉红"
+    },
+    {
+        "pinyin": "jieqiaodanfenhong",
+        "hex": "#f7cfba",
+        "name": "介壳淡粉红"
+    },
+    {
+        "pinyin": "dancanghuahong",
+        "hex": "#f6ad8f",
+        "name": "淡藏花红"
+    },
+    {
+        "pinyin": "guaranghong",
+        "hex": "#f68c60",
+        "name": "瓜瓤红"
+    },
+    {
+        "pinyin": "furonghong",
+        "hex": "#f9723d",
+        "name": "芙蓉红"
+    },
+    {
+        "pinyin": "meijianghong",
+        "hex": "#fa5d19",
+        "name": "莓酱红"
+    },
+    {
+        "pinyin": "faluohong",
+        "hex": "#ee8055",
+        "name": "法螺红"
+    },
+    {
+        "pinyin": "luoxiahong",
+        "hex": "#cf4813",
+        "name": "落霞红"
+    },
+    {
+        "pinyin": "danmeiguihui",
+        "hex": "#b89485",
+        "name": "淡玫瑰灰"
+    },
+    {
+        "pinyin": "xiemaohong",
+        "hex": "#b14b28",
+        "name": "蟹蝥红"
+    },
+    {
+        "pinyin": "huoyanzong",
+        "hex": "#863020",
+        "name": "火岩棕"
+    },
+    {
+        "pinyin": "zheshi",
+        "hex": "#862617",
+        "name": "赭石"
+    },
+    {
+        "pinyin": "antuozong",
+        "hex": "#592620",
+        "name": "暗驼棕"
+    },
+    {
+        "pinyin": "jiangzong",
+        "hex": "#5a1f1b",
+        "name": "酱棕"
+    },
+    {
+        "pinyin": "lizong",
+        "hex": "#5c1e19",
+        "name": "栗棕"
+    },
+    {
+        "pinyin": "yangshuixianhong",
+        "hex": "#f4c7ba",
+        "name": "洋水仙红"
+    },
+    {
+        "pinyin": "guqiaohong",
+        "hex": "#f17666",
+        "name": "谷鞘红"
+    },
+    {
+        "pinyin": "pingguohong",
+        "hex": "#f15642",
+        "name": "苹果红"
+    },
+    {
+        "pinyin": "tieshuihong",
+        "hex": "#f5391c",
+        "name": "铁水红"
+    },
+    {
+        "pinyin": "guihong",
+        "hex": "#f25a47",
+        "name": "桂红"
+    },
+    {
+        "pinyin": "jiguanghong",
+        "hex": "#f33b1f",
+        "name": "极光红"
+    },
+    {
+        "pinyin": "fenhong",
+        "hex": "#f2b9b2",
+        "name": "粉红"
+    },
+    {
+        "pinyin": "shehong",
+        "hex": "#f19790",
+        "name": "舌红"
+    },
+    {
+        "pinyin": "quhong",
+        "hex": "#f05a46",
+        "name": "曲红"
+    },
+    {
+        "pinyin": "honggonghong",
+        "hex": "#f23e23",
+        "name": "红汞红"
+    },
+    {
+        "pinyin": "danfei",
+        "hex": "#f2cac9",
+        "name": "淡绯"
+    },
+    {
+        "pinyin": "wuhuaguohong",
+        "hex": "#efafad",
+        "name": "无花果红"
+    },
+    {
+        "pinyin": "liuzihong",
+        "hex": "#f1908c",
+        "name": "榴子红"
+    },
+    {
+        "pinyin": "yanzhihong",
+        "hex": "#f03f24",
+        "name": "胭脂红"
+    },
+    {
+        "pinyin": "hehuanhong",
+        "hex": "#f0a1a8",
+        "name": "合欢红"
+    },
+    {
+        "pinyin": "chunmeihong",
+        "hex": "#f1939c",
+        "name": "春梅红"
+    },
+    {
+        "pinyin": "xiangyehong",
+        "hex": "#f07c82",
+        "name": "香叶红"
+    },
+    {
+        "pinyin": "shanhuhong",
+        "hex": "#f04a3a",
+        "name": "珊瑚红"
+    },
+    {
+        "pinyin": "luobohong",
+        "hex": "#f13c22",
+        "name": "萝卜红"
+    },
+    {
+        "pinyin": "danqianhong",
+        "hex": "#e77c8e",
+        "name": "淡茜红"
+    },
+    {
+        "pinyin": "yanhong",
+        "hex": "#ed5a65",
+        "name": "艳红"
+    },
+    {
+        "pinyin": "danshuhong",
+        "hex": "#ed4845",
+        "name": "淡菽红"
+    },
+    {
+        "pinyin": "yusaihong",
+        "hex": "#ed3b2f",
+        "name": "鱼鳃红"
+    },
+    {
+        "pinyin": "yingtaohong",
+        "hex": "#ed3321",
+        "name": "樱桃红"
+    },
+    {
+        "pinyin": "danruixianghong",
+        "hex": "#ee4866",
+        "name": "淡蕊香红"
+    },
+    {
+        "pinyin": "shizhuhong",
+        "hex": "#ee4863",
+        "name": "石竹红"
+    },
+    {
+        "pinyin": "caomolihong",
+        "hex": "#ef475d",
+        "name": "草茉莉红"
+    },
+    {
+        "pinyin": "chahuahong",
+        "hex": "#ee3f4d",
+        "name": "茶花红"
+    },
+    {
+        "pinyin": "goushuhong",
+        "hex": "#ed3333",
+        "name": "枸枢红"
+    },
+    {
+        "pinyin": "qiuhaitanghong",
+        "hex": "#ec2b24",
+        "name": "秋海棠红"
+    },
+    {
+        "pinyin": "lichunhong",
+        "hex": "#eb261a",
+        "name": "丽春红"
+    },
+    {
+        "pinyin": "xiyanghong",
+        "hex": "#de2a18",
+        "name": "夕阳红"
+    },
+    {
+        "pinyin": "hedinghong",
+        "hex": "#d42517",
+        "name": "鹤顶红"
+    },
+    {
+        "pinyin": "exueshihong",
+        "hex": "#ab372f",
+        "name": "鹅血石红"
+    },
+    {
+        "pinyin": "fupenzihong",
+        "hex": "#ac1f18",
+        "name": "覆盆子红"
+    },
+    {
+        "pinyin": "diaozi",
+        "hex": "#5d3131",
+        "name": "貂紫"
+    },
+    {
+        "pinyin": "anyuzi",
+        "hex": "#5c2223",
+        "name": "暗玉紫"
+    },
+    {
+        "pinyin": "lizi",
+        "hex": "#5a191b",
+        "name": "栗紫"
+    },
+    {
+        "pinyin": "putaojiangzi",
+        "hex": "#5a1216",
+        "name": "葡萄酱紫"
+    },
+    {
+        "pinyin": "mudanfenhong",
+        "hex": "#eea2a4",
+        "name": "牡丹粉红"
+    },
+    {
+        "pinyin": "shanchahong",
+        "hex": "#ed556a",
+        "name": "山茶红"
+    },
+    {
+        "pinyin": "haitanghong",
+        "hex": "#f03752",
+        "name": "海棠红"
+    },
+    {
+        "pinyin": "yuhong",
+        "hex": "#c04851",
+        "name": "玉红"
+    },
+    {
+        "pinyin": "gaolianghong",
+        "hex": "#c02c38",
+        "name": "高粱红"
+    },
+    {
+        "pinyin": "manjianghong",
+        "hex": "#a7535a",
+        "name": "满江红"
+    },
+    {
+        "pinyin": "zaohong",
+        "hex": "#7c1823",
+        "name": "枣红"
+    },
+    {
+        "pinyin": "putaozi",
+        "hex": "#4c1f24",
+        "name": "葡萄紫"
+    },
+    {
+        "pinyin": "jiangzi",
+        "hex": "#4d1018",
+        "name": "酱紫"
+    },
+    {
+        "pinyin": "danshuhong",
+        "hex": "#ee2746",
+        "name": "淡曙红"
+    },
+    {
+        "pinyin": "tangchangpuhong",
+        "hex": "#de1c31",
+        "name": "唐菖蒲红"
+    },
+    {
+        "pinyin": "eguanhong",
+        "hex": "#d11a2d",
+        "name": "鹅冠红"
+    },
+    {
+        "pinyin": "meihong",
+        "hex": "#c45a65",
+        "name": "莓红"
+    },
+    {
+        "pinyin": "fengyehong",
+        "hex": "#c21f30",
+        "name": "枫叶红"
+    },
+    {
+        "pinyin": "xiancaihong",
+        "hex": "#a61b29",
+        "name": "苋菜红"
+    },
+    {
+        "pinyin": "yanhong",
+        "hex": "#894e54",
+        "name": "烟红"
+    },
+    {
+        "pinyin": "anziyuanhong",
+        "hex": "#82202b",
+        "name": "暗紫苑红"
+    },
+    {
+        "pinyin": "yanhong",
+        "hex": "#82111f",
+        "name": "殷红"
+    },
+    {
+        "pinyin": "zhuganzi",
+        "hex": "#541e24",
+        "name": "猪肝紫"
+    },
+    {
+        "pinyin": "jinyuzi",
+        "hex": "#500a16",
+        "name": "金鱼紫"
+    },
+    {
+        "pinyin": "caozhuhong",
+        "hex": "#f8ebe6",
+        "name": "草珠红"
+    },
+    {
+        "pinyin": "danjianghong",
+        "hex": "#ec7696",
+        "name": "淡绛红"
+    },
+    {
+        "pinyin": "pinhong",
+        "hex": "#ef3473",
+        "name": "品红"
+    },
+    {
+        "pinyin": "fengxianhuahong",
+        "hex": "#ea7293",
+        "name": "凤仙花红"
+    },
+    {
+        "pinyin": "fentuanhuahong",
+        "hex": "#ec9bad",
+        "name": "粉团花红"
+    },
+    {
+        "pinyin": "jiazhutaohong",
+        "hex": "#eb507e",
+        "name": "夹竹桃红"
+    },
+    {
+        "pinyin": "wenpohong",
+        "hex": "#ed2f6a",
+        "name": "榲桲红"
+    },
+    {
+        "pinyin": "jianghong",
+        "hex": "#eeb8c3",
+        "name": "姜红"
+    },
+    {
+        "pinyin": "lianbanhong",
+        "hex": "#ea517f",
+        "name": "莲瓣红"
+    },
+    {
+        "pinyin": "shuihong",
+        "hex": "#f1c4cd",
+        "name": "水红"
+    },
+    {
+        "pinyin": "baochunhong",
+        "hex": "#ec8aa4",
+        "name": "报春红"
+    },
+    {
+        "pinyin": "yuejihong",
+        "hex": "#ce5777",
+        "name": "月季红"
+    },
+    {
+        "pinyin": "jiangdouhong",
+        "hex": "#ed9db2",
+        "name": "豇豆红"
+    },
+    {
+        "pinyin": "xiaguanghong",
+        "hex": "#ef82a0",
+        "name": "霞光红"
+    },
+    {
+        "pinyin": "songyemudanhong",
+        "hex": "#eb3c70",
+        "name": "松叶牡丹红"
+    },
+    {
+        "pinyin": "xidanhong",
+        "hex": "#ec2c64",
+        "name": "喜蛋红"
+    },
+    {
+        "pinyin": "shubihong",
+        "hex": "#e3b4b8",
+        "name": "鼠鼻红"
+    },
+    {
+        "pinyin": "jianjingyuhong",
+        "hex": "#cc163a",
+        "name": "尖晶玉红"
+    },
+    {
+        "pinyin": "shanlidouhong",
+        "hex": "#c27c88",
+        "name": "山黎豆红"
+    },
+    {
+        "pinyin": "jinkuihong",
+        "hex": "#bf3553",
+        "name": "锦葵红"
+    },
+    {
+        "pinyin": "shubeihui",
+        "hex": "#73575c",
+        "name": "鼠背灰"
+    },
+    {
+        "pinyin": "ganzhezi",
+        "hex": "#621624",
+        "name": "甘蔗紫"
+    },
+    {
+        "pinyin": "shizhuzi",
+        "hex": "#63071c",
+        "name": "石竹紫"
+    },
+    {
+        "pinyin": "cangyinghui",
+        "hex": "#36282b",
+        "name": "苍蝇灰"
+    },
+    {
+        "pinyin": "luanshizi",
+        "hex": "#30161c",
+        "name": "卵石紫"
+    },
+    {
+        "pinyin": "lizi",
+        "hex": "#2b1216",
+        "name": "李紫"
+    },
+    {
+        "pinyin": "qiepizi",
+        "hex": "#2d0c13",
+        "name": "茄皮紫"
+    },
+    {
+        "pinyin": "diaozhonghuahong",
+        "hex": "#ce5e8a",
+        "name": "吊钟花红"
+    },
+    {
+        "pinyin": "tuyanhong",
+        "hex": "#ec4e8a",
+        "name": "兔眼红"
+    },
+    {
+        "pinyin": "zijinghong",
+        "hex": "#ee2c79",
+        "name": "紫荆红"
+    },
+    {
+        "pinyin": "caitouzi",
+        "hex": "#951c48",
+        "name": "菜头紫"
+    },
+    {
+        "pinyin": "yaoguanzi",
+        "hex": "#621d34",
+        "name": "鹞冠紫"
+    },
+    {
+        "pinyin": "putaojiuhong",
+        "hex": "#62102e",
+        "name": "葡萄酒红"
+    },
+    {
+        "pinyin": "moshizi",
+        "hex": "#382129",
+        "name": "磨石紫"
+    },
+    {
+        "pinyin": "tanzi",
+        "hex": "#381924",
+        "name": "檀紫"
+    },
+    {
+        "pinyin": "huoezi",
+        "hex": "#33141e",
+        "name": "火鹅紫"
+    },
+    {
+        "pinyin": "mozi",
+        "hex": "#310f1b",
+        "name": "墨紫"
+    },
+    {
+        "pinyin": "jinghong",
+        "hex": "#eea6b7",
+        "name": "晶红"
+    },
+    {
+        "pinyin": "biandouhuahong",
+        "hex": "#ef498b",
+        "name": "扁豆花红"
+    },
+    {
+        "pinyin": "baijihong",
+        "hex": "#de7897",
+        "name": "白芨红"
+    },
+    {
+        "pinyin": "nenlinghong",
+        "hex": "#de3f7c",
+        "name": "嫩菱红"
+    },
+    {
+        "pinyin": "bogenhong",
+        "hex": "#d13c74",
+        "name": "菠根红"
+    },
+    {
+        "pinyin": "cujiangcaohong",
+        "hex": "#c5708b",
+        "name": "酢酱草红"
+    },
+    {
+        "pinyin": "yangcongzi",
+        "hex": "#a8456b",
+        "name": "洋葱紫"
+    },
+    {
+        "pinyin": "haixiangzi",
+        "hex": "#4b1e2f",
+        "name": "海象紫"
+    },
+    {
+        "pinyin": "ganzi",
+        "hex": "#461629",
+        "name": "绀紫"
+    },
+    {
+        "pinyin": "gutongzi",
+        "hex": "#440e25",
+        "name": "古铜紫"
+    },
+    {
+        "pinyin": "shiruihong",
+        "hex": "#f0c9cf",
+        "name": "石蕊红"
+    },
+    {
+        "pinyin": "shaoyaogenghong",
+        "hex": "#eba0b3",
+        "name": "芍药耕红"
+    },
+    {
+        "pinyin": "canghuahong",
+        "hex": "#ec2d7a",
+        "name": "藏花红"
+    },
+    {
+        "pinyin": "chuhehong",
+        "hex": "#e16c96",
+        "name": "初荷红"
+    },
+    {
+        "pinyin": "mabiancaozi",
+        "hex": "#ede3e7",
+        "name": "马鞭草紫"
+    },
+    {
+        "pinyin": "dingxiangdanzi",
+        "hex": "#e9d7df",
+        "name": "丁香淡紫"
+    },
+    {
+        "pinyin": "danzihong",
+        "hex": "#d2568c",
+        "name": "丹紫红"
+    },
+    {
+        "pinyin": "meiguihong",
+        "hex": "#d2357d",
+        "name": "玫瑰红"
+    },
+    {
+        "pinyin": "danqianniuzi",
+        "hex": "#d1c2d3",
+        "name": "淡牵牛紫"
+    },
+    {
+        "pinyin": "fengxinzi",
+        "hex": "#c8adc4",
+        "name": "凤信紫"
+    },
+    {
+        "pinyin": "luolanzi",
+        "hex": "#c08eaf",
+        "name": "萝兰紫"
+    },
+    {
+        "pinyin": "meiguizi",
+        "hex": "#ba2f7b",
+        "name": "玫瑰紫"
+    },
+    {
+        "pinyin": "tengluozi",
+        "hex": "#8076a3",
+        "name": "藤萝紫"
+    },
+    {
+        "pinyin": "jinzi",
+        "hex": "#806d9e",
+        "name": "槿紫"
+    },
+    {
+        "pinyin": "xunzi",
+        "hex": "#815c94",
+        "name": "蕈紫"
+    },
+    {
+        "pinyin": "jiegengzi",
+        "hex": "#813c85",
+        "name": "桔梗紫"
+    },
+    {
+        "pinyin": "weizi",
+        "hex": "#7e1671",
+        "name": "魏紫"
+    },
+    {
+        "pinyin": "zhilanzi",
+        "hex": "#e9ccd3",
+        "name": "芝兰紫"
+    },
+    {
+        "pinyin": "lingmenghong",
+        "hex": "#d276a3",
+        "name": "菱锰红"
+    },
+    {
+        "pinyin": "longxuhong",
+        "hex": "#cc5595",
+        "name": "龙须红"
+    },
+    {
+        "pinyin": "jifenhong",
+        "hex": "#e6d2d5",
+        "name": "蓟粉红"
+    },
+    {
+        "pinyin": "dianqishihong",
+        "hex": "#c35691",
+        "name": "电气石红"
+    },
+    {
+        "pinyin": "yingcaozi",
+        "hex": "#c06f98",
+        "name": "樱草紫"
+    },
+    {
+        "pinyin": "lusuihui",
+        "hex": "#bdaead",
+        "name": "芦穗灰"
+    },
+    {
+        "pinyin": "yinhonghui",
+        "hex": "#b598a1",
+        "name": "隐红灰"
+    },
+    {
+        "pinyin": "xiancaizi",
+        "hex": "#9b1e64",
+        "name": "苋菜紫"
+    },
+    {
+        "pinyin": "luhui",
+        "hex": "#856d72",
+        "name": "芦灰"
+    },
+    {
+        "pinyin": "muyunhui",
+        "hex": "#4f383e",
+        "name": "暮云灰"
+    },
+    {
+        "pinyin": "banjiuhui",
+        "hex": "#482936",
+        "name": "斑鸠灰"
+    },
+    {
+        "pinyin": "dantengluozi",
+        "hex": "#f2e7e5",
+        "name": "淡藤萝紫"
+    },
+    {
+        "pinyin": "danqingzi",
+        "hex": "#e0c8d1",
+        "name": "淡青紫"
+    },
+    {
+        "pinyin": "qinghakezi",
+        "hex": "#bc84a8",
+        "name": "青蛤壳紫"
+    },
+    {
+        "pinyin": "doukouzi",
+        "hex": "#ad6598",
+        "name": "豆蔻紫"
+    },
+    {
+        "pinyin": "biandouzi",
+        "hex": "#a35c8f",
+        "name": "扁豆紫"
+    },
+    {
+        "pinyin": "jiehuazi",
+        "hex": "#983680",
+        "name": "芥花紫"
+    },
+    {
+        "pinyin": "qinglian",
+        "hex": "#8b2671",
+        "name": "青莲"
+    },
+    {
+        "pinyin": "zizi",
+        "hex": "#894276",
+        "name": "芓紫"
+    },
+    {
+        "pinyin": "gejinzi",
+        "hex": "#7e2065",
+        "name": "葛巾紫"
+    },
+    {
+        "pinyin": "qianniuzi",
+        "hex": "#681752",
+        "name": "牵牛紫"
+    },
+    {
+        "pinyin": "zihui",
+        "hex": "#5d3f51",
+        "name": "紫灰"
+    },
+    {
+        "pinyin": "longjingyuzi",
+        "hex": "#4e2a40",
+        "name": "龙睛鱼紫"
+    },
+    {
+        "pinyin": "biqizi",
+        "hex": "#411c35",
+        "name": "荸荠紫"
+    },
+    {
+        "pinyin": "gudinghui",
+        "hex": "#36292f",
+        "name": "古鼎灰"
+    },
+    {
+        "pinyin": "wumeizi",
+        "hex": "#1e131d",
+        "name": "乌梅紫"
+    },
+    {
+        "pinyin": "shenqianniuzi",
+        "hex": "#1c0d1a",
+        "name": "深牵牛紫"
+    },
+    {
+        "pinyin": "yinbai",
+        "hex": "#f1f0ed",
+        "name": "银白"
+    },
+    {
+        "pinyin": "qianshibai",
+        "hex": "#e2e1e4",
+        "name": "芡食白"
+    },
+    {
+        "pinyin": "yuanshanzi",
+        "hex": "#ccccd6",
+        "name": "远山紫"
+    },
+    {
+        "pinyin": "danlanzi",
+        "hex": "#a7a8bd",
+        "name": "淡蓝紫"
+    },
+    {
+        "pinyin": "shangengzi",
+        "hex": "#61649f",
+        "name": "山梗紫"
+    },
+    {
+        "pinyin": "luodianzi",
+        "hex": "#74759b",
+        "name": "螺甸紫"
+    },
+    {
+        "pinyin": "manaohui",
+        "hex": "#cfccc9",
+        "name": "玛瑙灰"
+    },
+    {
+        "pinyin": "yejuzi",
+        "hex": "#525288",
+        "name": "野菊紫"
+    },
+    {
+        "pinyin": "mantianxingzi",
+        "hex": "#2e317c",
+        "name": "满天星紫"
+    },
+    {
+        "pinyin": "xinhui",
+        "hex": "#7a7374",
+        "name": "锌灰"
+    },
+    {
+        "pinyin": "yeputaozi",
+        "hex": "#302f4b",
+        "name": "野葡萄紫"
+    },
+    {
+        "pinyin": "jianfengzi",
+        "hex": "#3e3841",
+        "name": "剑锋紫"
+    },
+    {
+        "pinyin": "longkuizi",
+        "hex": "#322f3b",
+        "name": "龙葵紫"
+    },
+    {
+        "pinyin": "anlongdanzi",
+        "hex": "#22202e",
+        "name": "暗龙胆紫"
+    },
+    {
+        "pinyin": "jingshizi",
+        "hex": "#1f2040",
+        "name": "晶石紫"
+    },
+    {
+        "pinyin": "anlanzi",
+        "hex": "#131124",
+        "name": "暗蓝紫"
+    },
+    {
+        "pinyin": "jingtailan",
+        "hex": "#2775b6",
+        "name": "景泰蓝"
+    },
+    {
+        "pinyin": "niluolan",
+        "hex": "#2474b5",
+        "name": "尼罗蓝"
+    },
+    {
+        "pinyin": "yuantianlan",
+        "hex": "#d0dfe6",
+        "name": "远天蓝"
+    },
+    {
+        "pinyin": "xinglan",
+        "hex": "#93b5cf",
+        "name": "星蓝"
+    },
+    {
+        "pinyin": "yushandoulan",
+        "hex": "#619ac3",
+        "name": "羽扇豆蓝"
+    },
+    {
+        "pinyin": "huaqing",
+        "hex": "#2376b7",
+        "name": "花青"
+    },
+    {
+        "pinyin": "jinglan",
+        "hex": "#5698c3",
+        "name": "睛蓝"
+    },
+    {
+        "pinyin": "honglan",
+        "hex": "#2177b8",
+        "name": "虹蓝"
+    },
+    {
+        "pinyin": "hushuilan",
+        "hex": "#b0d5df",
+        "name": "湖水蓝"
+    },
+    {
+        "pinyin": "qiubolan",
+        "hex": "#8abcd1",
+        "name": "秋波蓝"
+    },
+    {
+        "pinyin": "jianshilan",
+        "hex": "#66a9c9",
+        "name": "涧石蓝"
+    },
+    {
+        "pinyin": "chaolan",
+        "hex": "#2983bb",
+        "name": "潮蓝"
+    },
+    {
+        "pinyin": "qunqing",
+        "hex": "#1772b4",
+        "name": "群青"
+    },
+    {
+        "pinyin": "jiqing",
+        "hex": "#63bbd0",
+        "name": "霁青"
+    },
+    {
+        "pinyin": "biqing",
+        "hex": "#5cb3cc",
+        "name": "碧青"
+    },
+    {
+        "pinyin": "baoshilan",
+        "hex": "#2486b9",
+        "name": "宝石蓝"
+    },
+    {
+        "pinyin": "tianlan",
+        "hex": "#1677b3",
+        "name": "天蓝"
+    },
+    {
+        "pinyin": "bolinlan",
+        "hex": "#126bae",
+        "name": "柏林蓝"
+    },
+    {
+        "pinyin": "haiqing",
+        "hex": "#22a2c3",
+        "name": "海青"
+    },
+    {
+        "pinyin": "gulan",
+        "hex": "#1a94bc",
+        "name": "钴蓝"
+    },
+    {
+        "pinyin": "yuanweilan",
+        "hex": "#158bb8",
+        "name": "鸢尾蓝"
+    },
+    {
+        "pinyin": "qianniuhualan",
+        "hex": "#1177b0",
+        "name": "牵牛花蓝"
+    },
+    {
+        "pinyin": "feiyancaolan",
+        "hex": "#0f59a4",
+        "name": "飞燕草蓝"
+    },
+    {
+        "pinyin": "pinlan",
+        "hex": "#2b73af",
+        "name": "品蓝"
+    },
+    {
+        "pinyin": "yinyubai",
+        "hex": "#cdd1d3",
+        "name": "银鱼白"
+    },
+    {
+        "pinyin": "ananlan",
+        "hex": "#3170a7",
+        "name": "安安蓝"
+    },
+    {
+        "pinyin": "yuweihui",
+        "hex": "#5e616d",
+        "name": "鱼尾灰"
+    },
+    {
+        "pinyin": "jingyuhui",
+        "hex": "#475164",
+        "name": "鲸鱼灰"
+    },
+    {
+        "pinyin": "haishenhui",
+        "hex": "#fffefa",
+        "name": "海参灰"
+    },
+    {
+        "pinyin": "shayuhui",
+        "hex": "#35333c",
+        "name": "沙鱼灰"
+    },
+    {
+        "pinyin": "ganglan",
+        "hex": "#0f1423",
+        "name": "钢蓝"
+    },
+    {
+        "pinyin": "yunshuilan",
+        "hex": "#baccd9",
+        "name": "云水蓝"
+    },
+    {
+        "pinyin": "qingshanlan",
+        "hex": "#8fb2c9",
+        "name": "晴山蓝"
+    },
+    {
+        "pinyin": "dianqing",
+        "hex": "#1661ab",
+        "name": "靛青"
+    },
+    {
+        "pinyin": "dalishihui",
+        "hex": "#c4cbcf",
+        "name": "大理石灰"
+    },
+    {
+        "pinyin": "haitaolan",
+        "hex": "#15559a",
+        "name": "海涛蓝"
+    },
+    {
+        "pinyin": "diechilan",
+        "hex": "#4e7ca1",
+        "name": "蝶翅蓝"
+    },
+    {
+        "pinyin": "haijunlan",
+        "hex": "#346c9c",
+        "name": "海军蓝"
+    },
+    {
+        "pinyin": "shuiniuhui",
+        "hex": "#2f2f35",
+        "name": "水牛灰"
+    },
+    {
+        "pinyin": "niujiaohui",
+        "hex": "#2d2e36",
+        "name": "牛角灰"
+    },
+    {
+        "pinyin": "yanhanlan",
+        "hex": "#131824",
+        "name": "燕颔蓝"
+    },
+    {
+        "pinyin": "yunfengbai",
+        "hex": "#d8e3e7",
+        "name": "云峰白"
+    },
+    {
+        "pinyin": "jingtianlan",
+        "hex": "#c3d7df",
+        "name": "井天蓝"
+    },
+    {
+        "pinyin": "yunshanlan",
+        "hex": "#2f90b9",
+        "name": "云山蓝"
+    },
+    {
+        "pinyin": "youlan",
+        "hex": "#1781b5",
+        "name": "釉蓝"
+    },
+    {
+        "pinyin": "oulan",
+        "hex": "#c7d2d4",
+        "name": "鸥蓝"
+    },
+    {
+        "pinyin": "tangcilan",
+        "hex": "#11659a",
+        "name": "搪磁蓝"
+    },
+    {
+        "pinyin": "yueyingbai",
+        "hex": "#c0c4c3",
+        "name": "月影白"
+    },
+    {
+        "pinyin": "xinghui",
+        "hex": "#b2bbbe",
+        "name": "星灰"
+    },
+    {
+        "pinyin": "danlanhui",
+        "hex": "#5e7987",
+        "name": "淡蓝灰"
+    },
+    {
+        "pinyin": "yanlan",
+        "hex": "#144a74",
+        "name": "鷃蓝"
+    },
+    {
+        "pinyin": "nenhui",
+        "hex": "#74787a",
+        "name": "嫩灰"
+    },
+    {
+        "pinyin": "zhanjianhui",
+        "hex": "#495c69",
+        "name": "战舰灰"
+    },
+    {
+        "pinyin": "waguanhui",
+        "hex": "#47484c",
+        "name": "瓦罐灰"
+    },
+    {
+        "pinyin": "qinghui",
+        "hex": "#2b333e",
+        "name": "青灰"
+    },
+    {
+        "pinyin": "gelan",
+        "hex": "#1c2938",
+        "name": "鸽蓝"
+    },
+    {
+        "pinyin": "gangqing",
+        "hex": "#142334",
+        "name": "钢青"
+    },
+    {
+        "pinyin": "anlan",
+        "hex": "#101f30",
+        "name": "暗蓝"
+    },
+    {
+        "pinyin": "yuebai",
+        "hex": "#eef7f2",
+        "name": "月白"
+    },
+    {
+        "pinyin": "haitianlan",
+        "hex": "#c6e6e8",
+        "name": "海天蓝"
+    },
+    {
+        "pinyin": "qingshuilan",
+        "hex": "#93d5dc",
+        "name": "清水蓝"
+    },
+    {
+        "pinyin": "pubulan",
+        "hex": "#51c4d3",
+        "name": "瀑布蓝"
+    },
+    {
+        "pinyin": "weilan",
+        "hex": "#29b7cb",
+        "name": "蔚蓝"
+    },
+    {
+        "pinyin": "kongquelan",
+        "hex": "#0eb0c9",
+        "name": "孔雀蓝"
+    },
+    {
+        "pinyin": "dianzilan",
+        "hex": "#10aec2",
+        "name": "甸子蓝"
+    },
+    {
+        "pinyin": "shilv",
+        "hex": "#57c3c2",
+        "name": "石绿"
+    },
+    {
+        "pinyin": "zhuhuanglv",
+        "hex": "#b9dec9",
+        "name": "竹篁绿"
+    },
+    {
+        "pinyin": "fenlv",
+        "hex": "#83cbac",
+        "name": "粉绿"
+    },
+    {
+        "pinyin": "meidielv",
+        "hex": "#12aa9c",
+        "name": "美蝶绿"
+    },
+    {
+        "pinyin": "maolv",
+        "hex": "#66c18c",
+        "name": "毛绿"
+    },
+    {
+        "pinyin": "koushaolv",
+        "hex": "#5dbe8a",
+        "name": "蔻梢绿"
+    },
+    {
+        "pinyin": "maimiaolv",
+        "hex": "#55bb8a",
+        "name": "麦苗绿"
+    },
+    {
+        "pinyin": "walv",
+        "hex": "#45b787",
+        "name": "蛙绿"
+    },
+    {
+        "pinyin": "tonglv",
+        "hex": "#2bae85",
+        "name": "铜绿"
+    },
+    {
+        "pinyin": "zhulv",
+        "hex": "#1ba784",
+        "name": "竹绿"
+    },
+    {
+        "pinyin": "lanlv",
+        "hex": "#12a182",
+        "name": "蓝绿"
+    },
+    {
+        "pinyin": "qionghui",
+        "hex": "#c4d7d6",
+        "name": "穹灰"
+    },
+    {
+        "pinyin": "cuilan",
+        "hex": "#1e9eb3",
+        "name": "翠蓝"
+    },
+    {
+        "pinyin": "danfanlan",
+        "hex": "#0f95b0",
+        "name": "胆矾蓝"
+    },
+    {
+        "pinyin": "jianniaolan",
+        "hex": "#1491a8",
+        "name": "樫鸟蓝"
+    },
+    {
+        "pinyin": "shanlan",
+        "hex": "#7cabb1",
+        "name": "闪蓝"
+    },
+    {
+        "pinyin": "bingshanlan",
+        "hex": "#a4aca7",
+        "name": "冰山蓝"
+    },
+    {
+        "pinyin": "xiakeqing",
+        "hex": "#869d9d",
+        "name": "虾壳青"
+    },
+    {
+        "pinyin": "wanbolan",
+        "hex": "#648e93",
+        "name": "晚波蓝"
+    },
+    {
+        "pinyin": "qingtinglan",
+        "hex": "#3b818c",
+        "name": "蜻蜓蓝"
+    },
+    {
+        "pinyin": "yuqinlan",
+        "hex": "#126e82",
+        "name": "玉鈫蓝"
+    },
+    {
+        "pinyin": "ehui",
+        "hex": "#737c7b",
+        "name": "垩灰"
+    },
+    {
+        "pinyin": "xiayunhui",
+        "hex": "#617172",
+        "name": "夏云灰"
+    },
+    {
+        "pinyin": "canglan",
+        "hex": "#134857",
+        "name": "苍蓝"
+    },
+    {
+        "pinyin": "huanghunhui",
+        "hex": "#474b4c",
+        "name": "黄昏灰"
+    },
+    {
+        "pinyin": "huilan",
+        "hex": "#21373d",
+        "name": "灰蓝"
+    },
+    {
+        "pinyin": "shenhuilan",
+        "hex": "#132c33",
+        "name": "深灰蓝"
+    },
+    {
+        "pinyin": "yuzanlv",
+        "hex": "#a4cab6",
+        "name": "玉簪绿"
+    },
+    {
+        "pinyin": "qingfanlv",
+        "hex": "#2c9678",
+        "name": "青矾绿"
+    },
+    {
+        "pinyin": "caoyuanyuanlv",
+        "hex": "#9abeaf",
+        "name": "草原远绿"
+    },
+    {
+        "pinyin": "wuzhilv",
+        "hex": "#69a794",
+        "name": "梧枝绿"
+    },
+    {
+        "pinyin": "langhualv",
+        "hex": "#92b3a5",
+        "name": "浪花绿"
+    },
+    {
+        "pinyin": "haiwanglv",
+        "hex": "#248067",
+        "name": "海王绿"
+    },
+    {
+        "pinyin": "yadinglv",
+        "hex": "#428675",
+        "name": "亚丁绿"
+    },
+    {
+        "pinyin": "niehui",
+        "hex": "#9fa39a",
+        "name": "镍灰"
+    },
+    {
+        "pinyin": "minghui",
+        "hex": "#8a988e",
+        "name": "明灰"
+    },
+    {
+        "pinyin": "danlvhui",
+        "hex": "#70887d",
+        "name": "淡绿灰"
+    },
+    {
+        "pinyin": "feiquanlv",
+        "hex": "#497568",
+        "name": "飞泉绿"
+    },
+    {
+        "pinyin": "langyanhui",
+        "hex": "#5d655f",
+        "name": "狼烟灰"
+    },
+    {
+        "pinyin": "lvhui",
+        "hex": "#314a43",
+        "name": "绿灰"
+    },
+    {
+        "pinyin": "canglv",
+        "hex": "#223e36",
+        "name": "苍绿"
+    },
+    {
+        "pinyin": "shenhailv",
+        "hex": "#1a3b32",
+        "name": "深海绿"
+    },
+    {
+        "pinyin": "changshihui",
+        "hex": "#363433",
+        "name": "长石灰"
+    },
+    {
+        "pinyin": "ganlanlv",
+        "hex": "#1f2623",
+        "name": "苷蓝绿"
+    },
+    {
+        "pinyin": "mangconglv",
+        "hex": "#141e1b",
+        "name": "莽丛绿"
+    },
+    {
+        "pinyin": "dancuilv",
+        "hex": "#c6dfc8",
+        "name": "淡翠绿"
+    },
+    {
+        "pinyin": "minglv",
+        "hex": "#9eccab",
+        "name": "明绿"
+    },
+    {
+        "pinyin": "tianyuanlv",
+        "hex": "#68b88e",
+        "name": "田园绿"
+    },
+    {
+        "pinyin": "cuilv",
+        "hex": "#20a162",
+        "name": "翠绿"
+    },
+    {
+        "pinyin": "danlv",
+        "hex": "#61ac85",
+        "name": "淡绿"
+    },
+    {
+        "pinyin": "conglv",
+        "hex": "#40a070",
+        "name": "葱绿"
+    },
+    {
+        "pinyin": "kongquelv",
+        "hex": "#229453",
+        "name": "孔雀绿"
+    },
+    {
+        "pinyin": "ailv",
+        "hex": "#cad3c3",
+        "name": "艾绿"
+    },
+    {
+        "pinyin": "chanlv",
+        "hex": "#3c9566",
+        "name": "蟾绿"
+    },
+    {
+        "pinyin": "gongdianlv",
+        "hex": "#20894d",
+        "name": "宫殿绿"
+    },
+    {
+        "pinyin": "songshuanglv",
+        "hex": "#83a78d",
+        "name": "松霜绿"
+    },
+    {
+        "pinyin": "danbaishilv",
+        "hex": "#579572",
+        "name": "蛋白石绿"
+    },
+    {
+        "pinyin": "bohelv",
+        "hex": "#207f4c",
+        "name": "薄荷绿"
+    },
+    {
+        "pinyin": "wasonglv",
+        "hex": "#6e8b74",
+        "name": "瓦松绿"
+    },
+    {
+        "pinyin": "heyelv",
+        "hex": "#1a6840",
+        "name": "荷叶绿"
+    },
+    {
+        "pinyin": "tianluolv",
+        "hex": "#5e665b",
+        "name": "田螺绿"
+    },
+    {
+        "pinyin": "baiqucailv",
+        "hex": "#485b4d",
+        "name": "白屈菜绿"
+    },
+    {
+        "pinyin": "hetunhui",
+        "hex": "#393733",
+        "name": "河豚灰"
+    },
+    {
+        "pinyin": "enyoulv",
+        "hex": "#373834",
+        "name": "蒽油绿"
+    },
+    {
+        "pinyin": "hujishenglv",
+        "hex": "#2b312c",
+        "name": "槲寄生绿"
+    },
+    {
+        "pinyin": "yunshanlv",
+        "hex": "#15231b",
+        "name": "云杉绿"
+    },
+    {
+        "pinyin": "nenjulv",
+        "hex": "#f0f5e5",
+        "name": "嫩菊绿"
+    },
+    {
+        "pinyin": "aibeilv",
+        "hex": "#dfecd5",
+        "name": "艾背绿"
+    },
+    {
+        "pinyin": "jialingshuilv",
+        "hex": "#add5a2",
+        "name": "嘉陵水绿"
+    },
+    {
+        "pinyin": "yusuilv",
+        "hex": "#41b349",
+        "name": "玉髓绿"
+    },
+    {
+        "pinyin": "xianlv",
+        "hex": "#43b244",
+        "name": "鲜绿"
+    },
+    {
+        "pinyin": "baoshilv",
+        "hex": "#41ae3c",
+        "name": "宝石绿"
+    },
+    {
+        "pinyin": "haimeilv",
+        "hex": "#e2e7bf",
+        "name": "海沬绿"
+    },
+    {
+        "pinyin": "yaohuang",
+        "hex": "#d0deaa",
+        "name": "姚黄"
+    },
+    {
+        "pinyin": "ganlanshilv",
+        "hex": "#b2cf87",
+        "name": "橄榄石绿"
+    },
+    {
+        "pinyin": "shuilv",
+        "hex": "#8cc269",
+        "name": "水绿"
+    },
+    {
+        "pinyin": "luweilv",
+        "hex": "#b7d07a",
+        "name": "芦苇绿"
+    },
+    {
+        "pinyin": "huaihuahuanglv",
+        "hex": "#d2d97a",
+        "name": "槐花黄绿"
+    },
+    {
+        "pinyin": "pingguolv",
+        "hex": "#bacf65",
+        "name": "苹果绿"
+    },
+    {
+        "pinyin": "yalv",
+        "hex": "#96c24e",
+        "name": "芽绿"
+    },
+    {
+        "pinyin": "diehuang",
+        "hex": "#e2d849",
+        "name": "蝶黄"
+    },
+    {
+        "pinyin": "ganlanhuanglv",
+        "hex": "#bec936",
+        "name": "橄榄黄绿"
+    },
+    {
+        "pinyin": "yingwulv",
+        "hex": "#5bae23",
+        "name": "鹦鹉绿"
+    },
+    {
+        "pinyin": "youlv",
+        "hex": "#253d24",
+        "name": "油绿"
+    },
+    {
+        "pinyin": "xiangyabai",
+        "hex": "#fffef8",
+        "name": "象牙白"
+    },
+    {
+        "pinyin": "hanbaiyu",
+        "hex": "#f8f4ed",
+        "name": "汉白玉"
+    },
+    {
+        "pinyin": "xuebai",
+        "hex": "#fffef9",
+        "name": "雪白"
+    },
+    {
+        "pinyin": "yudubai",
+        "hex": "#f7f4ed",
+        "name": "鱼肚白"
+    },
+    {
+        "pinyin": "zhenzhuhui",
+        "hex": "#e4dfd7",
+        "name": "珍珠灰"
+    },
+    {
+        "pinyin": "qianhui",
+        "hex": "#dad4cb",
+        "name": "浅灰"
+    },
+    {
+        "pinyin": "qianhui",
+        "hex": "#bbb5ac",
+        "name": "铅灰"
+    },
+    {
+        "pinyin": "zhonghui",
+        "hex": "#bbb5ac",
+        "name": "中灰"
+    },
+    {
+        "pinyin": "wahui",
+        "hex": "#867e76",
+        "name": "瓦灰"
+    },
+    {
+        "pinyin": "yehui",
+        "hex": "#847c74",
+        "name": "夜灰"
+    },
+    {
+        "pinyin": "yanhui",
+        "hex": "#80766e",
+        "name": "雁灰"
+    },
+    {
+        "pinyin": "shenhui",
+        "hex": "#81776e",
+        "name": "深灰"
+    }
+]
