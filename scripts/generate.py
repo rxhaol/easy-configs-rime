@@ -138,7 +138,7 @@ def get_foot() -> str:
     return """
   style:
     blur: true
-    font_face: "PingFang SC:Bold"
+    font_face: "TsangerJinKai05 W04,LXGW Wenkai Mono"
     font_point: 12
     horizontal: true
     inline_preedit: true
