@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>颜色展示</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			padding: 20px;
+		}
+
+		.input-method {
+			border: 1px solid #ccc;
+			padding: 10px;
+			margin-bottom: 20px;
+			display: flex;
+			gap: 10px;
+			align-items: center;
+		}
+
+		.candidate-word {
+			padding: 5px;
+			display: inline-flex;
+			align-items: center;
+			font-weight: bold;
+		}
+
+		.candidate-label {
+			margin-right: 5px;
+			display: flex;
+			align-items: center;
+		}
+
+		.candidate-text {
+			display: flex;
+			align-items: center;
+		}
+
+		.selected-candidate {
+			padding: 5px;
+			display: inline-flex;
+			align-items: center;
+			border-radius: 5px;
+		}
+
+		.search-container {
+			margin-bottom: 20px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		input[type="text"] {
+			padding: 8px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			flex-grow: 1;
+		}
+
+		button {
+			padding: 8px 16px;
+			border: none;
+			background-color: #f0f0f0;
+			cursor: pointer;
+			border-radius: 4px;
+		}
+
+		.color-container {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		.color-block {
+			width: calc(20% - 10px);
+			min-width: 120px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			border-radius: 8px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
+
+		.color-name {
+			color: white;
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+			margin-bottom: 5px;
+		}
+
+		.color-actions {
+			display: flex;
+			gap: 5px;
+			margin-top: 5px;
+		}
+
+		.pagination {
+			margin-top: 20px;
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+		}
+
+		.pagination button {
+			padding: 8px 16px;
+			border: none;
+			background-color: #f0f0f0;
+			cursor: pointer;
+			border-radius: 4px;
+		}
+
+		.pagination button.active {
+			background-color: #007BFF;
+			color: white;
+		}
+
+		#show-selected-colors {
+			margin-left: auto;
+		}
+
+		#selected-colors-list {
+			display: none;
+			border: 1px solid #ccc;
+			padding: 10px;
+			margin-top: 10px;
+			max-height: 200px;
+			overflow-y: auto;
+		}
+
+		.selected-color-item {
+			display: flex;
+			align-items: center;
+			margin-bottom: 5px;
+		}
+
+		.selected-color-preview {
+			width: 20px;
+			height: 20px;
+			border-radius: 4px;
+			margin-right: 5px;
+		}
+
+		.delete-color-button {
+			margin-left: auto;
+			padding: 4px 8px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="input-method" id="input-method">
+		<span class="candidate-word selected-candidate">
+			<span class="candidate-label">1.</span>
+			<span class="candidate-text">候选字1</span>
+		</span>
+		<span class="candidate-word">
+			<span class="candidate-label">2.</span>
+			<span class="candidate-text">候选字2</span>
+		</span>
+		<span class="candidate-word">
+			<span class="candidate-label">3.</span>
+			<span class="candidate-text">候选字3</span>
+		</span>
+		<button id="show-selected-colors">显示已添加颜色</button>
+	</div>
+	<div id="selected-colors-list"></div>
+	<div class="search-container">
+		<input type="text" id="search-input" placeholder="搜索颜色名称">
+		<button id="clear-button">清空</button>
+	</div>
+	<div class="color-container" id="color-container"></div>
+	<div class="pagination" id="pagination"></div>
+
+	<script>
+		const colorContainer = document.getElementById('color-container');
+		const searchInput = document.getElementById('search-input');
+		const clearButton = document.getElementById('clear-button');
+		const paginationContainer = document.getElementById('pagination');
+		const inputMethod = document.getElementById('input-method');
+		const showSelectedColorsButton = document.getElementById('show-selected-colors');
+		const selectedColorsList = document.getElementById('selected-colors-list');
+		let allColors = [];
+		let currentPage = 1;
+		const itemsPerPage = 30;
+
+		// 使用 fetch API 读取本地 JSON 文件
+		fetch('colors.json')
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				return response.json();
+			})
+			.then(colors => {
+				allColors = colors;
+				renderPage(colors);
+			})
+			.catch(error => {
+				console.error('读取 JSON 文件时出错: ', error);
+			});
+
+		// 渲染指定页面的颜色块
+		function renderPage(colors) {
+			const startIndex = (currentPage - 1) * itemsPerPage;
+			const endIndex = startIndex + itemsPerPage;
+			const currentPageColors = colors.slice(startIndex, endIndex);
+
+			renderColors(currentPageColors);
+			renderPagination(colors);
+		}
+
+		// 渲染颜色块的函数
+		function renderColors(colors) {
+			colorContainer.innerHTML = '';
+			colors.forEach(color => {
+				const colorBlock = document.createElement('div');
+				colorBlock.classList.add('color-block');
+
+				const colorDisplay = document.createElement('div');
+				colorDisplay.style.backgroundColor = color.hex;
+				colorDisplay.style.width = '100%';
+				colorDisplay.style.height = '60px';
+				colorDisplay.style.display = 'flex';
+				colorDisplay.style.flexDirection = 'column';
+				colorDisplay.style.alignItems = 'center';
+				colorDisplay.style.justifyContent = 'center';
+
+				const colorName = document.createElement('div');
+				colorName.classList.add('color-name');
+				colorName.textContent = color.name;
+
+				colorDisplay.appendChild(colorName);
+				colorBlock.appendChild(colorDisplay);
+
+				const colorActions = document.createElement('div');
+				colorActions.classList.add('color-actions');
+
+				const previewButton = document.createElement('button');
+				previewButton.textContent = '预览';
+				previewButton.addEventListener('click', () => {
+					updateInputMethodColors(color.hex);
+				});
+
+				const addButton = document.createElement('button');
+				addButton.textContent = '添加';
+				addButton.addEventListener('click', () => {
+					addColorToLocalStorage(color);
+				});
+
+				colorActions.appendChild(previewButton);
+				colorActions.appendChild(addButton);
+				colorBlock.appendChild(colorActions);
+
+				colorContainer.appendChild(colorBlock);
+			});
+		}
+
+		// 渲染分页按钮
+		function renderPagination(colors) {
+			const totalPages = Math.ceil(colors.length / itemsPerPage);
+			paginationContainer.innerHTML = '';
+
+			for (let i = 1; i <= totalPages; i++) {
+				const button = document.createElement('button');
+				button.textContent = i;
+				if (i === currentPage) {
+					button.classList.add('active');
+				}
+				button.addEventListener('click', () => {
+					currentPage = i;
+					renderPage(colors);
+				});
+				paginationContainer.appendChild(button);
+			}
+		}
+
+		// 更新输入法颜色
+		function updateInputMethodColors(hexColor) {
+			const alphaHex = '32';
+			const selectedBgColor = hexColor + alphaHex;
+
+			inputMethod.style.backgroundColor = '#FFFFFF';
+			const candidateLabels = document.querySelectorAll('.candidate-label');
+			candidateLabels.forEach(label => {
+				label.style.color = '#8E8E8E';
+			});
+			const candidateTexts = document.querySelectorAll('.candidate-text');
+			candidateTexts.forEach(text => {
+				text.style.color = '#454545';
+			});
+			const selectedCandidate = document.querySelector('.selected-candidate');
+			const selectedCandidateLabel = selectedCandidate.querySelector('.candidate-label');
+			const selectedCandidateText = selectedCandidate.querySelector('.candidate-text');
+			selectedCandidate.style.backgroundColor = selectedBgColor;
+			selectedCandidateLabel.style.color = hexColor;
+			selectedCandidateText.style.color = hexColor;
+		}
+
+		// 搜索功能
+		searchInput.addEventListener('input', function () {
+			const searchTerm = this.value.toLowerCase();
+			const filteredColors = allColors.filter(color => {
+				return color.name.toLowerCase().includes(searchTerm);
+			});
+			currentPage = 1;
+			renderPage(filteredColors);
+		});
+
+		// 清空按钮点击事件
+		clearButton.addEventListener('click', function () {
+			searchInput.value = '';
+			currentPage = 1;
+			renderPage(allColors);
+		});
+
+		// 将颜色添加到 localStorage
+		function addColorToLocalStorage(color) {
+			let storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
+			const isColorExists = storedColors.some(storedColor => storedColor.hex === color.hex);
+			if (!isColorExists) {
+				storedColors.push(color);
+				localStorage.setItem('selectedColors', JSON.stringify(storedColors));
+				alert(`已添加颜色${color.name}`);
+			}
+		}
+
+		// 显示已添加颜色列表
+		showSelectedColorsButton.addEventListener('click', () => {
+			selectedColorsList.style.display = selectedColorsList.style.display === 'none' ? 'block' : 'none';
+			if (selectedColorsList.style.display === 'block') {
+				renderSelectedColorsList();
+			}
+		});
+
+		// 重新渲染已选择颜色的列表
+		function renderSelectedColorsList() {
+			selectedColorsList.innerHTML = '';
+			const storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
+			if (storedColors.length === 0) {
+				selectedColorsList.textContent = '暂无已添加颜色。';
+				generateYamlButton.style.display = 'none';
+			} else {
+				storedColors.forEach(color => {
+					const colorItem = document.createElement('div');
+					colorItem.classList.add('selected-color-item');
+
+					const colorPreview = document.createElement('div');
+					colorPreview.classList.add('selected-color-preview');
+					colorPreview.style.backgroundColor = color.hex;
+
+					const colorName = document.createElement('span');
+					colorName.textContent = color.name;
+
+					const deleteButton = document.createElement('button');
+					deleteButton.textContent = '删除';
+					deleteButton.classList.add('delete-color-button');
+					deleteButton.addEventListener('click', () => {
+						deleteColorFromLocalStorage(color);
+						renderSelectedColorsList();
+					});
+
+					colorItem.appendChild(colorPreview);
+					colorItem.appendChild(colorName);
+					colorItem.appendChild(deleteButton);
+					selectedColorsList.appendChild(colorItem);
+				});
+				generateYamlButton.style.display = 'inline-block';
+			}
+		}
+
+		// 从 localStorage 中删除颜色
+		function deleteColorFromLocalStorage(color) {
+			let storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
+			storedColors = storedColors.filter(storedColor => storedColor.hex !== color.hex);
+			localStorage.setItem('selectedColors', JSON.stringify(storedColors));
+		}
+	</script>
+</body>
+
+</html>
