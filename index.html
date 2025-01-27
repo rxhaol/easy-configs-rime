@@ -151,6 +151,13 @@
 			display: none;
 			margin-top: 10px;
 		}
+
+		#clear-all-colors-button {
+			display: none;
+			margin-top: 10px;
+			margin-right: 10px;
+			/* 与生成配置文件按钮保持一定间距 */
+		}
 	</style>
 </head>
 
@@ -171,6 +178,7 @@
 		<button id="show-selected-colors">显示已添加颜色</button>
 	</div>
 	<div id="selected-colors-list"></div>
+	<button id="clear-all-colors-button" style="display: none;">一键清空</button>
 	<button id="generate-config-button">生成配置文件</button>
 	<div class="search-container">
 		<input type="text" id="search-input" placeholder="搜索颜色名称">
@@ -326,20 +334,23 @@
 		// 记录已添加颜色列表的显示状态
 		let isColorListVisible = false;
 
+		const clearAllColorsButton = document.getElementById('clear-all-colors-button');
+
 		// 修改显示已添加颜色按钮的点击事件
 		showSelectedColorsButton.addEventListener('click', () => {
 			const storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
 			if (isColorListVisible) {
-				// 如果列表是显示的，点击后关闭列表和生成配置文件按钮
+				// 如果列表是显示的，点击后关闭列表和相关按钮
 				selectedColorsList.style.display = 'none';
 				generateConfigButton.style.display = 'none';
+				clearAllColorsButton.style.display = 'none';
 				isColorListVisible = false;
 			} else {
-				// 如果列表是隐藏的，点击后显示列表和生成配置文件按钮（如果有颜色）
 				selectedColorsList.innerHTML = '';
 				if (storedColors.length === 0) {
 					selectedColorsList.textContent = '暂无已添加颜色。';
 					generateConfigButton.style.display = 'none';
+					clearAllColorsButton.style.display = 'none';
 				} else {
 					storedColors.forEach(color => {
 						const colorItem = document.createElement('div');
@@ -365,19 +376,27 @@
 						selectedColorsList.appendChild(colorItem);
 					});
 					generateConfigButton.style.display = 'inline-block';
+					clearAllColorsButton.style.display = 'inline-block';
 				}
 				selectedColorsList.style.display = 'block';
 				isColorListVisible = true;
 			}
 		});
 
+		clearAllColorsButton.addEventListener('click', () => {
+			localStorage.removeItem('selectedColors');
+			renderSelectedColorsList();
+		});
+
 		// 重新渲染已选择颜色的列表
+
 		function renderSelectedColorsList() {
 			selectedColorsList.innerHTML = '';
 			const storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
 			if (storedColors.length === 0) {
 				selectedColorsList.textContent = '暂无已添加颜色。';
 				generateConfigButton.style.display = 'none';
+				clearAllColorsButton.style.display = 'none';
 				// 若没有颜色了，关闭显示窗口
 				if (isColorListVisible) {
 					selectedColorsList.style.display = 'none';
@@ -408,6 +427,7 @@
 					selectedColorsList.appendChild(colorItem);
 				});
 				generateConfigButton.style.display = 'inline-block';
+				clearAllColorsButton.style.display = 'inline-block';
 				if (isColorListVisible) {
 					selectedColorsList.style.display = 'block';
 				}
