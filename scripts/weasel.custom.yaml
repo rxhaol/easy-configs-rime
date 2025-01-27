@@ -1,3 +1,4 @@
+
 customization:
   distribution_code_name: Weasel
   distribution_version: 0.16.3
@@ -133,6 +134,28 @@ patch:
       hilited_label_color: 0xFFFFFF
       label_color: 0x717171
       name: 苋菜紫·暗
+    blue: 
+      author: rxhaol
+      back_color: 0xFFFFFF
+      border_color: 0xFFFFFF
+      color_format: rgba
+      candidate_text_color: 0x454545
+      hilited_candidate_back_color: 0x2666E426
+      hilited_candidate_text_color: 0x2666E4
+      hilited_label_color: 0x2666E4
+      label_color: 0x8E8E8E
+      name: 真蓝
+    blue_dark: 
+      back_color: 0x000000
+      border_color: 0x000000
+      color_format: rgba
+      candidate_text_color: 0xBABABA
+      hilited_candidate_back_color: 0x2666E4
+      hilited_candidate_text_color: 0xFFFFFF
+      hilited_label_color: 0xFFFFFF
+      label_color: 0x717171
+      name: 真蓝·暗
+
   style:
     blur: true
     font_face: "PingFang SC:Bold"
