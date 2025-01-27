@@ -363,6 +363,12 @@
 						const colorName = document.createElement('span');
 						colorName.textContent = color.name;
 
+						const previewButton = document.createElement('button');
+						previewButton.textContent = '预览';
+						previewButton.addEventListener('click', () => {
+							updateInputMethodColors(color.hex);
+						});
+
 						const deleteButton = document.createElement('button');
 						deleteButton.textContent = '删除';
 						deleteButton.classList.add('delete-color-button');
@@ -372,6 +378,7 @@
 
 						colorItem.appendChild(colorPreview);
 						colorItem.appendChild(colorName);
+						colorItem.appendChild(previewButton);
 						colorItem.appendChild(deleteButton);
 						selectedColorsList.appendChild(colorItem);
 					});
@@ -414,6 +421,12 @@
 					const colorName = document.createElement('span');
 					colorName.textContent = color.name;
 
+					const previewButton = document.createElement('button');
+					previewButton.textContent = '预览';
+					previewButton.addEventListener('click', () => {
+						updateInputMethodColors(color.hex);
+					});
+
 					const deleteButton = document.createElement('button');
 					deleteButton.textContent = '删除';
 					deleteButton.classList.add('delete-color-button');
@@ -423,6 +436,7 @@
 
 					colorItem.appendChild(colorPreview);
 					colorItem.appendChild(colorName);
+					colorItem.appendChild(previewButton);
 					colorItem.appendChild(deleteButton);
 					selectedColorsList.appendChild(colorItem);
 				});
@@ -433,7 +447,6 @@
 				}
 			}
 		}
-
 		// 从 localStorage 中删除颜色
 		function deleteColorFromLocalStorage(color) {
 			let storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
