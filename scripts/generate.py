@@ -143,7 +143,7 @@ def get_foot() -> str:
     horizontal: true
     inline_preedit: true
     label_font_point: 10
-    layout: {border: 2, candidate_spacing: 14, hilite_padding: 4, hilite_spacing: 4, margin_x: 5, margin_y: 5, round_corner: 5, spacing: 5}
+    layout: {border: 2, candidate_spacing: 14, hilite_padding: 4, hilite_spacing: 2, margin_x: 6, margin_y: 6, round_corner: 5, spacing: 5}
 """
 
 
