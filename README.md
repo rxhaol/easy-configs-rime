@@ -62,6 +62,8 @@
 
 # 自定义主题
 
+## 设计原则
+
 对于亮色主题，遵循的设计原则：
 
 - 背景色：`#FFFFFF`
@@ -80,7 +82,9 @@
 - 候选字（选中）背景颜色：亮色主题中`候选字（选中）背景颜色`
 - 标签（选中）颜色：和候选字（选中）文字颜色保持一致
 
-以下是根据 [中国传统色](https://www.zhongguose.com) 和上述设计原则做出来的部分主题的截图（`chinese-colors/weasel.custom.yaml`）：
+## 中国色主题示例
+
+以下是根据 [中国色](https://www.zhongguose.com) 和上述设计原则做出来的部分主题的截图（`chinese-colors/weasel.custom.yaml`）：
 
 - 薄荷绿
 
@@ -122,18 +126,20 @@
 
   ![苋菜紫·暗](./chinese-colors/images/xiancaizi_dark.png)
 
-# 一键生成
+P.S. `chinese-colors/weasel.custom.yaml` 文件是根据 `scripts/colors.json` 生成的，⚠️ 主题巨多！⚠️ 择优采用！
 
-在 `scripts/colors.csv` 文件里，每行表示一种配色方案，格式为： `配色 16 进制 RGB 值,配色英文名,配色中文名`
+## 一键生成配置
 
-## 使用 `scripts/generate.py`
+在 `scripts/colors.csv` 文件里，每行表示一种配色方案，格式为： `配色 RGB 16进制值,配色英文名,配色中文名`
+
+### 方式1: 使用 `scripts/generate.py`
 
 - 前置要求：python 3
 - 使用方式：
   - 将 `scripts/colors.csv` 和 `scripts/generate.py`保存到本地
   - 保存路径打开终端，运行 `python generate.py`
 
-## 使用 `scripts/Generate.java`
+### 方式2: 使用 `scripts/Generate.java`
 
 - 前置要求: JDK 15+ （使用了文本块语法）
 - 使用方式：
@@ -142,13 +148,20 @@
 
 经过上述两种方式，均可生成 `weasel.custom.yaml` 文件，拷贝到 Rime 用户文件夹中即可
 
-`chinese-colors/weasel.custom.yaml` 文件是根据 `scripts/colors.json` 生成的，⚠️ 主题巨多！⚠️ 慎用！
-## 使用远程脚本
+### 方式3: 使用远程脚本
 
 ```shell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/rxhaol/easy-configs-rime/refs/heads/main/scripts/install.ps1" -UseBasicParsing | Select-Object -ExpandProperty Content | Invoke-Expression
 ```
+
+这种方式会自动生成 `weasel.custom.yaml` 并拷贝到 `$env:appdata/rime` 文件夹下，如果更改了 rime 用户文件夹位置，建议不要使用脚本，或者更改脚本里的目标文件夹。
+
+## 自助调整
+
+如果希望对外观进行调整，可以参考下图更改生成的配置文件的 `style/layout` 节点:
+
+![RIME 配置解释](chinese-colors/images/RIME.jpg)
 
 # 其他资源
 
