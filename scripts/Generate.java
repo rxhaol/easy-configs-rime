@@ -164,7 +164,7 @@ public class Generate {
         return """
                   style:
                     blur: true
-                    font_face: "LXGW Wenkai Mono"
+                    font_face: "PingFang SC:Bold,LXGW Wenkai Mono"
                     font_point: 12
                     horizontal: true
                     inline_preedit: true
