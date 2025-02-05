@@ -60,7 +60,7 @@
 
 ![黄色·暗](./legacy/images/yellow-dark.png)
 
-# 自定义主题
+# "中国色"主题
 
 ## 设计原则
 
@@ -82,7 +82,7 @@
 - 候选字（选中）背景颜色：亮色主题中`候选字（选中）背景颜色`
 - 标签（选中）颜色：和候选字（选中）文字颜色保持一致
 
-## 中国色主题示例
+## 主题示例
 
 以下是根据 [中国色](https://www.zhongguose.com) 和上述设计原则做出来的部分主题的截图（`chinese-colors/weasel.custom.yaml`）：
 
@@ -156,6 +156,10 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/rxhaol/easy-configs-ri
 ```
 
 这种方式会自动生成 `weasel.custom.yaml` 并拷贝到 `$env:appdata/rime` 文件夹下，如果更改了 rime 用户文件夹位置，建议不要使用脚本，或者更改脚本里的目标文件夹。
+
+## 在线网站
+
+如果想要实时预览和选择想要的颜色，这个 [网页](https://rxhaol.github.io/easy-configs-rime/) 满足基本需求。
 
 ## 自助调整
 
