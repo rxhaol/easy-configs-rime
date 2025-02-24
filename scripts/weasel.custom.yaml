@@ -29,48 +29,6 @@ patch:
       hilited_label_color: 0xFFFFFF
       label_color: 0x717171
       name: 薄荷绿·暗
-    dianqing: 
-      author: rxhaol
-      back_color: 0xFFFFFF
-      border_color: 0xFFFFFF
-      color_format: rgba
-      candidate_text_color: 0x454545
-      hilited_candidate_back_color: 0x1661AB26
-      hilited_candidate_text_color: 0x1661AB
-      hilited_label_color: 0x1661AB
-      label_color: 0x8E8E8E
-      name: 靛青
-    dianqing_dark: 
-      back_color: 0x000000
-      border_color: 0x000000
-      color_format: rgba
-      candidate_text_color: 0xBABABA
-      hilited_candidate_back_color: 0x1661AB
-      hilited_candidate_text_color: 0xFFFFFF
-      hilited_label_color: 0xFFFFFF
-      label_color: 0x717171
-      name: 靛青·暗
-    gaolianghong: 
-      author: rxhaol
-      back_color: 0xFFFFFF
-      border_color: 0xFFFFFF
-      color_format: rgba
-      candidate_text_color: 0x454545
-      hilited_candidate_back_color: 0xC02C3826
-      hilited_candidate_text_color: 0xC02C38
-      hilited_label_color: 0xC02C38
-      label_color: 0x8E8E8E
-      name: 高粱红
-    gaolianghong_dark: 
-      back_color: 0x000000
-      border_color: 0x000000
-      color_format: rgba
-      candidate_text_color: 0xBABABA
-      hilited_candidate_back_color: 0xC02C38
-      hilited_candidate_text_color: 0xFFFFFF
-      hilited_label_color: 0xFFFFFF
-      label_color: 0x717171
-      name: 高粱红·暗
     gutonghe: 
       author: rxhaol
       back_color: 0xFFFFFF
@@ -134,27 +92,27 @@ patch:
       hilited_label_color: 0xFFFFFF
       label_color: 0x717171
       name: 苋菜紫·暗
-    blue: 
+    zentao: 
       author: rxhaol
       back_color: 0xFFFFFF
       border_color: 0xFFFFFF
       color_format: rgba
       candidate_text_color: 0x454545
-      hilited_candidate_back_color: 0x2666E426
-      hilited_candidate_text_color: 0x2666E4
-      hilited_label_color: 0x2666E4
+      hilited_candidate_back_color: 0x0C57DC26
+      hilited_candidate_text_color: 0x0C57DC
+      hilited_label_color: 0x0C57DC
       label_color: 0x8E8E8E
-      name: 真蓝
-    blue_dark: 
+      name: 禅道
+    zentao_dark: 
       back_color: 0x000000
       border_color: 0x000000
       color_format: rgba
       candidate_text_color: 0xBABABA
-      hilited_candidate_back_color: 0x2666E4
+      hilited_candidate_back_color: 0x0C57DC
       hilited_candidate_text_color: 0xFFFFFF
       hilited_label_color: 0xFFFFFF
       label_color: 0x717171
-      name: 真蓝·暗
+      name: 禅道·暗
 
   style:
     blur: true
