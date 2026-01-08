@@ -155,7 +155,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/rxhaol/easy-configs-rime/refs/heads/main/scripts/install.ps1" -UseBasicParsing | Select-Object -ExpandProperty Content | Invoke-Expression
 ```
 
-这种方式会自动生成 `weasel.custom.yaml` 并拷贝到 `$env:appdata/rime` 文件夹下，如果更改了 rime 用户文件夹位置，建议不要使用脚本，或者更改脚本里的目标文件夹。
+这种方式会自动生成 `weasel.custom.yaml` 并拷贝到 `$env:appdata/rime` 文件夹下，如果更改了 rime 用户文件夹位置，建议不要直接使用脚本，可以 clone 本仓库代码更改 `install.ps1` 的目标文件的位置再手动执行本地脚本。
 
 ## 在线网站
 
