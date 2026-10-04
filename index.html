@@ -1,519 +1,2115 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="zh-CN" data-theme="dark">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>颜色展示</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			padding: 20px;
-		}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rime 中国色主题生成器 · weasel.custom.yaml</title>
+<script>
+  /* 尽早确定主题，避免首屏闪一下另一种配色 */
+  (function () {
+    try {
+      var saved = localStorage.getItem('rime-gen-theme');
+      var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme = (saved === 'light' || saved === 'dark') ? saved : (light ? 'light' : 'dark');
+    } catch (e) {}
+  })();
+</script>
+<style>
+  :root{
+    --bg:#0e1116;
+    --glow-1:#1b2740;
+    --glow-2:#12303a;
+    --panel:#151a23;
+    --card:#1b202b;
+    --card-2:#202634;
+    --line:#2a3140;
+    --line-2:#39435a;
+    --line-hover:#4b5a76;
+    --text:#e9ecf3;
+    --muted:#98a2b6;
+    --muted-2:#7c8798;
+    --accent:#4ade80;
+    --accent-ink:#06210f;
+    --accent-2:#38bdf8;
+    --badge-ink:#04202b;
+    --input-bg:#0f141c;
+    --code-bg:#0a0d13;
+    --code-head:#10141c;
+    --code-text:#d7e7dd;
+    --bar-bg:#0e1116e6;
+    --freeze-bg:#0e1116f2;
+    --warn-fg:#e3b341;
+    --toast-bg:#0b1220;
+    --radius:14px;
+    color-scheme:dark;
+  }
+  html[data-theme="light"]{
+    --bg:#f5f7fb;
+    --glow-1:#dfe8ff;
+    --glow-2:#d8f5ee;
+    --panel:#ffffff;
+    --card:#ffffff;
+    --card-2:#eff3f9;
+    --line:#e3e8f0;
+    --line-2:#ccd5e3;
+    --line-hover:#9aa8bf;
+    --text:#1a2231;
+    --muted:#65718a;
+    --muted-2:#8b96ab;
+    --accent:#16a34a;
+    --accent-ink:#ffffff;
+    --accent-2:#0369a1;
+    --badge-ink:#ffffff;
+    --input-bg:#ffffff;
+    --code-bg:#f7f9fc;
+    --code-head:#eef2f8;
+    --code-text:#1f2937;
+    --bar-bg:#ffffffd9;
+    --freeze-bg:#f5f7fbf2;
+    --warn-fg:#8a6100;
+    --toast-bg:#111827;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1100px 560px at 12% -12%, var(--glow-1) 0%, transparent 60%),
+      radial-gradient(900px 480px at 96% -6%, var(--glow-2) 0%, transparent 55%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--text);
+    font:14px/1.6 "Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+    min-height:100vh;padding-bottom:104px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1240px;margin:0 auto}
 
-		.input-method {
-			border: 1px solid #ccc;
-			padding: 10px;
-			margin-bottom: 20px;
-			display: flex;
-			gap: 10px;
-			align-items: center;
-		}
+  /* ---------- 冻结布局：只有颜色卡片区滚动，其余固定（类似 Excel 冻结窗口） ---------- */
+  body.shell{height:100vh;overflow:hidden;padding-bottom:0}
+  body.shell .wrap{height:100%;display:flex;flex-direction:column}
+  body.shell .freeze{
+    flex:0 0 auto;min-height:0;z-index:25;
+    /* 内容过高时冻结区内部滚动，保证中间始终给卡片留出空间 */
+    max-height:calc(100vh - 340px);
+    overflow:auto;
+    background:var(--freeze-bg);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  body.shell header.top{padding:16px 20px 8px}
+  body.shell .panel{margin:10px 20px}
+  body.shell .preview{margin:10px 20px}
+  /* 中间唯一的滚动区：颜色卡片（含输出区、页脚） */
+  body.shell .scrollarea{
+    flex:1 1 auto;min-height:120px;overflow-y:auto;
+    overscroll-behavior:contain;scrollbar-gutter:stable;
+  }
+  body.shell .pager{
+    flex:0 0 auto;padding:8px 20px 6px;
+    border-top:1px solid var(--line);background:var(--panel);
+  }
+  /* 用法提示：跟在分页条下面，一起冻结在底部 */
+  body.shell footer.note{
+    flex:0 0 auto;padding:4px 20px 10px;
+    background:var(--panel);border-top:1px solid var(--line);
+    font-size:12px;line-height:1.6;
+  }
+  body.shell .pager:not(.hidden) + footer.note{border-top-color:transparent}
+  body.shell .actionbar{
+    position:static;transform:none;display:none;flex:0 0 auto;
+    border-top:1px solid var(--line);background:var(--panel);backdrop-filter:none;
+  }
+  body.shell .actionbar.show{display:flex}
+  @media (max-height:860px){
+    body.shell .brand p{display:none}
+    body.shell .freeze{max-height:calc(100vh - 280px)}
+  }
+  @media (max-width:560px){ body.shell .freeze{max-height:calc(100vh - 220px)} }
 
-		.candidate-word {
-			padding: 5px;
-			display: inline-flex;
-			align-items: center;
-			font-weight: bold;
-		}
+  /* ---------- header ---------- */
+  header.top{
+    display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;
+    padding:26px 20px 10px;
+  }
+  .brand h1{margin:0;font-size:22px;letter-spacing:.2px}
+  .brand h1 span{color:var(--accent)}
+  .brand p{margin:6px 0 0;color:var(--muted);font-size:13px}
+  .head-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .source{
+    display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted);
+    background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 14px;
+  }
+  .source b{color:var(--text);font-weight:600}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  #btnTheme{min-width:104px;justify-content:center}
+  #btnFreeze{min-width:136px;justify-content:center}
+  #btnRandom{border-color:var(--accent-2);color:var(--accent-2)}
+  #btnRandom:hover{background:#38bdf81f;border-color:var(--accent-2)}
+  /* 随机抽中的卡片弹一下 */
+  @keyframes cardPop{
+    0%{transform:scale(.94)}
+    45%{transform:scale(1.04);box-shadow:0 0 0 4px #4ade8055}
+    100%{transform:none}
+  }
+  .card.just-picked{animation:cardPop .62s ease}
+  @media (prefers-reduced-motion:reduce){ .card.just-picked{animation:none} }
 
-		.candidate-label {
-			margin-right: 5px;
-			display: flex;
-			align-items: center;
-		}
+  /* ---------- panels ---------- */
+  .panel{
+    margin:14px 20px;padding:14px 16px;background:var(--panel);
+    border:1px solid var(--line);border-radius:var(--radius);
+  }
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .row .grow{flex:1 1 220px;min-width:180px}
+  .sep{width:1px;height:22px;background:var(--line-2);margin:0 4px}
 
-		.candidate-text {
-			display: flex;
-			align-items: center;
-		}
+  button,label.btn{
+    font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line-2);
+    background:var(--card);color:var(--text);padding:8px 14px;transition:.15s;
+    display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  }
+  button:hover,label.btn:hover{background:var(--card-2);border-color:var(--line-hover)}
+  button:active,label.btn:active{transform:translateY(1px)}
+  button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+  .btn-primary{
+    background:linear-gradient(180deg,#5ce68f,#31c46f);border-color:#2ea862;color:#06210f;
+    font-weight:700;box-shadow:0 6px 18px -8px #4ade80aa;
+  }
+  .btn-primary:hover{background:linear-gradient(180deg,#6cf09c,#3ad07b);border-color:#41c477;color:#06210f}
+  .btn-ghost{background:transparent}
+  .btn-sm{padding:6px 11px;font-size:13px;border-radius:9px}
 
-		.selected-candidate {
-			padding: 5px;
-			display: inline-flex;
-			align-items: center;
-			border-radius: 5px;
-		}
+  input[type=text],input[type=number],textarea,select{
+    font:inherit;background:var(--input-bg);color:var(--text);border:1px solid var(--line-2);
+    border-radius:10px;padding:8px 11px;outline:none;width:100%;
+  }
+  input[type=color]{
+    width:48px;height:36px;padding:3px;flex:0 0 auto;cursor:pointer;
+    background:var(--input-bg);border:1px solid var(--line-2);border-radius:10px;
+  }
+  input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+  input[type=color]::-webkit-color-swatch{border:1px solid #00000033;border-radius:6px}
+  input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #4ade8022}
+  textarea{min-height:190px;font:12.5px/1.5 ui-monospace,Consolas,"Cascadia Mono",monospace;resize:vertical}
+  /* 高级设置里的参数名用等宽字，和 YAML 键名对应，更好认 */
+  label.field{
+    display:flex;flex-direction:column;gap:5px;color:var(--text);
+    font:600 12.5px/1.4 ui-monospace,Consolas,"Cascadia Mono",monospace;
+  }
+  label.field input{font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif}
 
-		.search-container {
-			margin-bottom: 20px;
-			display: flex;
-			align-items: center;
-			gap: 10px;
-		}
+  details.adv summary{
+    cursor:pointer;user-select:none;list-style:none;
+    display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+    padding:10px 13px;border:1px solid var(--line-2);border-radius:11px;
+    background:var(--card);color:var(--text);font-size:13.5px;font-weight:600;
+    transition:background .15s,border-color .15s,box-shadow .15s;
+  }
+  details.adv summary:hover{background:var(--card-2);border-color:var(--line-hover)}
+  details.adv[open] summary{background:var(--card-2);border-color:var(--accent);box-shadow:0 0 0 2px #4ade8026}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸";transition:.15s;display:inline-block;color:var(--accent);font-size:12px}
+  details.adv[open] summary::before{transform:rotate(90deg)}
+  details.adv .adv-note{color:var(--muted);font-weight:400;font-size:12px}
+  .adv-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:14px;
+  }
+  .adv-grid h4{
+    grid-column:1/-1;margin:10px 0 0;font-size:12.5px;color:var(--accent-2);font-weight:700;
+    letter-spacing:.5px;padding-bottom:5px;border-bottom:1px dashed var(--line);
+  }
+  .adv-grid h4:first-child{margin-top:0}
+  .switch{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--text)}
+  .switch input{width:16px;height:16px;accent-color:var(--accent)}
+  /* 自定义颜色的标记 */
+  .tag-custom{
+    font-size:9.5px;font-weight:700;line-height:1.6;padding:0 5px;border-radius:999px;white-space:nowrap;
+    background:#38bdf826;color:var(--accent-2);border:1px solid #38bdf840;
+  }
+  .pv-chip.compact .tag-custom{font-size:9px;padding:0 4px}
+  .ctag{
+    align-self:flex-start;font-size:10px;font-weight:700;line-height:1.6;padding:0 6px;border-radius:999px;
+    background:#38bdf826;color:var(--accent-2);border:1px solid #38bdf840;margin-top:2px;
+  }
 
-		input[type="text"] {
-			padding: 8px;
-			font-size: 16px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			flex-grow: 1;
-		}
+  /* ---------- preview ---------- */
+  .preview{margin:14px 20px;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .preview .head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .preview .head h3{margin:0;font-size:13.5px;font-weight:600}
+  .preview .head h3 b{color:var(--accent)}
+  .preview .head small{color:var(--muted);font-size:12px}
+  .preview .head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+  .preview.collapsed .head{margin-bottom:0}
+  .preview.collapsed .pv-picker,
+  .preview.collapsed .wins,
+  .preview.collapsed .head-actions small{display:none}
+  .pv-picker{
+    display:flex;flex-wrap:wrap;gap:7px;align-items:center;
+    padding-bottom:12px;margin-bottom:12px;border-bottom:1px dashed var(--line);
+  }
+  .pv-label{font-size:12px;color:var(--muted)}
+  .pv-empty{font-size:12.5px;color:var(--muted)}
+  /* 颜色胶囊：主体切换预览对象，右侧小叉把该颜色从生成列表里移除 */
+  .pv-chip{
+    display:inline-flex;align-items:stretch;
+    border:1px solid var(--line-2);border-radius:999px;background:var(--card);overflow:hidden;
+  }
+  .pv-chip.active{border-color:var(--accent);background:var(--card-2)}
+  .pv-chip-main{
+    border:0;background:transparent;border-radius:0;padding:4px 3px 4px 9px;
+    font-size:12px;gap:6px;color:inherit;
+  }
+  .pv-chip-main i{width:11px;height:11px;border-radius:50%;display:inline-block;border:1px solid #0006;flex:0 0 auto}
+  .pv-chip.active .pv-chip-main{color:var(--accent);font-weight:600}
+  .pv-chip-main:hover{background:transparent;border-color:transparent;color:var(--accent-2)}
+  .pv-chip-x{
+    border:0;background:transparent;border-radius:0;padding:3px 8px 3px 2px;
+    font-size:15px;line-height:1;font-weight:700;color:var(--muted);
+  }
+  .pv-chip-x:hover{background:transparent;border-color:transparent;color:#e0526a}
+  .wins{display:flex;gap:18px;flex-wrap:wrap}
+  .win-box{flex:1 1 320px;min-width:280px}
+  .win-tag{font-size:11.5px;color:var(--muted);margin-bottom:6px;display:flex;gap:8px;align-items:center}
+  .win-tag b{color:var(--text);font-family:ui-monospace,Consolas,monospace;font-weight:600}
+  .win-tag i{width:10px;height:10px;border-radius:3px;display:inline-block;border:1px solid #0006}
+  .rime{
+    padding:8px 10px;border-radius:5px;display:inline-block;min-width:100%;
+    box-shadow:0 10px 26px -14px #000c;
+  }
+  .rime .preedit{font-size:11px;opacity:.75;margin-bottom:5px;letter-spacing:.5px}
+  .rime .cands{display:flex;gap:2px;flex-wrap:wrap}
+  .rime .cand{display:flex;align-items:baseline;gap:4px;padding:4px 5px;border-radius:4px;font-size:12px;line-height:1.2}
+  .rime .cand .idx{font-size:10px;font-weight:600}
+  .rime .cand.sel{font-weight:600}
 
-		button {
-			padding: 8px 16px;
-			border: none;
-			background-color: #f0f0f0;
-			cursor: pointer;
-			border-radius: 4px;
-		}
+  /* ---------- grid ---------- */
+  .grid-head{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    padding:6px 20px 0;
+  }
+  .grid-head h2{margin:0;font-size:15px;font-weight:600}
+  .grid-head .hint{color:var(--muted);font-size:12.5px}
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:12px;
+    padding:14px 20px 8px;
+  }
+  .card{
+    position:relative;display:flex;flex-direction:column;padding:0;overflow:hidden;
+    border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+    color:inherit;text-align:left;font:inherit;cursor:pointer;gap:0;
+    transition:transform .12s ease,border-color .12s,box-shadow .12s;
+  }
+  .card:hover{transform:translateY(-2px);border-color:var(--line-hover)}
+  .card:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+  .card[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px #4ade8055}
+  .swatch{height:74px;display:block;background-color:#fff;
+    background-image:
+      linear-gradient(45deg,#00000018 25%,transparent 25%,transparent 75%,#00000018 75%),
+      linear-gradient(45deg,#00000018 25%,transparent 25%,transparent 75%,#00000018 75%);
+    background-size:12px 12px;background-position:0 0,6px 6px;border-bottom:1px solid var(--line);
+  }
+  .swatch i{display:block;width:100%;height:100%}
+  .meta{padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px}
+  .cname{font-weight:600;font-size:14px;line-height:1.3}
+  .cpinyin{color:var(--muted);font:12px/1.3 ui-monospace,Consolas,monospace}
+  .chex{color:var(--muted-2);font:11px/1.3 ui-monospace,Consolas,monospace;letter-spacing:.4px}
+  /* 右上角圆圈：＋ 加入生成列表 / ✓ 已加入（点卡片本体只预览） */
+  .addbtn{
+    position:absolute;top:8px;right:8px;width:26px;height:26px;padding:0;border-radius:50%;
+    display:grid;place-items:center;font-size:14px;font-weight:800;
+    background:#0e1116a6;border:1.5px solid #ffffff59;color:#fff;
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+    opacity:.92;transition:transform .12s,background .15s,border-color .15s,color .15s;
+  }
+  .addbtn i{font-style:normal;line-height:1;pointer-events:none}
+  .addbtn i::before{content:"+"}
+  .addbtn:hover{transform:scale(1.1);border-color:var(--accent);background:#0e1116d9;color:var(--accent)}
+  .card[aria-pressed="true"] .addbtn{
+    background:var(--accent);border-color:var(--accent);color:var(--accent-ink);opacity:1;
+  }
+  .card[aria-pressed="true"] .addbtn i::before{content:"✓"}
+  .card{cursor:pointer}
+  .eyebadge{
+    position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:999px;
+    background:var(--accent-2);color:var(--badge-ink);font-size:10px;font-weight:700;letter-spacing:.3px;
+    opacity:0;transform:translateY(-4px);transition:.15s;box-shadow:0 3px 10px -4px #000a;
+  }
+  .card.is-focus .eyebadge{opacity:1;transform:none}
+  .card.is-focus{border-color:var(--accent-2)}
+  .card.is-focus[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px #4ade8055, inset 0 0 0 1px var(--accent-2)}
+  .empty{padding:40px 20px;text-align:center;color:var(--muted);grid-column:1/-1}
 
-		.color-container {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 10px;
-		}
+  /* ---------- pager ---------- */
+  .pager{
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;
+    padding:6px 20px 24px;
+  }
+  .pager .pgbtn{position:relative;min-width:38px;justify-content:center;padding:6px 10px;font-size:13px}
+  .pager .pgbtn[aria-current="true"]{
+    border-color:var(--accent);color:var(--accent);font-weight:700;background:var(--card-2);
+  }
+  .pager .pgbtn.has-sel::after{
+    content:"";position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--accent);
+  }
+  .pager .ellipsis{color:var(--muted);padding:0 2px;user-select:none}
+  .pager .pg-label{color:var(--muted);font-size:12.5px}
 
-		.color-block {
-			width: calc(20% - 10px);
-			min-width: 120px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			border-radius: 8px;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		}
+  /* ---------- action bar ---------- */
+  .actionbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:30;
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+    padding:12px 20px;background:var(--bar-bg);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    transform:translateY(120%);transition:transform .22s ease;
+  }
+  .actionbar.show{transform:none}
+  .actionbar .count{font-size:13.5px;color:var(--muted)}
+  .actionbar .count b{color:var(--text);font-size:16px;font-weight:700}
+  .actionbar .spacer{flex:1}
+  .chips{
+    display:flex;gap:6px;flex-wrap:wrap;align-items:center;
+    max-width:min(58vw,760px);max-height:66px;overflow-y:auto;overflow-x:hidden;
+  }
+  /* 底部条里的胶囊紧凑一点 */
+  .pv-chip.compact .pv-chip-main{padding:2px 2px 2px 8px;font-size:11.5px;gap:5px}
+  .pv-chip.compact .pv-chip-main i{width:9px;height:9px}
+  .pv-chip.compact .pv-chip-x{padding:1px 7px 1px 1px;font-size:13px}
 
-		.color-name {
-			color: white;
-			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-			margin-bottom: 5px;
-		}
+  /* ---------- 生成结果：模态窗口 ---------- */
+  @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:none}}
+  #outputDialog{width:min(940px,94vw);animation:pop .16s ease}
+  #outputDialog .dhead{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
+  #outputDialog .oname{font:12.5px/1.4 ui-monospace,Consolas,monospace;color:var(--accent)}
+  #outputDialog .color-strip{
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    padding:10px 18px;border-bottom:1px solid var(--line);background:var(--panel);
+  }
+  #outputDialog .dup-warn{
+    padding:10px 18px;border-bottom:1px solid var(--line);
+    background:#d9a4411a;color:var(--warn-fg);font-size:12.5px;line-height:1.65;white-space:pre-line;
+  }
+  #outputDialog .code-body{padding:0;background:var(--code-bg)}
+  pre.code{
+    margin:0;padding:14px 16px;max-height:56vh;overflow:auto;
+    font:12.5px/1.5 ui-monospace,Consolas,"Cascadia Mono",monospace;
+    color:var(--code-text);white-space:pre;tab-size:2;
+  }
+  .hidden{display:none !important}
 
-		.color-actions {
-			display: flex;
-			gap: 5px;
-			margin-top: 5px;
-		}
+  /* ---------- dialog ---------- */
+  dialog{
+    border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--text);
+    padding:0;width:min(720px,92vw);
+  }
+  dialog::backdrop{background:#04070bcc;backdrop-filter:blur(3px)}
+  dialog .dhead{padding:16px 18px 0}
+  dialog .dhead h3{margin:0;font-size:16px}
+  dialog .dhead p{margin:6px 0 0;color:var(--muted);font-size:12.5px}
+  dialog .dbody{padding:14px 18px}
+  dialog .dfoot{
+    display:flex;gap:10px;justify-content:flex-end;padding:12px 18px 16px;border-top:1px solid var(--line);
+    background:var(--code-head);
+  }
+  .msg{margin-top:10px;font-size:12.5px;min-height:18px}
+  .msg.err{color:#e0526a}
+  .msg.warn{color:var(--warn-fg)}
+  .msg.ok{color:var(--accent)}
+  .row.custom-row{margin-top:10px}
+  .adv-grid .custom-row{grid-column:1/-1;margin-top:2px;gap:8px}
+  .row.custom-row .msg{margin:0;min-height:0}
 
-		.pagination {
-			margin-top: 20px;
-			display: flex;
-			justify-content: center;
-			gap: 10px;
-		}
-
-		.pagination button {
-			padding: 8px 16px;
-			border: none;
-			background-color: #f0f0f0;
-			cursor: pointer;
-			border-radius: 4px;
-		}
-
-		.pagination button.active {
-			background-color: #007BFF;
-			color: white;
-		}
-
-		#show-selected-colors {
-			margin-left: auto;
-		}
-
-		#selected-colors-list {
-			display: none;
-			border: 1px solid #ccc;
-			padding: 10px;
-			margin-top: 10px;
-			max-height: 200px;
-			overflow-y: auto;
-		}
-
-		.selected-color-item {
-			display: flex;
-			align-items: center;
-			margin-bottom: 5px;
-		}
-
-		.selected-color-preview {
-			width: 20px;
-			height: 20px;
-			border-radius: 4px;
-			margin-right: 5px;
-		}
-
-		.delete-color-button {
-			margin-left: auto;
-			padding: 4px 8px;
-		}
-
-		#generate-config-button {
-			display: none;
-			margin-top: 10px;
-		}
-
-		#clear-all-colors-button {
-			display: none;
-			margin-top: 10px;
-			margin-right: 10px;
-			/* 与生成配置文件按钮保持一定间距 */
-		}
-	</style>
+  /* ---------- toast ---------- */
+  #toast{
+    position:fixed;left:50%;bottom:96px;transform:translate(-50%,14px);z-index:50;
+    background:var(--toast-bg);border:1px solid var(--line-2);color:#f4f7fb;
+    padding:10px 16px;border-radius:12px;font-size:13px;opacity:0;pointer-events:none;
+    transition:.2s;box-shadow:0 18px 40px -20px #000;
+  }
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+  footer.note{padding:0 20px 30px;color:var(--muted);font-size:12.5px;line-height:1.75}
+  code.k{background:var(--card-2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font:12px ui-monospace,Consolas,monospace;color:var(--code-text)}
+</style>
 </head>
-
 <body>
-	<div class="input-method" id="input-method">
-		<span class="candidate-word selected-candidate">
-			<span class="candidate-label">1.</span>
-			<span class="candidate-text">候选字1</span>
-		</span>
-		<span class="candidate-word">
-			<span class="candidate-label">2.</span>
-			<span class="candidate-text">候选字2</span>
-		</span>
-		<span class="candidate-word">
-			<span class="candidate-label">3.</span>
-			<span class="candidate-text">候选字3</span>
-		</span>
-		<button id="show-selected-colors">显示已添加颜色</button>
-	</div>
-	<div id="selected-colors-list"></div>
-	<button id="clear-all-colors-button" style="display: none;">一键清空</button>
-	<button id="generate-config-button">生成配置文件</button>
-	<div class="search-container">
-		<input type="text" id="search-input" placeholder="搜索颜色名称">
-		<button id="clear-button">清空</button>
-	</div>
-	<div class="color-container" id="color-container"></div>
-	<div class="pagination" id="pagination"></div>
+<div class="wrap">
 
-	<script>
-		const colorContainer = document.getElementById('color-container');
-		const searchInput = document.getElementById('search-input');
-		const clearButton = document.getElementById('clear-button');
-		const paginationContainer = document.getElementById('pagination');
-		const inputMethod = document.getElementById('input-method');
-		const showSelectedColorsButton = document.getElementById('show-selected-colors');
-		const selectedColorsList = document.getElementById('selected-colors-list');
-		let allColors = [];
-		let currentPage = 1;
-		const itemsPerPage = 30;
+  <!-- ===== 冻结区：滚动时这一整块固定在顶部 ===== -->
+  <div class="freeze" id="freezeBox">
 
-		// 使用 fetch API 读取本地 JSON 文件
-		fetch('colors.json')
-			.then(response => {
-				if (!response.ok) {
-					throw new Error(`HTTP error! status: ${response.status}`);
-				}
-				return response.json();
-			})
-			.then(colors => {
-				allColors = colors;
-				renderPage(colors);
-			})
-			.catch(error => {
-				console.error('读取 JSON 文件时出错: ', error);
-			});
+  <header class="top">
+    <div class="brand">
+      <h1>Rime 输入法主题生成器 <span>· weasel.custom.yaml</span></h1>
+      <p>单击色卡 = 预览候选窗效果；点色卡右上角 <b>＋</b> 或预览区的「加入生成列表」= 放进要生成的颜色（可多选）→ 生成 <code class="k">weasel.custom.yaml</code>，自动写入 <code class="k">{pinyin}</code> 与 <code class="k">{pinyin}_dark</code> 两套配色。</p>
+    </div>
+    <div class="head-right">
+      <div class="source" id="sourceInfo">
+        <span class="dot"></span>
+        <span>颜色来源：<b id="srcName">内置示例色板</b></span>
+        <span>·</span>
+        <span>共 <b id="srcCount">0</b> 色</span>
+      </div>
+      <button id="btnFreeze" class="btn-sm" title="让颜色卡片上方的区域在滚动时固定（类似 Excel 冻结窗口）">📌 固定顶部：开</button>
+      <button id="btnTheme" class="btn-sm" title="切换亮色 / 暗色">🌙 暗色</button>
+    </div>
+  </header>
 
-		// 渲染指定页面的颜色块
-		function renderPage(colors) {
-			const startIndex = (currentPage - 1) * itemsPerPage;
-			const endIndex = startIndex + itemsPerPage;
-			const currentPageColors = colors.slice(startIndex, endIndex);
+  <!-- 控制区 -->
+  <section class="panel">
+    <div class="row">
+      <label class="btn" for="fileInput">📂 导入 colors.json</label>
+      <input type="file" id="fileInput" accept=".json,application/json" class="hidden">
+      <button id="btnReloadFile" class="btn-ghost" title="重新读取与本页同目录的 colors.json">🔄 重新读取 colors.json</button>
+      <button id="btnPaste" class="btn-ghost">✎ 粘贴 JSON</button>
+      <button id="btnSample" class="btn-ghost">↺ 恢复示例色板</button>
+      <div class="sep"></div>
+      <button id="btnDownloadJson" class="btn-ghost btn-sm">⬇ 导出当前 colors.json</button>
+      <div class="grow"></div>
+      <input type="text" id="search" placeholder="搜索：中文名 / 拼音 / 色值，例如 薄荷 / bohelv / 207F4C">
+    </div>
+    <div class="msg" id="loadMsg"></div>
 
-			renderColors(currentPageColors);
-			renderPagination(colors);
-		}
+    <details class="adv" id="advBox">
+      <summary>⚙ 高级设置 <span class="adv-note">（不改动则输出与模板完全一致；自定义颜色也在这里）</span></summary>
+      <div class="adv-grid">
+        <h4>customization</h4>
+        <label class="field">author
+          <input type="text" id="optAuthor" value="rxhaol">
+        </label>
+        <label class="field">distribution_version
+          <input type="text" id="optDistVer" value="0.17.4">
+        </label>
+        <label class="field">rime_version
+          <input type="text" id="optRimeVer" value="1.13.1">
+        </label>
+        <h4>style</h4>
+        <label class="field">font_face
+          <input type="text" id="optFontFace" value="Source Han Sans SC">
+        </label>
+        <label class="field">font_point
+          <input type="number" id="optFontPoint" value="12" step="1">
+        </label>
+        <label class="field">label_font_point
+          <input type="number" id="optLabelFontPoint" value="10" step="1">
+        </label>
+        <div class="switch" style="align-self:end"><input type="checkbox" id="optBlur" checked><label for="optBlur">blur</label></div>
+        <div class="switch" style="align-self:end"><input type="checkbox" id="optHorizontal" checked><label for="optHorizontal">horizontal</label></div>
+        <div class="switch" style="align-self:end"><input type="checkbox" id="optInlinePreedit" checked><label for="optInlinePreedit">inline_preedit</label></div>
+        <h4>style / layout</h4>
+        <label class="field">border<input type="number" id="layBorder" value="2" step="1"></label>
+        <label class="field">candidate_spacing<input type="number" id="layCandidateSpacing" value="12" step="1"></label>
+        <label class="field">hilite_padding<input type="number" id="layHilitePadding" value="4" step="1"></label>
+        <label class="field">hilite_spacing<input type="number" id="layHiliteSpacing" value="2" step="1"></label>
+        <label class="field">margin_x<input type="number" id="layMarginX" value="6" step="1"></label>
+        <label class="field">margin_y<input type="number" id="layMarginY" value="6" step="1"></label>
+        <label class="field">round_corner<input type="number" id="layRoundCorner" value="5" step="1"></label>
+        <label class="field">spacing<input type="number" id="laySpacing" value="5" step="1"></label>
 
-		// 渲染颜色块的函数
-		function renderColors(colors) {
-			colorContainer.innerHTML = '';
-			colors.forEach(color => {
-				const colorBlock = document.createElement('div');
-				colorBlock.classList.add('color-block');
+        <h4>自定义颜色（加入色板时自动放进生成列表并预览）</h4>
+        <div class="row custom-row">
+          <input type="color" id="customColor" value="#207F4C" title="点开取色轮盘挑一个颜色">
+          <button id="btnRandomColor" class="btn-sm" title="随机生成一种颜色">🎲 随机</button>
+          <input type="text" id="customName" placeholder="中文名（如 薄荷绿）" style="flex:0 1 190px;min-width:140px" autocomplete="off">
+          <input type="text" id="customPinyin" placeholder="拼音键名（如 bohelv，可留空自动生成）" style="flex:1 1 240px;min-width:160px" autocomplete="off">
+          <button id="btnAddColor" class="btn-sm">＋ 加入色板并放进生成列表</button>
+          <button id="btnClearCustom" class="btn-sm btn-ghost" title="把通过取色轮盘添加的颜色全部删掉（导入的 colors.json 不受影响）">🗑 清除全部自定义颜色</button>
+          <span class="msg" id="customMsg"></span>
+        </div>
+      </div>
+    </details>
+  </section>
 
-				const colorDisplay = document.createElement('div');
-				colorDisplay.style.backgroundColor = color.hex;
-				colorDisplay.style.width = '100%';
-				colorDisplay.style.height = '60px';
-				colorDisplay.style.display = 'flex';
-				colorDisplay.style.flexDirection = 'column';
-				colorDisplay.style.alignItems = 'center';
-				colorDisplay.style.justifyContent = 'center';
+  <!-- 预览 -->
+  <section class="preview" id="previewBox">
+    <div class="head">
+      <h3>候选窗预览 <b id="pvName"></b> <span class="tag-custom hidden" id="pvCustomTag">自定义颜色</span></h3>
+      <div class="head-actions">
+        <button class="btn-sm btn-primary" id="btnAddPreview">＋ 加入生成列表</button>
+        <button class="btn-sm btn-ghost hidden" id="btnDeleteCustom">🗑 删除这个自定义颜色</button>
+        <small>浅色：原色作高亮文字色 + 同色 <code class="k">26</code> 底；深色：原色作高亮底色，高亮文字 <code class="k">#FFFFFF</code>、未选中 <code class="k">0x717171</code></small>
+        <button class="btn-sm btn-ghost" id="btnPvToggle" aria-expanded="true" title="收起候选窗预览，冻结区更紧凑">收起预览 ▲</button>
+      </div>
+    </div>
+    <div class="pv-picker" id="pvPicker"></div>
+    <div class="wins">
+      <div class="win-box">
+        <div class="win-tag">浅色方案 <b id="pvLightKey"></b> <i id="pvLightChip" style="background:#fff"></i></div>
+        <div class="rime" id="pvLight"></div>
+      </div>
+      <div class="win-box">
+        <div class="win-tag">深色方案 <b id="pvDarkKey"></b> <i id="pvDarkChip" style="background:#000"></i></div>
+        <div class="rime" id="pvDark"></div>
+      </div>
+    </div>
+  </section>
 
-				const colorName = document.createElement('div');
-				colorName.classList.add('color-name');
-				colorName.textContent = color.name;
+  <!-- 色卡 -->
+  <div class="grid-head">
+    <h2>颜色卡片 <span class="hint" style="font-weight:400">（单击预览 · 右上角 ＋ 加入生成列表 · 双击也可加入）</span></h2>
+    <div class="row" style="gap:8px">
+      <span class="hint" id="gridHint"></span>
+      <button class="btn-sm" id="btnRandom" title="随机挑 3~5 个颜色替换当前生成列表（在当前筛选结果里挑）">🎲 随机一下</button>
+      <button class="btn-sm btn-ghost" id="btnSelectPage">本页全部加入</button>
+      <button class="btn-sm btn-ghost" id="btnSelectAll">筛选结果全部加入</button>
+      <button class="btn-sm btn-ghost" id="btnClear">清空生成列表</button>
+    </div>
+  </div>
 
-				colorDisplay.appendChild(colorName);
-				colorBlock.appendChild(colorDisplay);
+  </div><!-- /freeze -->
 
-				const colorActions = document.createElement('div');
-				colorActions.classList.add('color-actions');
+  <!-- ===== 滚动区：整个页面只有这里会滚动（颜色卡片） ===== -->
+  <div class="scrollarea" id="scrollArea">
 
-				const previewButton = document.createElement('button');
-				previewButton.textContent = '预览';
-				previewButton.addEventListener('click', () => {
-					updateInputMethodColors(color.hex);
-				});
+    <div class="grid" id="grid"></div>
 
-				const addButton = document.createElement('button');
-				addButton.textContent = '添加';
-				addButton.addEventListener('click', () => {
-					addColorToLocalStorage(color);
-				});
+  </div>
 
-				colorActions.appendChild(previewButton);
-				colorActions.appendChild(addButton);
-				colorBlock.appendChild(colorActions);
+  <!-- 分页条（冻结在底部） -->
+  <div class="pager hidden" id="pager"></div>
 
-				colorContainer.appendChild(colorBlock);
-			});
-		}
+  <!-- 用法提示（冻结在底部，跟在分页条下面） -->
+  <footer class="note" id="usageNote">
+    用法：把下载得到的 <code class="k">weasel.custom.yaml</code> 放进小狼毫 Rime 用户目录（右键托盘图标 →「用户文件夹」），然后「重新部署」。
+    若目标目录里已有同名文件，请在 <code class="k">patch:</code> 下合并内容，避免覆盖你原有的自定义项。
+  </footer>
 
-		// 渲染分页按钮
-		function renderPagination(colors) {
-			const totalPages = Math.ceil(colors.length / itemsPerPage);
-			paginationContainer.innerHTML = '';
+  <!-- 底部操作条 -->
+  <div class="actionbar" id="actionbar">
+    <span class="count">已加入生成列表 <b id="selCount">0</b> 个颜色</span>
+    <div class="chips" id="chips"></div>
+    <span class="spacer"></span>
+    <button class="btn-ghost" id="btnClear2">清空生成列表</button>
+    <button class="btn-primary" id="btnGenerate">⚙ 生成 weasel.custom.yaml</button>
+  </div>
+</div>
 
-			for (let i = 1; i <= totalPages; i++) {
-				const button = document.createElement('button');
-				button.textContent = i;
-				if (i === currentPage) {
-					button.classList.add('active');
-				}
-				button.addEventListener('click', () => {
-					currentPage = i;
-					renderPage(colors);
-				});
-				paginationContainer.appendChild(button);
-			}
-		}
+<!-- 粘贴 JSON -->
+<dialog id="jsonDialog">
+  <form method="dialog">
+    <div class="dhead">
+      <h3>粘贴 colors.json 内容</h3>
+      <p>支持 <code class="k">[{ "pinyin": "rubai", "hex": "#f9f4dc", "name": "乳白" }]</code>，也支持 <code class="k">{ "colors": [ ... ] }</code> 包裹形式。</p>
+    </div>
+    <div class="dbody">
+      <textarea id="jsonText" spellcheck="false" placeholder='[
+  { "pinyin": "rubai",  "hex": "#f9f4dc", "name": "乳白" },
+  { "pinyin": "bohelv", "hex": "#207f4c", "name": "薄荷绿" }
+]'></textarea>
+      <div class="msg" id="pasteMsg"></div>
+    </div>
+    <div class="dfoot">
+      <button value="cancel" class="btn-ghost" type="submit">取消</button>
+      <button value="apply" class="btn-primary" type="button" id="btnApplyJson">应用</button>
+    </div>
+  </form>
+</dialog>
 
-		// 更新输入法颜色
-		function updateInputMethodColors(hexColor) {
-			const alphaHex = '32';
-			const selectedBgColor = hexColor + alphaHex;
+<!-- 生成结果（模态窗口） -->
+<dialog id="outputDialog" aria-labelledby="outTitle">
+  <div class="dhead">
+    <h3 id="outTitle">weasel.custom.yaml</h3>
+    <span class="oname" id="outName"></span>
+    <p>复制或下载后放进小狼毫 Rime 用户目录（右键托盘图标 →「用户文件夹」），然后「重新部署」。若已有同名文件，请在 <code class="k">patch:</code> 下合并内容。</p>
+  </div>
+  <div class="dup-warn hidden" id="outWarn"></div>
+  <div class="color-strip">
+    <span class="pv-label">文件包含的颜色（点 × 立即移除并重新生成）：</span>
+    <div class="row" id="outColors" style="gap:8px"></div>
+  </div>
+  <div class="dbody code-body">
+    <pre class="code" id="code" tabindex="0"></pre>
+  </div>
+  <div class="dfoot">
+    <button class="btn-sm" id="btnCopy">📋 复制</button>
+    <button class="btn-sm btn-primary" id="btnDownload">⬇ 下载 weasel.custom.yaml</button>
+    <button class="btn-ghost" id="btnCloseOut">关闭（Esc）</button>
+  </div>
+</dialog>
 
-			inputMethod.style.backgroundColor = '#FFFFFF';
-			const candidateLabels = document.querySelectorAll('.candidate-label');
-			candidateLabels.forEach(label => {
-				label.style.color = '#8E8E8E';
-			});
-			const candidateTexts = document.querySelectorAll('.candidate-text');
-			candidateTexts.forEach(text => {
-				text.style.color = '#454545';
-			});
-			const selectedCandidate = document.querySelector('.selected-candidate');
-			const selectedCandidateLabel = selectedCandidate.querySelector('.candidate-label');
-			const selectedCandidateText = selectedCandidate.querySelector('.candidate-text');
-			selectedCandidate.style.backgroundColor = selectedBgColor;
-			selectedCandidateLabel.style.color = hexColor;
-			selectedCandidateText.style.color = hexColor;
-		}
+<!-- 清除自定义颜色（与其它弹窗同一风格） -->
+<dialog id="clearCustomDialog" aria-labelledby="clearCustomTitle">
+  <div class="dhead">
+    <h3 id="clearCustomTitle">🗑 清除全部自定义颜色</h3>
+    <p id="clearCustomText"></p>
+  </div>
+  <div class="dbody">
+    <div class="row" id="clearCustomList" style="gap:8px"></div>
+  </div>
+  <div class="dfoot">
+    <button class="btn-ghost" id="btnClearCustomCancel">取消</button>
+    <button class="btn-primary" id="btnClearCustomOk">确定清除</button>
+  </div>
+</dialog>
 
-		// 搜索功能
-		searchInput.addEventListener('input', function () {
-			const searchTerm = this.value.toLowerCase();
-			const filteredColors = allColors.filter(color => {
-				return color.name.toLowerCase().includes(searchTerm);
-			});
-			currentPage = 1;
-			renderPage(filteredColors);
-		});
+<div id="toast"></div>
 
-		// 清空按钮点击事件
-		clearButton.addEventListener('click', function () {
-			searchInput.value = '';
-			currentPage = 1;
-			renderPage(allColors);
-		});
+<script>
+/* =======================================================================
+   GENERATOR START  —— 纯逻辑区（可被脚本抽取单独测试）
+   ======================================================================= */
+const GEN = (function () {
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
-		// 增加对生成配置文件按钮的引用
-		const generateConfigButton = document.getElementById('generate-config-button');
-		// 记录已添加颜色列表的显示状态
-		let isColorListVisible = false;
+  function pad2(n) { return String(n).padStart(2, '0'); }
 
-		const clearAllColorsButton = document.getElementById('clear-all-colors-button');
+  /** ctime 风格时间：Sun Oct  4 12:51:41 2026（日期占两位，用空格补齐） */
+  function ctimeString(date) {
+    const d = date || new Date();
+    const day = String(d.getDate()).padStart(2, ' ');
+    return DAYS[d.getDay()] + ' ' + MONTHS[d.getMonth()] + ' ' + day + ' ' +
+           pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds()) + ' ' +
+           d.getFullYear();
+  }
 
-		// 修改显示已添加颜色按钮的点击事件
-		showSelectedColorsButton.addEventListener('click', () => {
-			const storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
-			if (isColorListVisible) {
-				// 如果列表是显示的，点击后关闭列表和相关按钮
-				selectedColorsList.style.display = 'none';
-				generateConfigButton.style.display = 'none';
-				clearAllColorsButton.style.display = 'none';
-				isColorListVisible = false;
-			} else {
-				selectedColorsList.innerHTML = '';
-				if (storedColors.length === 0) {
-					selectedColorsList.textContent = '暂无已添加颜色。';
-					generateConfigButton.style.display = 'none';
-					clearAllColorsButton.style.display = 'none';
-				} else {
-					storedColors.forEach(color => {
-						const colorItem = document.createElement('div');
-						colorItem.classList.add('selected-color-item');
+  /** #abc / abc / #AABBCC -> "AABBCC"（大写）；非法返回 null */
+  function normalizeHex(input) {
+    let s = String(input == null ? '' : input).trim().replace(/^#/, '');
+    if (/^[0-9a-fA-F]{3}$/.test(s)) s = s[0]+s[0]+s[1]+s[1]+s[2]+s[2];
+    if (!/^[0-9a-fA-F]{6}$/.test(s)) return null;
+    return s.toUpperCase();
+  }
 
-						const colorPreview = document.createElement('div');
-						colorPreview.classList.add('selected-color-preview');
-						colorPreview.style.backgroundColor = color.hex;
+  /**
+   * 在一组颜色里找重复项（只比较选中的颜色，忽略大小写与首尾空格）
+   * 返回 { pinyin:[[c,..],..], name:[[..]], hex:[[..]], groups: 组数 }
+   * 其中同拼音最危险：会在 YAML 里生成重复节点，后者覆盖前者
+   */
+  function findDuplicates(colors) {
+    const list = Array.isArray(colors) ? colors : [];
+    function groupBy(pick) {
+      const map = new Map();
+      list.forEach(function (c) {
+        const k = String(pick(c) == null ? '' : pick(c)).trim().toLowerCase();
+        if (!k) return;
+        if (!map.has(k)) map.set(k, []);
+        map.get(k).push(c);
+      });
+      const out = [];
+      map.forEach(function (g) { if (g.length > 1) out.push(g); });
+      return out;
+    }
+    const pinyin = groupBy(function (c) { return c.pinyin; });
+    const name = groupBy(function (c) { return c.name; });
+    const hex = groupBy(function (c) { return c.six || c.hex; });
+    return { pinyin: pinyin, name: name, hex: hex, groups: pinyin.length + name.length + hex.length };
+  }
 
-						const colorName = document.createElement('span');
-						colorName.textContent = color.name;
+  /** 一句话概括重复情况，用于提示条 */
+  function summarizeDuplicates(dup) {
+    if (!dup || !dup.groups) return '';
+    const parts = [];
+    if (dup.name.length) parts.push('同名 ' + dup.name.length + ' 组');
+    if (dup.pinyin.length) parts.push('同拼音 ' + dup.pinyin.length + ' 组');
+    if (dup.hex.length) parts.push('同色值 ' + dup.hex.length + ' 组');
+    return parts.join('、');
+  }
 
-						const previewButton = document.createElement('button');
-						previewButton.textContent = '预览';
-						previewButton.addEventListener('click', () => {
-							updateInputMethodColors(color.hex);
-						});
+  /** 明细，多行文本，用于生成结果弹窗里的告警条 */
+  function duplicateDetails(dup) {
+    if (!dup || !dup.groups) return '';
+    const lines = [];
+    if (dup.pinyin.length) {
+      lines.push('· 同拼音 ' + dup.pinyin.length + ' 组（会生成重复的 YAML 节点，后面的覆盖前面的）：' +
+        dup.pinyin.map(function (g) {
+          return g[0].pinyin + ' → ' + g.map(function (c) { return c.name + ' ' + c.hex; }).join('、');
+        }).join('；'));
+    }
+    if (dup.name.length) {
+      lines.push('· 同名 ' + dup.name.length + ' 组：' +
+        dup.name.map(function (g) {
+          return g[0].name + ' → ' + g.map(function (c) { return c.pinyin + ' ' + c.hex; }).join('、');
+        }).join('；'));
+    }
+    if (dup.hex.length) {
+      lines.push('· 同色值 ' + dup.hex.length + ' 组：' +
+        dup.hex.map(function (g) {
+          return '#' + g[0].six + ' → ' + g.map(function (c) { return c.name; }).join('、');
+        }).join('；'));
+    }
+    return '⚠ 检测到重复颜色，生成的 preset_color_schemes 可能互相覆盖：\n' + lines.join('\n');
+  }
 
-						const deleteButton = document.createElement('button');
-						deleteButton.textContent = '删除';
-						deleteButton.classList.add('delete-color-button');
-						deleteButton.addEventListener('click', () => {
-							deleteColorFromLocalStorage(color);
-						});
+  /** 随机挑 count 个（不重复）；rnd 可注入，便于测试 */
+  function pickRandom(list, count, rnd) {
+    const r = typeof rnd === 'function' ? rnd : Math.random;
+    const pool = (Array.isArray(list) ? list : []).slice();
+    const out = [];
+    const n = Math.min(Math.max(0, count | 0), pool.length);
+    for (let i = 0; i < n; i++) out.push(pool.splice(Math.floor(r() * pool.length), 1)[0]);
+    return out;
+  }
 
-						colorItem.appendChild(colorPreview);
-						colorItem.appendChild(colorName);
-						colorItem.appendChild(previewButton);
-						colorItem.appendChild(deleteButton);
-						selectedColorsList.appendChild(colorItem);
-					});
-					generateConfigButton.style.display = 'inline-block';
-					clearAllColorsButton.style.display = 'inline-block';
-				}
-				selectedColorsList.style.display = 'block';
-				isColorListVisible = true;
-			}
-		});
+  /** HSL -> #RRGGBB */
+  function hslToHex(h, s, l) {
+    const S = s / 100, L = l / 100;
+    const a = S * Math.min(L, 1 - L);
+    const f = function (n) {
+      const k = (n + h / 30) % 12;
+      const c = L - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+      return Math.round(255 * c).toString(16).padStart(2, '0');
+    };
+    return ('#' + f(0) + f(8) + f(4)).toUpperCase();
+  }
 
-		clearAllColorsButton.addEventListener('click', () => {
-			localStorage.removeItem('selectedColors');
-			renderSelectedColorsList();
-		});
+  /** 随机生成一个讨喜的颜色：#RRGGBB（色相全随机，饱和度/亮度落在好看区间） */
+  function randomHex(rnd) {    const r = typeof rnd === 'function' ? rnd : Math.random;
+    const h = Math.floor(r() * 360);
+    const s = 45 + Math.floor(r() * 30);   // 45% ~ 74%
+    const l = 40 + Math.floor(r() * 26);   // 40% ~ 65%
+    return hslToHex(h, s, l);
+  }
 
-		// 重新渲染已选择颜色的列表
+  /** 校验并规范化 colors.json 的数组 */
+  function prepareColors(list) {
+    const colors = [];
+    const errors = [];
+    if (!Array.isArray(list)) return { colors: colors, errors: ['顶层必须是 JSON 数组'] };
+    list.forEach(function (item, i) {
+      if (!item || typeof item !== 'object') { errors.push('第 ' + (i + 1) + ' 项不是对象，已跳过'); return; }
+      const six = normalizeHex(item.hex);
+      if (!six) { errors.push('第 ' + (i + 1) + ' 项 hex 非法（' + String(item.hex) + '），已跳过'); return; }
+      const pinyin = String(item.pinyin == null ? '' : item.pinyin).trim();
+      if (!pinyin) { errors.push('第 ' + (i + 1) + ' 项缺少 pinyin，已跳过'); return; }
+      const name = String(item.name == null ? pinyin : item.name).trim() || pinyin;
+      colors.push({ pinyin: pinyin, hex: '#' + six, six: six, name: name, key: pinyin + '::' + six });
+    });
+    return { colors: colors, errors: errors };
+  }
 
-		function renderSelectedColorsList() {
-			selectedColorsList.innerHTML = '';
-			const storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
-			if (storedColors.length === 0) {
-				selectedColorsList.textContent = '暂无已添加颜色。';
-				generateConfigButton.style.display = 'none';
-				clearAllColorsButton.style.display = 'none';
-				// 若没有颜色了，关闭显示窗口
-				if (isColorListVisible) {
-					selectedColorsList.style.display = 'none';
-					isColorListVisible = false;
-				}
-			} else {
-				storedColors.forEach(color => {
-					const colorItem = document.createElement('div');
-					colorItem.classList.add('selected-color-item');
+  /**
+   * 单个方案的字段（顺序与模板一致）
+   * 浅色：back/border 白，未选中文字 0x454545、序号 0x8E8E8E，
+   *       高亮文字/序号 = 原色，高亮底色 = 原色 + "26"（约 15% 透明度）
+   * 深色：back/border 黑，未选中文字与序号 0x717171，
+   *       高亮底色 = 原色实心，高亮文字/序号 = 0xFFFFFF
+   */
+  function schemeFields(six, name, author, dark) {
+    return [
+      ['author', author],
+      ['back_color', dark ? '0x000000' : '0xFFFFFF'],
+      ['border_color', dark ? '0x000000' : '0xFFFFFF'],
+      ['candidate_text_color', dark ? '0x717171' : '0x454545'],
+      ['color_format', 'rgba'],
+      ['hilited_candidate_back_color', dark ? '0x' + six : '0x' + six + '26'],
+      ['hilited_candidate_text_color', dark ? '0xFFFFFF' : '0x' + six],
+      ['hilited_label_color', dark ? '0xFFFFFF' : '0x' + six],
+      ['label_color', dark ? '0x717171' : '0x8E8E8E'],
+      ['name', '"' + String(name).replace(/"/g, '\\"') + (dark ? '·暗' : '') + '"']
+    ];
+  }
 
-					const colorPreview = document.createElement('div');
-					colorPreview.classList.add('selected-color-preview');
-					colorPreview.style.backgroundColor = color.hex;
+  function block(fields) {
+    const lines = ['      {'];
+    fields.forEach(function (kv) { lines.push('        ' + kv[0] + ': ' + kv[1] + ','); });
+    lines.push('      }');
+    return lines;
+  }
 
-					const colorName = document.createElement('span');
-					colorName.textContent = color.name;
+  const DEFAULT_OPTIONS = {
+    author: 'rxhaol',
+    distributionVersion: '0.17.4',
+    rimeVersion: '1.13.1',
+    fontFace: 'Source Han Sans SC',
+    fontPoint: 12,
+    labelFontPoint: 10,
+    blur: true,
+    horizontal: true,
+    inlinePreedit: true,
+    layout: {
+      border: 2, candidate_spacing: 12, hilite_padding: 4, hilite_spacing: 2,
+      margin_x: 6, margin_y: 6, round_corner: 5, spacing: 5
+    }
+  };
 
-					const previewButton = document.createElement('button');
-					previewButton.textContent = '预览';
-					previewButton.addEventListener('click', () => {
-						updateInputMethodColors(color.hex);
-					});
+  /** 生成完整的 weasel.custom.yaml 文本 */
+  function buildYaml(colors, options) {
+    const o = Object.assign({}, DEFAULT_OPTIONS, options || {});
+    if (options && options.layout) o.layout = Object.assign({}, DEFAULT_OPTIONS.layout, options.layout);
+    if (!o.modifiedTime) o.modifiedTime = new Date();
 
-					const deleteButton = document.createElement('button');
-					deleteButton.textContent = '删除';
-					deleteButton.classList.add('delete-color-button');
-					deleteButton.addEventListener('click', () => {
-						deleteColorFromLocalStorage(color);
-					});
+    const out = [];
+    out.push('customization:');
+    out.push('  distribution_code_name: Weasel');
+    out.push('  distribution_version: ' + o.distributionVersion);
+    out.push('  generator: "Weasel::UIStyleSettings"');
+    out.push('  modified_time: "' + ctimeString(o.modifiedTime) + '"');
+    out.push('  rime_version: ' + o.rimeVersion);
+    out.push('patch:');
+    out.push('  preset_color_schemes:');
 
-					colorItem.appendChild(colorPreview);
-					colorItem.appendChild(colorName);
-					colorItem.appendChild(previewButton);
-					colorItem.appendChild(deleteButton);
-					selectedColorsList.appendChild(colorItem);
-				});
-				generateConfigButton.style.display = 'inline-block';
-				clearAllColorsButton.style.display = 'inline-block';
-				if (isColorListVisible) {
-					selectedColorsList.style.display = 'block';
-				}
-			}
-		}
-		// 从 localStorage 中删除颜色
-		function deleteColorFromLocalStorage(color) {
-			let storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
-			storedColors = storedColors.filter(storedColor => storedColor.hex !== color.hex);
-			localStorage.setItem('selectedColors', JSON.stringify(storedColors));
-			// 删除颜色后重新渲染列表
-			renderSelectedColorsList();
-		}
+    colors.forEach(function (c) {
+      out.push('    ' + c.pinyin + ':');
+      out.push.apply(out, block(schemeFields(c.six, c.name, o.author, false)));
+      out.push('    ' + c.pinyin + '_dark:');
+      out.push.apply(out, block(schemeFields(c.six, c.name, o.author, true)));
+    });
 
-		// 将颜色添加到 localStorage
-		function addColorToLocalStorage(color) {
-			let storedColors = JSON.parse(localStorage.getItem('selectedColors')) || [];
-			const isColorExists = storedColors.some(storedColor => storedColor.hex === color.hex);
-			if (!isColorExists) {
-				storedColors.push(color);
-				localStorage.setItem('selectedColors', JSON.stringify(storedColors));
-				// 如果显示已添加颜色的窗口是关闭的，打开并渲染列表
-				if (!isColorListVisible) {
-					isColorListVisible = true;
-					renderSelectedColorsList();
-					selectedColorsList.style.display = 'block';
-					generateConfigButton.style.display = 'inline-block';
-				} else {
-					// 如果窗口是打开的，直接渲染列表
-					renderSelectedColorsList();
-				}
-			}
-		}
-		// 为生成配置文件按钮添加点击事件
-		generateConfigButton.addEventListener('click', () => {
-			const storedColors = JSON.parse(localStorage.getItem('selectedColors'));
-			const alphaHex = '26';
-			let yamlContent = `customization:
-  distribution_code_name: Weasel
-  distribution_version: 0.16.3
-  generator: "Weasel::UIStyleSettings"
-  modified_time: "Mon Jan 27 22:39:43 2025"
-  rime_version: 1.11.2
-patch:
-  preset_color_schemes:`;
+    out.push('  style:');
+    out.push('    blur: ' + o.blur);
+    out.push('    font_face: "' + o.fontFace + '"');
+    out.push('    font_point: ' + o.fontPoint);
+    out.push('    horizontal: ' + o.horizontal);
+    out.push('    inline_preedit: ' + o.inlinePreedit);
+    out.push('    label_font_point: ' + o.labelFontPoint);
+    out.push('    layout:');
+    out.push.apply(out, block(Object.keys(o.layout).map(function (k) { return [k, o.layout[k]]; })));
 
-			storedColors.forEach(color => {
-				const hexColor = color.hex.replace('#', '0x');
-				const selectedBgColor = hexColor + alphaHex;
-				yamlContent += `
-    ${color.pinyin}: {author: rxhaol, back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0x454545, color_format: rgba, hilited_candidate_back_color: ${selectedBgColor}, hilited_candidate_text_color: ${hexColor}, hilited_label_color: ${hexColor}, label_color: 0x8E8E8E, name: "${color.name}"}`;
-			});
+    return out.join('\n') + '\n';
+  }
 
-			yamlContent += `
-  style:
-    blur: true
-    font_face: "PingFang SC:Bold,LXGW WenKai Mono"
-    font_point: 12
-    horizontal: true
-    inline_preedit: true
-    label_font_point: 10
-    layout: {border: 2, candidate_spacing: 12, hilite_padding: 4, hilite_spacing: 2, margin_x: 6, margin_y: 6, round_corner: 5, spacing: 5}`;
-			const blob = new Blob([yamlContent], { type: 'text/yaml' });
-			const url = URL.createObjectURL(blob);
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = 'weasel.custom.yaml';
-			a.click();
-			URL.revokeObjectURL(url);
-		});
+  return {
+    ctimeString: ctimeString,
+    normalizeHex: normalizeHex,
+    pickRandom: pickRandom,
+    hslToHex: hslToHex,
+    randomHex: randomHex,
+    findDuplicates: findDuplicates,
+    summarizeDuplicates: summarizeDuplicates,
+    duplicateDetails: duplicateDetails,
+    prepareColors: prepareColors,
+    schemeFields: schemeFields,
+    buildYaml: buildYaml,
+    DEFAULT_OPTIONS: DEFAULT_OPTIONS
+  };
+})();
+/* =======================================================================
+   GENERATOR END
+   ======================================================================= */
 
-	</script>
+/* ---------------- 内置示例色板（可随时导入自己的 colors.json 覆盖） ---------------- */
+const SAMPLE_COLORS = [
+  { pinyin: 'rubai',        hex: '#F9F4DC', name: '乳白' },
+  { pinyin: 'xiangyabai',   hex: '#FFFBF0', name: '象牙白' },
+  { pinyin: 'mise',         hex: '#F2ECDE', name: '米色' },
+  { pinyin: 'xuebai',       hex: '#FFFFFF', name: '雪白' },
+  { pinyin: 'huise',        hex: '#808080', name: '灰色' },
+  { pinyin: 'qianhui',      hex: '#8C8C8C', name: '铅灰' },
+  { pinyin: 'heise',        hex: '#000000', name: '黑色' },
+  { pinyin: 'shuise',       hex: '#88ADA6', name: '水色' },
+  { pinyin: 'cangse',       hex: '#75878A', name: '苍色' },
+  { pinyin: 'daise',        hex: '#4A4266', name: '黛色' },
+  { pinyin: 'ehuang',       hex: '#FFF143', name: '鹅黄' },
+  { pinyin: 'yahuang',      hex: '#FAFF72', name: '鸭黄' },
+  { pinyin: 'yingcaose',    hex: '#EAFF56', name: '樱草色' },
+  { pinyin: 'xinghuang',    hex: '#FFA631', name: '杏黄' },
+  { pinyin: 'chenghuang',   hex: '#FFA400', name: '橙黄' },
+  { pinyin: 'juhuang',      hex: '#FF8936', name: '橘黄' },
+  { pinyin: 'juhong',       hex: '#FF7500', name: '橘红' },
+  { pinyin: 'zhuhong',      hex: '#FF4C00', name: '朱红' },
+  { pinyin: 'zhusha',       hex: '#FF461F', name: '朱砂' },
+  { pinyin: 'feise',        hex: '#ED5736', name: '妃色' },
+  { pinyin: 'yanhong',      hex: '#EF7A82', name: '嫣红' },
+  { pinyin: 'yinhong',      hex: '#F05654', name: '银红' },
+  { pinyin: 'huohong',      hex: '#FF2D51', name: '火红' },
+  { pinyin: 'pinhong',      hex: '#F00056', name: '品红' },
+  { pinyin: 'taohong',      hex: '#F47983', name: '桃红' },
+  { pinyin: 'haitanghong',  hex: '#DB5A6B', name: '海棠红' },
+  { pinyin: 'yingtaose',    hex: '#C93756', name: '樱桃色' },
+  { pinyin: 'feihong',      hex: '#C83C23', name: '绯红' },
+  { pinyin: 'chise',        hex: '#C3272B', name: '赤色' },
+  { pinyin: 'yanzhi',       hex: '#9D2933', name: '胭脂' },
+  { pinyin: 'fenhong',      hex: '#FFB3A7', name: '粉红' },
+  { pinyin: 'ouse',         hex: '#EDD1D8', name: '藕色' },
+  { pinyin: 'ziluolan',     hex: '#8D4BBB', name: '紫罗兰' },
+  { pinyin: 'qinglian',     hex: '#801DAE', name: '青莲' },
+  { pinyin: 'jiangzi',      hex: '#815476', name: '酱紫' },
+  { pinyin: 'cangqing',     hex: '#3B2E7E', name: '藏青' },
+  { pinyin: 'baolan',       hex: '#4B5CC4', name: '宝蓝' },
+  { pinyin: 'qunqing',      hex: '#4C8DAE', name: '群青' },
+  { pinyin: 'dianqing',     hex: '#177CB0', name: '靛青' },
+  { pinyin: 'tianlan',      hex: '#44CEF6', name: '天蓝' },
+  { pinyin: 'hulan',        hex: '#30DFF3', name: '湖蓝' },
+  { pinyin: 'qingbi',       hex: '#48C0A3', name: '青碧' },
+  { pinyin: 'bise',         hex: '#1BD1A5', name: '碧色' },
+  { pinyin: 'zhuqing',      hex: '#789262', name: '竹青' },
+  { pinyin: 'songbailv',    hex: '#21A675', name: '松柏绿' },
+  { pinyin: 'bohelv',       hex: '#207F4C', name: '薄荷绿' },
+  { pinyin: 'cuilv',        hex: '#00E079', name: '翠绿' },
+  { pinyin: 'molv',         hex: '#50616D', name: '墨绿' },
+  { pinyin: 'tuose',        hex: '#A88462', name: '驼色' },
+  { pinyin: 'kafeise',      hex: '#9E5B40', name: '咖啡色' },
+  { pinyin: 'lise',         hex: '#955539', name: '栗色' },
+  { pinyin: 'zongse',       hex: '#B36D61', name: '棕色' }
+];
+
+/* ---------------- 应用状态与 DOM ---------------- */
+const $ = function (sel) { return document.querySelector(sel); };
+const ROWS_PER_PAGE = 5;      // 每页最多 5 行
+const MIN_COL_PX = 146;       // 与 CSS grid 的 minmax(146px,1fr) 保持一致
+const THEME_KEY = 'rime-gen-theme';
+const FREEZE_KEY = 'rime-gen-freeze';
+const PV_KEY = 'rime-gen-pv';
+const COLORS_FILE = 'colors.json';   // 与本页同目录的颜色文件
+
+const state = {
+  colors: [],          // [{pinyin, hex, six, name, key, custom?}]
+  selected: new Set(), // key 集合
+  focusKey: null,      // 预览使用的颜色
+  query: '',
+  page: 1,
+  flash: [],           // 刚被随机抽中的颜色，渲染时弹一下
+  loadingFile: false,  // 正在读取同目录 colors.json
+  loadBase: '',        // 载入信息正文（重复色提醒会追加在后面）
+  loadKind: ''
+};
+
+const PREVIEW_CANDIDATES = [
+  { idx: '1', txt: '你好' }, { idx: '2', txt: '世界' }, { idx: '3', txt: '输入' },
+  { idx: '4', txt: '方案' }, { idx: '5', txt: '主题' }
+];
+
+/* ---------------- 主题（亮色 / 暗色） ---------------- */
+function applyTheme(theme, persist) {
+  document.documentElement.dataset.theme = theme;
+  const btn = $('#btnTheme');
+  btn.textContent = theme === 'light' ? '☀️ 亮色' : '🌙 暗色';
+  btn.title = theme === 'light' ? '当前为亮色，点击切换为暗色' : '当前为暗色，点击切换为亮色';
+  if (persist !== false) { try { localStorage.setItem(THEME_KEY, theme); } catch (e) {} }
+  // 主题影响网格可用宽度之外的一切，列数不变，无需重排色卡
+}
+
+function initTheme() {
+  let saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  applyTheme(saved === 'light' || saved === 'dark' ? saved : (prefersLight ? 'light' : 'dark'), false);
+}
+
+$('#btnTheme').addEventListener('click', function () {
+  applyTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+});
+
+/* ---------------- 冻结布局（类似 Excel 冻结窗口） ---------------- */
+function applyFreeze(on, persist) {
+  document.body.classList.toggle('shell', on);
+  const b = $('#btnFreeze');
+  b.textContent = on ? '📌 冻结布局：开' : '📌 冻结布局：关';
+  b.title = on
+    ? '已冻结：只有颜色卡片区域可以滚动，其余部分固定（类似 Excel 冻结窗口）；点击关闭'
+    : '点击开启冻结：只有颜色卡片区域滚动，其余部分固定（类似 Excel 冻结窗口）';
+  if (persist !== false) { try { localStorage.setItem(FREEZE_KEY, on ? '1' : '0'); } catch (e) {} }
+}
+
+/** 收起 / 展开候选窗预览：冻结区变紧凑，可见的卡片行数更多 */
+function applyPvCollapsed(collapsed, persist) {
+  $('#previewBox').classList.toggle('collapsed', collapsed);
+  const b = $('#btnPvToggle');
+  b.textContent = collapsed ? '展开预览 ▼' : '收起预览 ▲';
+  b.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  b.title = collapsed ? '展开候选窗预览（冻结区会变高）' : '收起候选窗预览（冻结区更紧凑，能看到更多卡片）';
+  if (persist !== false) { try { localStorage.setItem(PV_KEY, collapsed ? '1' : '0'); } catch (e) {} }
+}
+
+function readFlag(key, dflt) {
+  try {
+    const v = localStorage.getItem(key);
+    if (v === '1') return true;
+    if (v === '0') return false;
+  } catch (e) {}
+  return dflt;
+}
+
+/** 把元素滚到可视位置：冻结布局下滚动中间的卡片区，普通布局下滚动整个窗口 */
+function scrollToEl(el, instant) {
+  if (!el) return;
+  const behavior = instant === true ? 'auto' : 'smooth';
+  const area = $('#scrollArea');
+  if (document.body.classList.contains('shell') && area) {
+    const delta = el.getBoundingClientRect().top - area.getBoundingClientRect().top;
+    area.scrollTo({ top: Math.max(0, area.scrollTop + delta - 10), behavior: behavior });
+  } else {
+    const y = window.scrollY + el.getBoundingClientRect().top - 10;
+    window.scrollTo({ top: Math.max(0, y), behavior: behavior });
+  }
+}
+
+$('#btnFreeze').addEventListener('click', function () {
+  applyFreeze(!document.body.classList.contains('shell'));
+});
+$('#btnPvToggle').addEventListener('click', function () {
+  applyPvCollapsed(!$('#previewBox').classList.contains('collapsed'));
+});
+/* 预览区的「加入生成列表 / 移出生成列表」按钮 */
+$('#btnAddPreview').addEventListener('click', function () {
+  const c = state.focusKey
+    ? state.colors.filter(function (x) { return x.key === state.focusKey; })[0]
+    : null;
+  if (!c) { toast('先点一个颜色卡片预览它'); return; }
+  toggleColor(c.key);
+});
+
+/* ---------------- 工具 ---------------- */
+function hexToRgba(six, alpha) {
+  const n = parseInt(six, 16);
+  return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + alpha + ')';
+}
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(function () { t.classList.remove('show'); }, 1900);
+}
+function numOr(v, dflt) {
+  const n = parseFloat(v);
+  return isFinite(n) ? n : dflt;
+}
+function cssEscape(s) { return String(s).replace(/["\\]/g, '\\$&'); }
+
+/* ---------------- 数据装载 ---------------- */
+function loadColors(list, sourceName) {
+  const res = GEN.prepareColors(list);
+  if (!res.colors.length) {
+    showLoadMsg(res.errors.length ? res.errors.join('；') : '没有解析到任何颜色', 'err');
+    return false;
+  }
+  state.colors = res.colors;
+  state.selected = new Set();
+  state.focusKey = null;
+  state.page = 1;
+  $('#srcName').textContent = sourceName;
+  $('#srcCount').textContent = String(res.colors.length);
+  const note = res.errors.length ? ('；已忽略 ' + res.errors.length + ' 条无效数据：' + res.errors.slice(0, 3).join('；')) : '';
+  showLoadMsg('已载入 ' + res.colors.length + ' 个颜色' + note, res.errors.length ? 'err' : 'ok');
+  state.query = '';
+  $('#search').value = '';
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+  return true;
+}
+function showLoadMsg(text, kind) {
+  state.loadBase = text || '';
+  state.loadKind = kind || '';
+  renderLoadMsg();
+}
+
+/** 载入信息：额外附带"整个色板里有多少组重复颜色"的提醒 */
+function renderLoadMsg() {
+  const el = $('#loadMsg');
+  const dup = GEN.findDuplicates(state.colors);
+  let text = state.loadBase || '';
+  let kind = state.loadKind || '';
+  if (dup.groups) {
+    text += (text ? '；' : '') + '色板里有 ' + dup.groups + ' 组重复颜色（' + GEN.summarizeDuplicates(dup) + '），生成时会再提示';
+    if (kind !== 'err') kind = 'warn';
+  }
+  el.textContent = text;
+  el.className = 'msg' + (kind ? ' ' + kind : '');
+  syncCustomControls();
+}
+
+/* ---------------- 自定义颜色（取色轮盘） ---------------- */
+function showCustomMsg(text, kind) {
+  const el = $('#customMsg');
+  el.textContent = text || '';
+  el.className = 'msg' + (kind ? ' ' + kind : '');
+}
+
+/** 把取色轮盘选的颜色加进色板（也就是内存里的 colors.json），并自动选中 */
+function addCustomColor(hexValue, nameValue, pinyinValue) {
+  const six = GEN.normalizeHex(hexValue);
+  if (!six) { showCustomMsg('色值非法：' + hexValue, 'err'); return false; }
+
+  const name = String(nameValue || '').trim() || ('自定义 ' + six);
+  let pinyin = String(pinyinValue || '').trim();
+  if (!pinyin) {                       // 没填键名就自动生成一个不冲突的
+    let i = 1;
+    do { pinyin = 'custom' + i++; } while (state.colors.some(function (c) { return c.pinyin === pinyin; }));
+  }
+  const color = { pinyin: pinyin, hex: '#' + six, six: six, name: name, key: pinyin + '::' + six, custom: true };
+
+  // 同一颜色重复加入时给出提醒（仍然加入，交给生成时的重名检查处理）
+  const exists = state.colors.some(function (c) {
+    return c.six.toLowerCase() === six.toLowerCase() || c.name === name || c.pinyin === pinyin;
+  });
+
+  state.colors.push(color);
+  $('#srcCount').textContent = String(state.colors.length);
+
+  // 新颜色若被当前搜索条件挡住就清空搜索，保证能看到它
+  const q = state.query.trim().toLowerCase();
+  const matches = !q || [name, pinyin, six].some(function (s) { return s.toLowerCase().indexOf(q) >= 0; });
+  if (!matches) { state.query = ''; $('#search').value = ''; }
+
+  state.selected.add(color.key);
+  state.focusKey = color.key;
+  const list = visibleColors();
+  const at = list.findIndex(function (c) { return c.key === color.key; });
+  if (at >= 0) state.page = Math.floor(at / gridMetrics().size) + 1;
+
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+  renderLoadMsg();                    // 重复组数可能变化
+  showCustomMsg(exists ? ('已加入「' + name + '」（与现有颜色重名或同色值，生成时会提示）') : ('已加入「' + name + '」并选中'),
+    exists ? 'warn' : 'ok');
+  toast('已加入「' + name + '」并选中');
+  return true;
+}
+
+/** 同步"清除全部自定义颜色"按钮的可用状态 */
+function syncCustomControls() {
+  const btn = $('#btnClearCustom');
+  if (!btn) return;
+  const n = state.colors.filter(function (c) { return c.custom; }).length;
+  btn.disabled = n === 0;
+  btn.textContent = n ? ('🗑 清除 ' + n + ' 个自定义颜色') : '🗑 清除全部自定义颜色';
+}
+
+/** 删除一个自定义颜色（只允许删 custom 标记的颜色） */
+function deleteCustomColor(key) {
+  const at = state.colors.findIndex(function (c) { return c.key === key; });
+  if (at < 0) return false;
+  const color = state.colors[at];
+  if (!color.custom) { toast('「' + color.name + '」来自导入的 colors.json，不能这样删除'); return false; }
+
+  state.colors.splice(at, 1);
+  state.selected.delete(key);
+  if (state.focusKey === key) state.focusKey = null;   // 预览回落到第一个可用颜色
+  $('#srcCount').textContent = String(state.colors.length);
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+  renderLoadMsg();
+
+  const dlg = $('#outputDialog');
+  if (dlg.open) {
+    if (state.selected.size) buildOutput(true);
+    else dlg.close();
+  }
+  toast('已删除自定义颜色「' + color.name + '」');
+  return true;
+}
+
+/* ---------------- 随机 ---------------- */
+/** 🎲 随机挑 3~5 个颜色，替换生成列表（在当前筛选结果里挑） */
+function randomPick() {
+  const pool = visibleColors();
+  if (!pool.length) { toast('没有可随机的颜色'); return 0; }
+  const want = 3 + Math.floor(Math.random() * 3);          // 3 ~ 5 个
+  const picks = GEN.pickRandom(pool, want);
+
+  state.selected = new Set(picks.map(function (c) { return c.key; }));
+  state.focusKey = picks[0].key;
+  state.flash = picks.map(function (c) { return c.key; });
+
+  const list = visibleColors();
+  const at = list.findIndex(function (c) { return c.key === state.focusKey; });
+  if (at >= 0) state.page = Math.floor(at / gridMetrics().size) + 1;
+
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+  renderLoadMsg();
+  updateGridHint(currentSlice());
+  toast('🎲 随机选中 ' + picks.length + ' 个颜色：' + picks.map(function (c) { return c.name; }).join('、'));
+  setTimeout(function () { state.flash = []; }, 900);
+  return picks.length;
+}
+
+/** 🎲 给自定义颜色输入框随机生成一个颜色 */
+function randomizeCustomColor() {
+  const hex = GEN.randomHex();
+  $('#customColor').value = hex;
+  showCustomMsg('🎲 随机色 ' + hex + '，填个名字或直接加入色板', 'ok');
+  return hex;
+}
+
+/* ---------------- 清除自定义颜色的确认弹窗 ---------------- */
+function askClearCustomColors() {
+  const custom = state.colors.filter(function (c) { return c.custom; });
+  if (!custom.length) { toast('当前没有自定义颜色'); return false; }
+  $('#clearCustomText').textContent = '确定删除这 ' + custom.length +
+    ' 个通过取色轮盘添加的颜色吗？导入/粘贴的 colors.json 颜色不受影响。';
+  $('#clearCustomList').innerHTML = '';
+  renderColorChips($('#clearCustomList'), custom, {
+    activeKey: state.focusKey,
+    onPick: function () {},
+    onRemove: function () {}
+  });
+  const dlg = $('#clearCustomDialog');
+  if (!dlg.open) dlg.showModal();
+  return true;
+}
+
+/** 真正执行清除（由确认弹窗的「确定清除」调用） */
+function doClearCustomColors() {
+  const custom = state.colors.filter(function (c) { return c.custom; });
+  if (!custom.length) { toast('当前没有自定义颜色'); return false; }
+
+  custom.forEach(function (c) { state.selected.delete(c.key); });
+  state.colors = state.colors.filter(function (c) { return !c.custom; });
+  if (!state.colors.some(function (c) { return c.key === state.focusKey; })) state.focusKey = null;
+  $('#srcCount').textContent = String(state.colors.length);
+  state.page = 1;
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+  renderLoadMsg();
+
+  const dlg = $('#outputDialog');
+  if (dlg.open) {
+    if (state.selected.size) buildOutput(true);
+    else dlg.close();
+  }
+  toast('已清除 ' + custom.length + ' 个自定义颜色');
+  return true;
+}
+
+/** 兼容旧名字 */
+function clearCustomColors() { return askClearCustomColors(); }
+
+/* ---------------- 筛选与分页 ---------------- */
+function visibleColors() {
+  const q = state.query.trim().toLowerCase();
+  if (!q) return state.colors;
+  return state.colors.filter(function (c) {
+    return c.name.toLowerCase().indexOf(q) >= 0 ||
+           c.pinyin.toLowerCase().indexOf(q) >= 0 ||
+           c.six.toLowerCase().indexOf(q) >= 0 ||
+           c.hex.toLowerCase().indexOf(q) >= 0;
+  });
+}
+
+/** 量出当前每行几列，每页最多 ROWS_PER_PAGE 行 */
+function gridMetrics() {
+  const grid = $('#grid');
+  const cs = getComputedStyle(grid);
+  const gap = parseFloat(cs.columnGap) || 12;
+  const inner = grid.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
+  const cols = inner > 0 ? Math.max(1, Math.floor((inner + gap) / (MIN_COL_PX + gap))) : 1;
+  return { cols: cols, size: cols * ROWS_PER_PAGE };
+}
+
+/** 当前页要渲染的切片 */
+function currentSlice() {
+  const list = visibleColors();
+  const size = gridMetrics().size;
+  const totalPages = Math.max(1, Math.ceil(list.length / size));
+  state.page = Math.min(Math.max(1, state.page || 1), totalPages);
+  const start = (state.page - 1) * size;
+  return { list: list, slice: list.slice(start, start + size), size: size, totalPages: totalPages, start: start };
+}
+
+/* ---------------- 渲染色卡 ---------------- */
+function renderGrid() {
+  const grid = $('#grid');
+  const info = currentSlice();
+  grid.innerHTML = '';
+  if (!info.list.length) {
+    const d = document.createElement('div');
+    d.className = 'empty';
+    d.textContent = state.loadingFile
+      ? '正在读取同目录 colors.json…'
+      : (state.colors.length ? '没有匹配的颜色，试试清空搜索框' : '还没有颜色数据，请导入 colors.json');
+    grid.appendChild(d);
+  } else {
+    const frag = document.createDocumentFragment();
+    info.slice.forEach(function (c) {
+      const inList = state.selected.has(c.key);
+      // 卡片本身是"预览"，右上角圆圈按钮才是"加入/移出生成列表"
+      const card = document.createElement('div');
+      card.className = 'card' + (c.key === state.focusKey ? ' is-focus' : '') +
+        (state.flash.indexOf(c.key) >= 0 ? ' just-picked' : '');
+      card.setAttribute('role', 'button');
+      card.tabIndex = 0;
+      card.setAttribute('aria-pressed', inList ? 'true' : 'false');
+      card.dataset.key = c.key;
+      card.title = c.name + ' · ' + c.pinyin + ' · ' + c.hex +
+        '\n单击：预览这个颜色\n右上角 ' + (inList ? '✓' : '＋') + '：' + (inList ? '移出生成列表' : '加入生成列表') + '（双击也可加入）' +
+        (c.custom ? '\n自定义颜色：可在上方预览区点「删除这个自定义颜色」移除' : '');
+      card.innerHTML =
+        '<span class="eyebadge">预览中</span>' +
+        '<span class="swatch"><i style="background:' + c.hex + '"></i></span>' +
+        '<span class="meta">' +
+          '<span class="cname"></span>' +
+          '<span class="cpinyin"></span>' +
+          '<span class="chex"></span>' +
+          (c.custom ? '<span class="ctag">自定义</span>' : '') +
+        '</span>' +
+        '<button type="button" class="addbtn" aria-pressed="' + (inList ? 'true' : 'false') + '">' +
+          '<i></i>' +
+        '</button>';
+      card.querySelector('.cname').textContent = c.name;
+      card.querySelector('.cpinyin').textContent = c.pinyin;
+      card.querySelector('.chex').textContent = c.hex;
+
+      const addBtn = card.querySelector('.addbtn');
+      addBtn.title = inList ? '已加入生成列表，点击移出' : '加入生成列表（生成为 weasel.custom.yaml）';
+      addBtn.setAttribute('aria-label', (inList ? '移出生成列表：' : '加入生成列表：') + c.name);
+      addBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleColor(c.key);
+      });
+
+      card.addEventListener('click', function () { previewOnly(c.key); });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          previewOnly(c.key);
+        }
+      });
+      card.addEventListener('dblclick', function (e) {
+        if (e.target.closest && e.target.closest('.addbtn')) return;
+        addToList(c.key);
+      });
+      frag.appendChild(card);
+    });
+    grid.appendChild(frag);
+  }
+  renderPager(info);
+  updateGridHint(info);
+}
+
+function updateGridHint(info) {
+  const total = info.list.length;
+  const parts = [];
+  if (state.query) parts.push('筛选出 ' + total + ' 个颜色（共 ' + state.colors.length + ' 个）');
+  else parts.push('共 ' + total + ' 个颜色');
+  if (total && info.totalPages > 1) {
+    parts.push('第 ' + state.page + '/' + info.totalPages + ' 页 · 本页 ' + info.slice.length + ' 个 · 每页最多 ' + ROWS_PER_PAGE + ' 行');
+  }
+  const sel = state.selected.size;
+  if (sel) parts.push('生成列表 ' + sel + ' 个');
+  $('#gridHint').textContent = parts.join(' · ');
+}
+
+/* ---------------- 分页控件 ---------------- */
+function pageNumberList(cur, total) {
+  const keep = [];
+  for (let i = 1; i <= total; i++) {
+    if (i === 1 || i === total || Math.abs(i - cur) <= 1) keep.push(i);
+  }
+  const out = [];
+  let prev = 0;
+  keep.forEach(function (v) {
+    if (v - prev > 1) out.push('…');
+    out.push(v);
+    prev = v;
+  });
+  return out;
+}
+
+function renderPager(info) {
+  const pager = $('#pager');
+  pager.innerHTML = '';
+  const total = info.list.length;
+  if (!total) { pager.classList.add('hidden'); return; }
+  // 只显示一页时也显示一排页码没必要，但保留上一页/下一页的信息条
+  pager.classList.toggle('hidden', info.totalPages <= 1);
+  if (info.totalPages <= 1) return;
+
+  // 每页是否含有已选颜色，便于跨页追踪
+  const hasSelOnPage = function (p) {
+    const start = (p - 1) * info.size;
+    return info.list.slice(start, start + info.size).some(function (c) { return state.selected.has(c.key); });
+  };
+
+  const mkBtn = function (label, page, opts) {
+    opts = opts || {};
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pgbtn btn-sm' + (opts.cls ? ' ' + opts.cls : '');
+    b.textContent = label;
+    if (page === state.page) b.setAttribute('aria-current', 'true');
+    if (opts.disabled) b.disabled = true;
+    if (opts.title) b.title = opts.title;
+    if (typeof page === 'number') {
+      b.addEventListener('click', function () { gotoPage(page); });
+    }
+    return b;
+  };
+
+  pager.appendChild(mkBtn('← 上一页', state.page - 1, { disabled: state.page <= 1, title: '上一页' }));
+  pageNumberList(state.page, info.totalPages).forEach(function (v) {
+    if (v === '…') {
+      const s = document.createElement('span');
+      s.className = 'ellipsis';
+      s.textContent = '…';
+      pager.appendChild(s);
+      return;
+    }
+    pager.appendChild(mkBtn(String(v), v, { cls: hasSelOnPage(v) ? 'has-sel' : '', title: '第 ' + v + ' 页' }));
+  });
+  pager.appendChild(mkBtn('下一页 →', state.page + 1, { disabled: state.page >= info.totalPages, title: '下一页' }));
+
+  const label = document.createElement('span');
+  label.className = 'pg-label';
+  label.textContent = '第 ' + state.page + ' / ' + info.totalPages + ' 页 · 共 ' + total + ' 个颜色';
+  pager.appendChild(label);
+}
+
+function gotoPage(p) {
+  const info = currentSlice();
+  const target = Math.min(Math.max(1, p), info.totalPages);
+  if (target === state.page) return;
+  state.page = target;
+  renderGrid();
+  const grid = $('#grid');
+  const shell = document.body.classList.contains('shell');
+  if (shell || grid.getBoundingClientRect().top < 0) scrollToEl(grid);
+}
+
+/* ---------------- 预览 / 加入生成列表 ---------------- */
+/** 单击色卡：只切换候选窗预览对象，不动生成列表 */
+function previewOnly(key) {
+  if (state.focusKey === key) return;
+  state.focusKey = key;
+  renderPreview();
+}
+
+/** 加入生成列表（幂等：已在列表里就只切预览） */
+function addToList(key) {
+  const color = state.colors.filter(function (c) { return c.key === key; })[0];
+  state.focusKey = key;
+  if (state.selected.has(key)) { renderPreview(); toast('「' + color.name + '」已在生成列表里'); return; }
+  state.selected.add(key);
+  syncCardPressed(key);
+  renderPreview();
+  syncActionBar();
+  updateGridHint(currentSlice());
+  renderLoadMsg();
+  toast('已加入「' + color.name + '」到生成列表');
+}
+
+/** 右上角圆圈按钮：加入 / 移出生成列表 */
+function toggleColor(key) {
+  const color = state.colors.filter(function (c) { return c.key === key; })[0];
+  const name = color ? color.name : key;
+  if (state.selected.has(key)) {
+    state.selected.delete(key);
+    syncCardPressed(key);
+    renderPreview();          // 预览是独立的，这里只更新按钮状态与提示
+    syncActionBar();
+    updateGridHint(currentSlice());
+    renderLoadMsg();
+    toast('已把「' + name + '」移出生成列表');
+  } else {
+    addToList(key);
+  }
+}
+
+/** 同步某张色卡的按钮状态（该卡若不在当前页则自动跳过） */
+function syncCardPressed(key) {
+  const card = document.querySelector('.card[data-key="' + cssEscape(key) + '"]');
+  if (!card) return;
+  const inList = state.selected.has(key);
+  card.setAttribute('aria-pressed', inList ? 'true' : 'false');
+  const btn = card.querySelector('.addbtn');
+  if (btn) {
+    btn.setAttribute('aria-pressed', inList ? 'true' : 'false');
+    btn.title = inList ? '已加入生成列表，点击移出' : '加入生成列表（生成为 weasel.custom.yaml）';
+    btn.setAttribute('aria-label', (inList ? '移出生成列表：' : '加入生成列表：') + key.split('::')[0]);
+  }
+}
+
+/** 从生成列表里移除一个颜色（色点胶囊上的 × / 生成结果弹窗里的 ×） */
+function removeColorFromSelection(key) {
+  if (!state.selected.has(key)) return;
+  const color = state.colors.filter(function (c) { return c.key === key; })[0];
+  const name = color ? color.name : key;
+  state.selected.delete(key);
+  // 预览对象是独立于生成列表的，这里不改动 state.focusKey
+  syncCardPressed(key);
+  renderPreview();
+  syncActionBar();
+  updateGridHint(currentSlice());
+  renderLoadMsg();
+
+  const dlg = $('#outputDialog');
+  if (!state.selected.size) {
+    if (dlg.open) dlg.close();
+    toast('已移除「' + name + '」，生成列表已清空');
+    return;
+  }
+  if (dlg.open) buildOutput(true);   // 弹窗开着就地重新生成，保留阅读位置
+  toast('已移除「' + name + '」');
+}
+
+function selectedColors() {
+  return state.colors.filter(function (c) { return state.selected.has(c.key); });
+}
+
+function syncActionBar() {
+  const sel = selectedColors();
+  const bar = $('#actionbar');
+  $('#selCount').textContent = String(sel.length);
+  bar.classList.toggle('show', sel.length > 0);
+  // 与预览面板、生成弹窗同一套胶囊：点色名预览，点 × 从生成列表移除
+  renderColorChips($('#chips'), sel, {
+    activeKey: state.focusKey,
+    compact: true,
+    onPick: function (c) { previewOnly(c.key); },
+    onRemove: function (c) { removeColorFromSelection(c.key); }
+  });
+}
+
+/* ---------------- 预览 ---------------- */
+function currentFocusColor() {
+  if (state.focusKey) {
+    const hit = state.colors.filter(function (x) { return x.key === state.focusKey; })[0];
+    if (hit) return hit;
+  }
+  return selectedColors()[0] || state.colors[0] || null;
+}
+
+function syncFocusBadges() {
+  const cards = document.querySelectorAll('.card');
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].classList.toggle('is-focus', cards[i].dataset.key === state.focusKey);
+  }
+}
+
+/**
+ * 渲染一组颜色胶囊：点主体 = 切换预览对象，点右侧小叉 = 把该颜色从生成列表移除
+ * opts: { activeKey, compact, onPick(color), onRemove(color) }
+ */
+function renderColorChips(box, colors, opts) {
+  box.innerHTML = '';
+  colors.forEach(function (c) {
+    const wrap = document.createElement('span');
+    wrap.className = 'pv-chip' + (opts.compact ? ' compact' : '') + (opts.activeKey === c.key ? ' active' : '');
+
+    const main = document.createElement('button');
+    main.type = 'button';
+    main.className = 'pv-chip-main';
+    main.title = c.name + ' · ' + c.pinyin + ' · ' + c.hex + '（点击预览这个颜色）';
+    main.innerHTML = '<i style="background:' + c.hex + '"></i>';
+    main.appendChild(document.createTextNode(c.name));
+    if (c.custom) {                       // 三处列表共用：自定义颜色带标记
+      const tag = document.createElement('b');
+      tag.className = 'tag-custom';
+      tag.textContent = '自定义';
+      tag.title = '这个颜色是通过取色轮盘添加的';
+      main.appendChild(tag);
+    }
+    main.addEventListener('click', function () { opts.onPick(c); });
+
+    const x = document.createElement('button');
+    x.type = 'button';
+    x.className = 'pv-chip-x';
+    x.textContent = '×';
+    x.title = '移除「' + c.name + '」，不再生成它';
+    x.setAttribute('aria-label', '移除 ' + c.name);
+    x.addEventListener('click', function (e) {
+      e.stopPropagation();
+      opts.onRemove(c);
+    });
+
+    wrap.appendChild(main);
+    wrap.appendChild(x);
+    box.appendChild(wrap);
+  });
+}
+
+function renderPreviewPicker(focus) {
+  const box = $('#pvPicker');
+  const sel = selectedColors();
+  box.innerHTML = '';
+  if (!sel.length) {
+    const span = document.createElement('span');
+    span.className = 'pv-empty';
+    span.textContent = state.colors.length
+      ? '生成列表还是空的：单击色卡可以预览，点色卡右上角 ＋ 才会加入；当前预览的是“' + (focus ? focus.name : '—') + '”。'
+      : '请先导入 colors.json。';
+    box.appendChild(span);
+    return;
+  }
+  const label = document.createElement('span');
+  label.className = 'pv-label';
+  label.textContent = '生成列表（' + sel.length + ' 个）· 点色名预览，点 × 移出：';
+  box.appendChild(label);
+  renderColorChips(box, sel, {
+    activeKey: focus ? focus.key : null,
+    onPick: function (c) { previewOnly(c.key); },
+    onRemove: function (c) { removeColorFromSelection(c.key); }
+  });
+}
+
+/** 预览面板上的「加入生成列表 / 删除自定义颜色」按钮与自定义标记 */
+function updatePreviewActions(color) {
+  const addBtn = $('#btnAddPreview');
+  const delBtn = $('#btnDeleteCustom');
+  const tag = $('#pvCustomTag');
+  if (!color) {
+    addBtn.classList.add('hidden');
+    delBtn.classList.add('hidden');
+    tag.classList.add('hidden');
+    return;
+  }
+  const inList = state.selected.has(color.key);
+  addBtn.classList.remove('hidden');
+  addBtn.textContent = inList ? '✓ 已在生成列表（点击移出）' : '＋ 加入生成列表';
+  addBtn.className = 'btn-sm ' + (inList ? 'btn-ghost' : 'btn-primary');
+  addBtn.title = inList ? '把「' + color.name + '」移出生成列表' : '把「' + color.name + '」加入生成列表';
+  addBtn.setAttribute('aria-pressed', inList ? 'true' : 'false');
+
+  const isCustom = !!color.custom;
+  delBtn.classList.toggle('hidden', !isCustom);
+  if (isCustom) delBtn.title = '从色板里删除自定义颜色「' + color.name + '」（导入的 colors.json 不受影响）';
+  tag.classList.toggle('hidden', !isCustom);
+}
+
+function renderPreview() {
+  // 预览对象与生成列表互相独立：预览可以是任意颜色
+  let c = state.focusKey
+    ? state.colors.filter(function (x) { return x.key === state.focusKey; })[0]
+    : null;
+  if (!c) c = selectedColors()[0] || state.colors[0] || null;
+  if (c) state.focusKey = c.key;      // 预览对象与「预览中」角标始终一致
+  syncFocusBadges();
+  renderPreviewPicker(c);
+  updatePreviewActions(c);
+  if (!c) return;
+
+  const selCount = state.selected.size;
+  $('#pvName').textContent = '：' + c.name + ' · ' + c.pinyin +
+    (state.selected.has(c.key) ? '（已在生成列表）' : '（未加入生成列表）');
+  $('#pvLightKey').textContent = c.pinyin;
+  $('#pvDarkKey').textContent = c.pinyin + '_dark';
+  $('#pvLightChip').style.background = c.hex;
+  $('#pvDarkChip').style.background = c.hex;
+
+  const alpha = 0x26 / 255;
+  // 浅色：选中项 = 原色文字 + 同色 15% 透明底；未选中文字 0x454545、序号 0x8E8E8E
+  drawWindow($('#pvLight'), {
+    back: '#FFFFFF', border: '#FFFFFF', text: '#454545', label: '#8E8E8E',
+    hlBack: hexToRgba(c.six, alpha), hlText: c.hex, hlLabel: c.hex
+  });
+  // 深色：选中项 = 原色实心底 + 白色文字/序号；未选中文字与序号 0x717171
+  drawWindow($('#pvDark'), {
+    back: '#000000', border: '#000000', text: '#717171', label: '#717171',
+    hlBack: c.hex, hlText: '#FFFFFF', hlLabel: '#FFFFFF'
+  });
+}
+
+function drawWindow(el, t) {
+  el.style.background = t.back;
+  el.style.border = '1px solid ' + t.border;
+  el.style.color = t.text;
+  el.innerHTML = '';
+  const pre = document.createElement('div');
+  pre.className = 'preedit';
+  pre.style.color = t.text;
+  pre.textContent = 'ni hao';
+  const cands = document.createElement('div');
+  cands.className = 'cands';
+  PREVIEW_CANDIDATES.forEach(function (item, i) {
+    const d = document.createElement('div');
+    d.className = 'cand' + (i === 0 ? ' sel' : '');
+    const idx = document.createElement('span');
+    idx.className = 'idx';
+    idx.textContent = item.idx;
+    const txt = document.createElement('span');
+    txt.textContent = item.txt;
+    if (i === 0) {
+      d.style.background = t.hlBack;
+      d.style.color = t.hlText;
+      idx.style.color = t.hlLabel;
+    } else {
+      idx.style.color = t.label;
+    }
+    d.appendChild(idx);
+    d.appendChild(txt);
+    cands.appendChild(d);
+  });
+  el.appendChild(pre);
+  el.appendChild(cands);
+}
+
+/* ---------------- 高级设置读取 ---------------- */
+function readOptions() {
+  return {
+    author: $('#optAuthor').value.trim() || 'rxhaol',
+    distributionVersion: $('#optDistVer').value.trim() || '0.17.4',
+    rimeVersion: $('#optRimeVer').value.trim() || '1.13.1',
+    fontFace: $('#optFontFace').value.trim() || 'Source Han Sans SC',
+    fontPoint: numOr($('#optFontPoint').value, 12),
+    labelFontPoint: numOr($('#optLabelFontPoint').value, 10),
+    blur: $('#optBlur').checked,
+    horizontal: $('#optHorizontal').checked,
+    inlinePreedit: $('#optInlinePreedit').checked,
+    layout: {
+      border: numOr($('#layBorder').value, 2),
+      candidate_spacing: numOr($('#layCandidateSpacing').value, 12),
+      hilite_padding: numOr($('#layHilitePadding').value, 4),
+      hilite_spacing: numOr($('#layHiliteSpacing').value, 2),
+      margin_x: numOr($('#layMarginX').value, 6),
+      margin_y: numOr($('#layMarginY').value, 6),
+      round_corner: numOr($('#layRoundCorner').value, 5),
+      spacing: numOr($('#laySpacing').value, 5)
+    }
+  };
+}
+
+/* ---------------- 生成（模态窗口）/ 下载 ---------------- */
+/** 用当前选择重新生成 YAML 并填入弹窗；keepScroll=true 时保留代码区滚动位置 */
+function buildOutput(keepScroll) {
+  const sel = selectedColors();
+  if (!sel.length) return false;
+  const yaml = GEN.buildYaml(sel, readOptions());
+  const pre = $('#code');
+  const keep = keepScroll ? pre.scrollTop : 0;
+  pre.textContent = yaml;
+  pre.scrollTop = keep;
+  $('#outName').textContent = sel.length + ' 个配色 · ' + (sel.length * 2) + ' 个方案节点 · ' +
+    yaml.split('\n').length + ' 行 · 生成于 ' + GEN.ctimeString(new Date());
+  renderOutputColors(sel);
+  renderOutputWarn(sel);
+  return true;
+}
+
+/** 生成时检查重名 / 同拼音 / 同色值，在弹窗顶部给出告警条 */
+function renderOutputWarn(sel) {
+  const box = $('#outWarn');
+  if (!box) return;
+  const dup = GEN.findDuplicates(sel);
+  if (!dup.groups) {
+    box.classList.add('hidden');
+    box.textContent = '';
+    return;
+  }
+  box.textContent = GEN.duplicateDetails(dup);
+  box.classList.remove('hidden');
+}
+
+/** 弹窗顶部的颜色清单：点色名切换预览对象，点 × 移除该颜色并就地重新生成 */
+function renderOutputColors(sel) {
+  const box = $('#outColors');
+  if (!box) return;
+  renderColorChips(box, sel, {
+    activeKey: state.focusKey,
+    onPick: function (c) {
+      state.focusKey = c.key;
+      renderPreview();
+      renderOutputColors(selectedColors());
+    },
+    onRemove: function (c) { removeColorFromSelection(c.key); }
+  });
+}
+
+function generate() {
+  const sel = selectedColors();
+  if (!sel.length) { toast('请先选择至少一个颜色卡片'); return; }
+  buildOutput(false);
+  openOutputDialog();
+  const dup = GEN.findDuplicates(sel);
+  if (dup.groups) toast('⚠ 检测到 ' + dup.groups + ' 组重复颜色（' + GEN.summarizeDuplicates(dup) + '），请看弹窗提示');
+  else toast('已生成 weasel.custom.yaml');
+}
+
+function openOutputDialog() {
+  const dlg = $('#outputDialog');
+  if (!dlg) return;
+  if (typeof dlg.showModal === 'function') {
+    if (!dlg.open) dlg.showModal();
+  } else {
+    dlg.setAttribute('open', '');   // 老浏览器兜底
+  }
+}
+
+function download(filename, text) {
+  const blob = new Blob([text], { type: 'text/yaml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+}
+
+/* ---------------- 导入 ---------------- */
+function parseColorsPayload(text) {
+  const data = JSON.parse(String(text).replace(/^\uFEFF/, ''));
+  const list = Array.isArray(data) ? data : (data && Array.isArray(data.colors) ? data.colors : null);
+  if (!list) throw new Error('需要顶层数组，或 { colors: [...] }');
+  return list;
+}
+
+/* ---------------- 读取同目录 colors.json ---------------- */
+/** colors.json 的绝对地址：始终解析到本页（HTML 文件）所在目录 */
+function colorsFileUrl() {
+  const base = (typeof document !== 'undefined' && document.baseURI) ? document.baseURI : location.href;
+  try {
+    return new URL(COLORS_FILE, base).href + '?t=' + Date.now();   // 加时间戳，避免 CDN 缓存旧文件
+  } catch (e) {
+    return COLORS_FILE + '?t=' + Date.now();
+  }
+}
+
+/** 尝试 fetch 同目录的 colors.json；返回 Promise<{ok, why}> */
+function tryLoadColorsFile() {
+  if (typeof fetch !== 'function') return Promise.resolve({ ok: false, why: '浏览器不支持 fetch' });
+  return fetch(colorsFileUrl(), { cache: 'no-store' })
+    .then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + (res.statusText || ''));
+      return res.text();
+    })
+    .then(function (text) {
+      const list = parseColorsPayload(text);
+      if (!loadColors(list, '同目录 ' + COLORS_FILE)) throw new Error('colors.json 里没有可用颜色');
+      return { ok: true };
+    })
+    .catch(function (err) {
+      return { ok: false, why: (err && err.message) || String(err) };
+    });
+}
+
+/** 读取失败时的可操作提示 */
+function fileHint(why) {
+  const isFileProto = typeof location !== 'undefined' && location.protocol === 'file:';
+  const head = '没能读取同目录 ' + COLORS_FILE + '（' + why + '），当前显示内置示例色板。';
+  if (isFileProto) {
+    return head + '注意：双击打开（file://）时浏览器禁止页面读取本地文件，' +
+      '把本页和 colors.json 一起放到静态站点（GitHub Pages 等）或本地服务器上打开即可；' +
+      '也可以点「导入 colors.json」手动选择文件。';
+  }
+  return head + '请确认 colors.json 与本页在同一目录、文件名与大小写完全一致（GitHub Pages 区分大小写）、' +
+    '且是合法 JSON；也可以点「导入 colors.json」手动选择。';
+}
+
+/** 启动时或点「重新读取」时调用：优先用同目录 colors.json，失败则退回示例色板 */
+function readColorsFile(manual) {
+  const prevBase = state.loadBase, prevKind = state.loadKind;
+  if (!manual) { state.loadingFile = true; renderGrid(); }
+  showLoadMsg('正在' + (manual ? '重新' : '') + '读取同目录 ' + COLORS_FILE + '…');
+  return tryLoadColorsFile().then(function (r) {
+    state.loadingFile = false;
+    if (r.ok) {
+      showLoadMsg('已读取同目录 ' + COLORS_FILE + '：' + state.colors.length + ' 个颜色', 'ok');
+      toast(manual ? '已重新读取 ' + COLORS_FILE : '颜色来自同目录 ' + COLORS_FILE);
+      return true;
+    }
+    const hint = fileHint(r.why);
+    if (manual) {
+      state.loadBase = prevBase; state.loadKind = prevKind;   // 保留原色板与信息
+      renderGrid();
+      showLoadMsg((prevBase ? prevBase + '；' : '') + hint, 'warn');
+      toast('读取 ' + COLORS_FILE + ' 失败');
+    } else {
+      loadColors(SAMPLE_COLORS, '内置示例色板');
+      showLoadMsg(state.loadBase + '；' + hint, 'warn');
+    }
+    return false;
+  });
+}
+
+function readJsonFile(file) {  const reader = new FileReader();
+  reader.onload = function () {
+    try {
+      const list = parseColorsPayload(reader.result);
+      if (loadColors(list, file.name)) toast('已导入 ' + file.name);
+    } catch (err) {
+      showLoadMsg('JSON 解析失败：' + err.message, 'err');
+    }
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+/* ---------------- 事件绑定 ---------------- */
+$('#fileInput').addEventListener('change', function (e) {
+  const f = e.target.files && e.target.files[0];
+  if (f) readJsonFile(f);
+  e.target.value = '';
+});
+
+document.addEventListener('dragover', function (e) { e.preventDefault(); });
+document.addEventListener('drop', function (e) {
+  e.preventDefault();
+  const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (!f) return;
+  if (!/\.json$/i.test(f.name)) { showLoadMsg('请拖入 .json 文件', 'err'); return; }
+  readJsonFile(f);
+});
+
+$('#btnReloadFile').addEventListener('click', function () { readColorsFile(true); });
+
+$('#btnPaste').addEventListener('click', function () {
+  $('#pasteMsg').textContent = '';
+  $('#jsonDialog').showModal();
+});
+
+$('#btnApplyJson').addEventListener('click', function () {
+  const txt = $('#jsonText').value.trim();
+  const msg = $('#pasteMsg');
+  if (!txt) { msg.className = 'msg err'; msg.textContent = '内容为空'; return; }
+  try {
+    const list = parseColorsPayload(txt);
+    if (loadColors(list, '粘贴的 JSON')) {
+      $('#jsonDialog').close();
+      toast('已应用粘贴的 JSON');
+    } else {
+      msg.className = 'msg err';
+      msg.textContent = $('#loadMsg').textContent;
+    }
+  } catch (err) {
+    msg.className = 'msg err';
+    msg.textContent = 'JSON 解析失败：' + err.message;
+  }
+});
+
+$('#btnSample').addEventListener('click', function () {
+  loadColors(SAMPLE_COLORS, '内置示例色板');
+  showCustomMsg('');
+  toast('已恢复示例色板');
+});
+
+/* 自定义颜色：取色轮盘 + 名称 + 拼音键名 */
+$('#btnAddColor').addEventListener('click', function () {
+  if (addCustomColor($('#customColor').value, $('#customName').value, $('#customPinyin').value)) {
+    $('#customName').value = '';        // 名称/键名清空，方便连续添加
+    $('#customPinyin').value = '';
+  }
+});
+$('#btnClearCustom').addEventListener('click', askClearCustomColors);
+$('#btnRandomColor').addEventListener('click', randomizeCustomColor);
+$('#btnRandom').addEventListener('click', randomPick);
+
+/* 清除确认弹窗 */
+$('#btnClearCustomCancel').addEventListener('click', function () { $('#clearCustomDialog').close(); });
+$('#btnClearCustomOk').addEventListener('click', function () {
+  $('#clearCustomDialog').close();
+  doClearCustomColors();
+});
+$('#clearCustomDialog').addEventListener('click', function (e) {
+  if (e.target === this) this.close();
+});
+$('#btnDeleteCustom').addEventListener('click', function () {
+  const c = state.focusKey
+    ? state.colors.filter(function (x) { return x.key === state.focusKey; })[0]
+    : null;
+  if (!c) return;
+  deleteCustomColor(c.key);
+});
+[$('#customName'), $('#customPinyin')].forEach(function (el) {
+  el.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); $('#btnAddColor').click(); }
+  });
+});
+$('#customColor').addEventListener('input', function () {
+  showCustomMsg('');
+});
+
+$('#btnDownloadJson').addEventListener('click', function () {
+  const plain = state.colors.map(function (c) { return { pinyin: c.pinyin, hex: c.hex, name: c.name }; });
+  download('colors.json', JSON.stringify(plain, null, 4) + '\n');
+});
+
+$('#search').addEventListener('input', function (e) {
+  state.query = e.target.value;
+  state.page = 1;
+  renderGrid();
+});
+
+$('#btnSelectPage').addEventListener('click', function () {
+  currentSlice().slice.forEach(function (c) { state.selected.add(c.key); });
+  if (!state.focusKey && state.selected.size) state.focusKey = Array.from(state.selected)[0];
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+});
+
+$('#btnSelectAll').addEventListener('click', function () {
+  visibleColors().forEach(function (c) { state.selected.add(c.key); });
+  if (!state.focusKey && state.selected.size) state.focusKey = Array.from(state.selected)[0];
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+});
+
+$('#btnClear').addEventListener('click', clearSelection);
+$('#btnClear2').addEventListener('click', clearSelection);
+function clearSelection() {
+  state.selected.clear();
+  state.focusKey = null;   // 同时清掉「预览中」标记
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+}
+
+$('#btnGenerate').addEventListener('click', generate);
+
+$('#btnCopy').addEventListener('click', function () {
+  const text = $('#code').textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function () { toast('已复制到剪贴板'); },
+      function () { fallbackCopy(text); });
+  } else {
+    fallbackCopy(text);
+  }
+});
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); toast('已复制到剪贴板'); }
+  catch (e) { toast('复制失败，请手动选择文本'); }
+  document.body.removeChild(ta);
+}
+
+$('#btnDownload').addEventListener('click', function () {
+  download('weasel.custom.yaml', $('#code').textContent);
+  toast('已下载 weasel.custom.yaml');
+});
+
+$('#btnCloseOut').addEventListener('click', function () {
+  $('#outputDialog').close();
+});
+
+/* 点击遮罩关闭 */
+$('#outputDialog').addEventListener('click', function (e) {
+  if (e.target === this) this.close();
+});
+
+/* 冻结布局下，滚动区宽度变化（滚动条出现/消失、窗口缩放）时重算列数与分页 */
+(function watchColumns() {
+  const grid = $('#grid');
+  const area = $('#scrollArea');
+  if (typeof ResizeObserver === 'function' && area) {
+    let lastCols = gridMetrics().cols;
+    new ResizeObserver(function () {
+      const cols = gridMetrics().cols;
+      if (cols !== lastCols) { lastCols = cols; renderGrid(); }
+    }).observe(area);
+  } else {
+    let lastCols = gridMetrics().cols;
+    window.addEventListener('resize', function () {
+      const cols = gridMetrics().cols;
+      if (cols !== lastCols) { lastCols = cols; renderGrid(); }
+    });
+  }
+})();
+
+/* 鼠标停在冻结区/分页条上时，滚轮继续带动中间的卡片区滚动 */
+(function forwardWheel() {
+  const area = $('#scrollArea');
+  if (!area) return;
+  [$('#freezeBox'), $('#pager'), $('#actionbar'), $('#chips')].forEach(function (el) {
+    if (!el) return;
+    el.addEventListener('wheel', function (e) {
+      if (!document.body.classList.contains('shell')) return;
+      const canScroll = el.scrollHeight > el.clientHeight + 1;
+      const atTop = el.scrollTop <= 0;
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+      if (canScroll && !((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom))) return; // 该区块自己滚
+      area.scrollTop += e.deltaY;
+      e.preventDefault();
+    }, { passive: false });
+  });
+})();
+
+/* ---------------- 启动 ---------------- */
+initTheme();
+applyFreeze(readFlag(FREEZE_KEY, true), false);
+applyPvCollapsed(readFlag(PV_KEY, false), false);
+// 颜色优先来自与本页同目录的 colors.json；读不到再退回内置示例色板（会给出提示）
+readColorsFile(false);
+</script>
 </body>
-
 </html>
