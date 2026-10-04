@@ -180,11 +180,6 @@
         "name": "硫华黄"
     },
     {
-        "pinyin": "youhuang",
-        "hex": "#f1ca17",
-        "name": "柚黄"
-    },
-    {
         "pinyin": "mangguohuang",
         "hex": "#ddc871",
         "name": "芒果黄"
@@ -1230,11 +1225,6 @@
         "name": "酱紫"
     },
     {
-        "pinyin": "danshuhong",
-        "hex": "#ee2746",
-        "name": "淡曙红"
-    },
-    {
         "pinyin": "tangchangpuhong",
         "hex": "#de1c31",
         "name": "唐菖蒲红"
@@ -1260,19 +1250,9 @@
         "name": "苋菜红"
     },
     {
-        "pinyin": "yanhong",
-        "hex": "#894e54",
-        "name": "烟红"
-    },
-    {
         "pinyin": "anziyuanhong",
         "hex": "#82202b",
         "name": "暗紫苑红"
-    },
-    {
-        "pinyin": "yanhong",
-        "hex": "#82111f",
-        "name": "殷红"
     },
     {
         "pinyin": "zhuganzi",
@@ -1408,11 +1388,6 @@
         "pinyin": "luanshizi",
         "hex": "#30161c",
         "name": "卵石紫"
-    },
-    {
-        "pinyin": "lizi",
-        "hex": "#2b1216",
-        "name": "李紫"
     },
     {
         "pinyin": "qiepizi",
@@ -2365,11 +2340,6 @@
         "name": "长石灰"
     },
     {
-        "pinyin": "ganlanlv",
-        "hex": "#1f2623",
-        "name": "苷蓝绿"
-    },
-    {
         "pinyin": "mangconglv",
         "hex": "#141e1b",
         "name": "莽丛绿"
@@ -2598,11 +2568,6 @@
         "pinyin": "qianhui",
         "hex": "#dad4cb",
         "name": "浅灰"
-    },
-    {
-        "pinyin": "qianhui",
-        "hex": "#bbb5ac",
-        "name": "铅灰"
     },
     {
         "pinyin": "zhonghui",
