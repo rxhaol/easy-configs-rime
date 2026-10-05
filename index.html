@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rime 中国色主题生成器 · weasel.custom.yaml</title>
+<title>Rime 主题生成器 · weasel.custom.yaml</title>
 <script>
   /* 尽早确定主题，避免首屏闪一下另一种配色 */
   (function () {
@@ -392,6 +392,11 @@
     padding:10px 18px;border-bottom:1px solid var(--line);
     background:#d9a4411a;color:var(--warn-fg);font-size:12.5px;line-height:1.65;white-space:pre-line;
   }
+  #outputDialog .merge-bar{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+    padding:10px 18px;border-bottom:1px solid var(--line);background:#38bdf812;
+  }
+  #outputDialog .merge-info{flex:1 1 320px;font-size:12.5px;line-height:1.6;color:var(--text)}
   #outputDialog .code-body{padding:0;background:var(--code-bg)}
   pre.code{
     margin:0;padding:14px 16px;max-height:56vh;overflow:auto;
@@ -442,7 +447,7 @@
 
   <header class="top">
     <div class="brand">
-      <h1>Rime 输入法主题生成器 <span>· weasel.custom.yaml</span></h1>
+      <h1>Rime 输入法·中国色主题生成器 <span>· weasel.custom.yaml</span></h1>
       <p>单击色卡 = 预览候选窗效果；点色卡右上角 <b>＋</b> 或预览区的「加入生成列表」= 放进要生成的颜色（可多选）→ 生成 <code class="k">weasel.custom.yaml</code>，自动写入 <code class="k">{pinyin}</code> 与 <code class="k">{pinyin}_dark</code> 两套配色。</p>
     </div>
     <div class="head-right">
@@ -619,10 +624,17 @@
     <span class="pv-label">文件包含的颜色（点 × 立即移除并重新生成）：</span>
     <div class="row" id="outColors" style="gap:8px"></div>
   </div>
+  <div class="merge-bar hidden" id="mergeBar">
+    <span class="merge-info" id="mergeInfo"></span>
+    <label class="switch"><input type="checkbox" id="mergeOverwrite" checked><span>同名配色以本次生成为准</span></label>
+    <button class="btn-sm btn-ghost" id="btnMergeRevert">↩ 还原为纯生成结果</button>
+  </div>
   <div class="dbody code-body">
     <pre class="code" id="code" tabindex="0"></pre>
   </div>
   <div class="dfoot">
+    <label class="btn-sm btn-ghost" for="mergeFileInput" title="选择你现有的 weasel.custom.yaml，把本次配色合并进去（保留你的其它设置）">🔀 合并已有文件…</label>
+    <input type="file" id="mergeFileInput" accept=".yaml,.yml,text/yaml,application/x-yaml" class="hidden">
     <button class="btn-sm" id="btnCopy">📋 复制</button>
     <button class="btn-sm btn-primary" id="btnDownload">⬇ 下载 weasel.custom.yaml</button>
     <button class="btn-ghost" id="btnCloseOut">关闭（Esc）</button>
@@ -861,6 +873,254 @@ const GEN = (function () {
     return out.join('\n') + '\n';
   }
 
+  /* ---------------- 与用户已有 weasel.custom.yaml 合并 ----------------
+     做法：按缩进把 YAML 切成"块"，只在 patch 的 preset_color_schemes / style
+     两级上做合并，其余内容（注释、别的 patch 项、用户独有的配色）原样保留。 */
+
+  function indentOf(line) { const m = /^[ \t]*/.exec(line); return m ? m[0].length : 0; }
+  function isSkippableLine(line) {
+    const t = String(line).trim();
+    return t === '' || t.charAt(0) === '#' || t === '---' || t === '...';
+  }
+  function yamlKeyOf(line) {
+    const t = String(line).trim();
+    const m = /^("?[^"\s][^":]*"?)\s*:(?:\s|$)/.exec(t);
+    return m ? m[1].replace(/^"|"$/g, '') : null;
+  }
+
+  /** 按 baseIndent 的直属子项把行切成块；空行/注释跟随上一个块 */
+  function splitYamlBlocks(lines, baseIndent) {
+    const out = [];
+    let cur = null;
+    (lines || []).forEach(function (line) {
+      if (isSkippableLine(line)) {
+        if (cur) cur.lines.push(line);
+        else out.push({ key: null, indent: -1, lines: [line] });
+        return;
+      }
+      const ind = indentOf(line);
+      const k = (ind === baseIndent) ? yamlKeyOf(line) : null;
+      if (k !== null) {
+        cur = { key: k, indent: ind, lines: [line] };
+        out.push(cur);
+      } else if (cur) {
+        cur.lines.push(line);
+      } else {
+        out.push({ key: null, indent: ind, lines: [line] });
+      }
+    });
+    return out;
+  }
+
+  function findYamlBlock(blocks, key) {
+    for (let i = 0; i < blocks.length; i++) if (blocks[i].key === key) return blocks[i];
+    return null;
+  }
+
+  /** 块的子项缩进（取第一条非空续行），兼容 2/4 空格风格 */
+  function yamlChildIndent(block) {
+    for (let i = 1; i < block.lines.length; i++) {
+      if (!isSkippableLine(block.lines[i])) return indentOf(block.lines[i]);
+    }
+    return block.indent + 2;
+  }
+
+  /** 整块平移缩进，用于把生成的内容对齐到用户文件的缩进风格 */
+  function shiftIndent(lines, delta) {
+    if (!delta) return lines.slice();
+    return lines.map(function (l) {
+      if (!String(l).trim()) return l;
+      if (delta > 0) return ' '.repeat(delta) + l;
+      const cut = Math.min(-delta, indentOf(l));
+      return l.slice(cut);
+    });
+  }
+
+  /** 流式写法（style: { ... }）无法逐项合并，只能整段保留 */
+  function isFlowYamlBlock(block) {
+    if (!block) return false;
+    if (/:\s*\{/.test(block.lines[0] || '')) return true;
+    const ci = yamlChildIndent(block);
+    for (let i = 1; i < block.lines.length; i++) {
+      const l = block.lines[i];
+      if (isSkippableLine(l)) continue;
+      if (indentOf(l) === ci && String(l).trim().charAt(0) === '{') return true;
+    }
+    return false;
+  }
+
+  /**
+   * 把生成的 weasel.custom.yaml 合并进用户已有文件
+   * options.overwrite: 同名配色是否用本次生成的内容覆盖（默认 true）
+   * 返回 { text, report }
+   */
+  function mergeYaml(userText, generatedText, options) {
+    const opts = Object.assign({ overwrite: true }, options || {});
+    const user = String(userText == null ? '' : userText);
+    const gen = String(generatedText == null ? '' : generatedText);
+    const report = {
+      empty: false, patchAppended: false, customization: 'none',
+      addedSchemes: [], updatedSchemes: [], keptSchemes: [],
+      styleAdded: [], styleKept: [], addedPatchKeys: [], blocked: []
+    };
+    if (!user.trim()) { report.empty = true; return { text: gen, report: report }; }
+
+    const userTop = splitYamlBlocks(user.split(/\r?\n/), 0);
+    const genTop = splitYamlBlocks(gen.split(/\r?\n/), 0);
+    const genCustom = findYamlBlock(genTop, 'customization');
+    const genPatch = findYamlBlock(genTop, 'patch');
+    const userCustom = findYamlBlock(userTop, 'customization');
+    const userPatch = findYamlBlock(userTop, 'patch');
+
+    const genPatchBlocks = genPatch ? splitYamlBlocks(genPatch.lines.slice(1), yamlChildIndent(genPatch)) : [];
+    const genPcs = findYamlBlock(genPatchBlocks, 'preset_color_schemes');
+    const genStyle = findYamlBlock(genPatchBlocks, 'style');
+    const genOther = genPatchBlocks.filter(function (b) { return b.key && b !== genPcs && b !== genStyle; });
+    const genSchemes = genPcs ? splitYamlBlocks(genPcs.lines.slice(1), yamlChildIndent(genPcs)).filter(function (b) { return b.key; }) : [];
+    const genStyleKeys = genStyle ? splitYamlBlocks(genStyle.lines.slice(1), yamlChildIndent(genStyle)).filter(function (b) { return b.key; }) : [];
+
+    let patchLines = null;
+
+    if (!userPatch) {
+      report.patchAppended = true;
+      patchLines = genPatch ? genPatch.lines.slice() : [];
+      report.addedSchemes = genSchemes.map(function (b) { return b.key; });
+      report.styleAdded = genStyleKeys.map(function (b) { return b.key; });
+    } else {
+      const uPatchIndent = yamlChildIndent(userPatch);
+      const gPatchIndent = genPatch ? yamlChildIndent(genPatch) : 2;
+      const dPatch = uPatchIndent - gPatchIndent;
+      const userPatchBlocks = splitYamlBlocks(userPatch.lines.slice(1), uPatchIndent);
+      const userPcs = findYamlBlock(userPatchBlocks, 'preset_color_schemes');
+      const userStyle = findYamlBlock(userPatchBlocks, 'style');
+      const body = [];
+      let pcsDone = false, styleDone = false;
+
+      userPatchBlocks.forEach(function (b) {
+        if (b === userPcs) {
+          pcsDone = true;
+          if (!genPcs) { body.push.apply(body, b.lines); return; }
+          if (isFlowYamlBlock(userPcs)) {
+            report.blocked.push('preset_color_schemes');
+            body.push.apply(body, b.lines);
+            return;
+          }
+          const uSchemeIndent = yamlChildIndent(userPcs);
+          const dScheme = uSchemeIndent - yamlChildIndent(genPcs);
+          const userSchemes = splitYamlBlocks(userPcs.lines.slice(1), uSchemeIndent).filter(function (x) { return x.key; });
+          const ourByName = {};
+          genSchemes.forEach(function (g) { ourByName[g.key] = g; });
+          const merged = [];
+          userSchemes.forEach(function (u) {
+            const ours = ourByName[u.key];
+            if (!ours) { merged.push(u); return; }                  // 用户独有的配色原样保留
+            if (opts.overwrite) { merged.push(ours); report.updatedSchemes.push(u.key); }
+            else { merged.push(u); report.keptSchemes.push(u.key); }
+          });
+          const userNames = {};
+          userSchemes.forEach(function (u) { userNames[u.key] = true; });
+          genSchemes.forEach(function (g) {
+            if (userNames[g.key]) return;                            // 同名已在上面处理
+            merged.push({ key: g.key, indent: uSchemeIndent, lines: shiftIndent(g.lines, dScheme) });
+            report.addedSchemes.push(g.key);
+          });
+          body.push(userPcs.lines[0]);
+          merged.forEach(function (m) { body.push.apply(body, m.lines); });
+          return;
+        }
+        if (b === userStyle) {
+          styleDone = true;
+          if (!genStyle) { body.push.apply(body, b.lines); return; }
+          if (isFlowYamlBlock(userStyle)) {
+            report.blocked.push('style');
+            body.push.apply(body, b.lines);
+            return;
+          }
+          const uKeyIndent = yamlChildIndent(userStyle);
+          const dKey = uKeyIndent - yamlChildIndent(genStyle);
+          const userKeys = splitYamlBlocks(userStyle.lines.slice(1), uKeyIndent).filter(function (x) { return x.key; });
+          const have = {};
+          userKeys.forEach(function (u) { have[u.key] = true; });
+          body.push(userStyle.lines[0]);
+          userKeys.forEach(function (u) { body.push.apply(body, u.lines); });
+          genStyleKeys.forEach(function (g) {
+            if (have[g.key]) { report.styleKept.push(g.key); return; }
+            body.push.apply(body, shiftIndent(g.lines, dKey));
+            report.styleAdded.push(g.key);
+          });
+          return;
+        }
+        body.push.apply(body, b.lines);
+      });
+
+      if (genPcs && !pcsDone) {
+        body.push.apply(body, shiftIndent(genPcs.lines, dPatch));
+        report.addedSchemes = genSchemes.map(function (b) { return b.key; });
+      }
+      if (genStyle && !styleDone) {
+        body.push.apply(body, shiftIndent(genStyle.lines, dPatch));
+        report.styleAdded = genStyleKeys.map(function (b) { return b.key; });
+      }
+      genOther.forEach(function (g) {
+        if (!userPatchBlocks.some(function (u) { return u.key === g.key; })) {
+          body.push.apply(body, shiftIndent(g.lines, dPatch));
+          report.addedPatchKeys.push(g.key);
+        }
+      });
+
+      patchLines = [userPatch.lines[0]].concat(body);
+    }
+
+    const out = [];
+    let customDone = false, patchDone = false;
+    userTop.forEach(function (b) {
+      if (b === userCustom) {
+        customDone = true;
+        if (genCustom) { out.push.apply(out, genCustom.lines); report.customization = 'replaced'; }
+        else out.push.apply(out, b.lines);
+        return;
+      }
+      if (b === userPatch) {
+        patchDone = true;
+        out.push.apply(out, patchLines);
+        return;
+      }
+      out.push.apply(out, b.lines);
+    });
+    if (!customDone && genCustom) {
+      out.unshift.apply(out, genCustom.lines.concat(['']));
+      report.customization = 'added';
+    }
+    if (!patchDone && patchLines) {
+      if (out.length && String(out[out.length - 1]).trim() !== '') out.push('');
+      out.push.apply(out, patchLines);
+    }
+
+    let text = out.join('\n');
+    if (!/\n$/.test(text)) text += '\n';
+    return { text: text, report: report };
+  }
+
+  /** 把合并结果说成人话 */
+  function describeMerge(report) {
+    if (!report) return '';
+    if (report.empty) return '原文件是空的，直接用本次生成的内容';
+    const parts = [];
+    if (report.blocked && report.blocked.length) {
+      parts.push('⚠ 你的 ' + report.blocked.join('、') + ' 是流式写法，无法逐条合并，已整段保留');
+    }
+    if (report.addedSchemes.length) parts.push('新增配色 ' + report.addedSchemes.length + ' 个（' + report.addedSchemes.join('、') + '）');
+    if (report.updatedSchemes.length) parts.push('覆盖同名配色 ' + report.updatedSchemes.length + ' 个（' + report.updatedSchemes.join('、') + '）');
+    if (report.keptSchemes.length) parts.push('保留你的同名配色 ' + report.keptSchemes.length + ' 个（' + report.keptSchemes.join('、') + '）');
+    if (report.styleAdded.length) parts.push('style 补充 ' + report.styleAdded.join('、'));
+    if (report.styleKept.length) parts.push('style 沿用你的 ' + report.styleKept.join('、'));
+    if (report.addedPatchKeys.length) parts.push('新增 ' + report.addedPatchKeys.join('、'));
+    if (report.customization === 'replaced') parts.push('customization 已更新为本次信息');
+    if (report.customization === 'added') parts.push('customization 已补到文件开头');
+    if (report.patchAppended) parts.push('你的文件没有 patch: 段，已在末尾追加');
+    return parts.length ? parts.join('；') : '你的文件已是最新，无需改动';
+  }
+
   return {
     ctimeString: ctimeString,
     normalizeHex: normalizeHex,
@@ -873,6 +1133,11 @@ const GEN = (function () {
     prepareColors: prepareColors,
     schemeFields: schemeFields,
     buildYaml: buildYaml,
+    mergeYaml: mergeYaml,
+    describeMerge: describeMerge,
+    splitYamlBlocks: splitYamlBlocks,
+    yamlChildIndent: yamlChildIndent,
+    indentOf: indentOf,
     DEFAULT_OPTIONS: DEFAULT_OPTIONS
   };
 })();
@@ -1420,6 +1685,8 @@ const state = {
   page: 1,
   flash: [],           // 刚被随机抽中的颜色，渲染时弹一下
   loadingFile: false,  // 正在读取同目录 colors.json
+  pureYaml: '',        // 本次生成的原始 YAML（未合并）
+  mergeUser: null,     // { text, name } 用户选来合并的已有文件
   loadBase: '',        // 载入信息正文（重复色提醒会追加在后面）
   loadKind: ''
 };
@@ -2229,15 +2496,63 @@ function buildOutput(keepScroll) {
   const sel = selectedColors();
   if (!sel.length) return false;
   const yaml = GEN.buildYaml(sel, readOptions());
+  state.pureYaml = yaml;                     // 纯生成结果（未合并）
   const pre = $('#code');
   const keep = keepScroll ? pre.scrollTop : 0;
   pre.textContent = yaml;
-  pre.scrollTop = keep;
   $('#outName').textContent = sel.length + ' 个配色 · ' + (sel.length * 2) + ' 个方案节点 · ' +
     yaml.split('\n').length + ' 行 · 生成于 ' + GEN.ctimeString(new Date());
   renderOutputColors(sel);
   renderOutputWarn(sel);
+  if (state.mergeUser) applyMerge();          // 已选过用户文件 -> 自动重新合并
+  pre.scrollTop = keep;
   return true;
+}
+
+/* ---------------- 与已有文件合并 ---------------- */
+/** 把当前生成结果与用户文件合并后填入弹窗 */
+function applyMerge() {
+  const pre = $('#code');
+  const pure = state.pureYaml || '';
+  if (!state.mergeUser) {
+    pre.textContent = pure;
+    const bar = $('#mergeBar');
+    if (bar) bar.classList.add('hidden');
+    return false;
+  }
+  const res = GEN.mergeYaml(state.mergeUser.text, pure, { overwrite: $('#mergeOverwrite').checked });
+  pre.textContent = res.text;
+  $('#mergeInfo').textContent = '已合并「' + state.mergeUser.name + '」：' + GEN.describeMerge(res.report);
+  $('#mergeBar').classList.remove('hidden');
+  return true;
+}
+
+/** 读取用户选择的 weasel.custom.yaml 并合并 */
+function mergeWithUserText(text, fileName) {
+  if (!selectedColors().length) { toast('请先选择至少一个颜色卡片'); return false; }
+  state.mergeUser = { text: text, name: fileName || '已有文件' };
+  applyMerge();
+  toast('已合并「' + state.mergeUser.name + '」，可复制或直接下载覆盖');
+  return true;
+}
+
+function readMergeFile(file) {
+  const reader = new FileReader();
+  reader.onload = function () {
+    try {
+      mergeWithUserText(String(reader.result), file.name);
+    } catch (err) {
+      toast('合并失败：' + err.message);
+    }
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+function clearMerge() {
+  state.mergeUser = null;
+  applyMerge();
+  renderOutputColors(selectedColors());
+  toast('已还原为纯生成结果');
 }
 
 /** 生成时检查重名 / 同拼音 / 同色值，在弹窗顶部给出告警条 */
@@ -2359,8 +2674,8 @@ function readColorsFile(manual) {
   return tryLoadColorsFile().then(function (r) {
     state.loadingFile = false;
     if (r.ok) {
-      showLoadMsg('已读取同目录 ' + COLORS_FILE + '：' + state.colors.length + ' 个颜色', 'ok');
-      toast(manual ? '已重新读取 ' + COLORS_FILE : '颜色来自同目录 ' + COLORS_FILE);
+      showLoadMsg('已加载默认 ' + COLORS_FILE + '：' + state.colors.length + ' 个颜色', 'ok');
+      toast(manual ? '已重新读取 ' + COLORS_FILE : '颜色 ' + COLORS_FILE);
       return true;
     }
     const hint = fileHint(r.why);
@@ -2401,11 +2716,27 @@ document.addEventListener('drop', function (e) {
   e.preventDefault();
   const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
   if (!f) return;
-  if (!/\.json$/i.test(f.name)) { showLoadMsg('请拖入 .json 文件', 'err'); return; }
+  if (/\.(ya?ml)$/i.test(f.name)) {          // 拖入 yaml -> 合并进生成结果
+    if (!$('#outputDialog').open) { showLoadMsg('先点「⚙ 生成 weasel.custom.yaml」，再把要合并的 yaml 拖进来', 'err'); return; }
+    readMergeFile(f);
+    return;
+  }
+  if (!/\.json$/i.test(f.name)) { showLoadMsg('请拖入 .json（颜色）或 .yaml（要合并的配置）文件', 'err'); return; }
   readJsonFile(f);
 });
 
 $('#btnReloadFile').addEventListener('click', function () { readColorsFile(true); });
+
+/* 生成结果弹窗：与已有文件合并 */
+$('#mergeFileInput').addEventListener('change', function (e) {
+  const f = e.target.files && e.target.files[0];
+  if (f) readMergeFile(f);
+  e.target.value = '';
+});
+$('#mergeOverwrite').addEventListener('change', function () {
+  if (state.mergeUser) { applyMerge(); toast($('#mergeOverwrite').checked ? '同名配色改用本次生成的内容' : '同名配色保留你原有的内容'); }
+});
+$('#btnMergeRevert').addEventListener('click', clearMerge);
 
 $('#btnPaste').addEventListener('click', function () {
   $('#pasteMsg').textContent = '';
