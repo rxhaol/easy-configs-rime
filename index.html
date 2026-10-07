@@ -253,6 +253,10 @@
     align-self:flex-start;font-size:10px;font-weight:700;line-height:1.6;padding:0 6px;border-radius:999px;
     background:#38bdf826;color:var(--accent-2);border:1px solid #38bdf840;margin-top:2px;
   }
+  /* 与现有颜色同名 / 同键名时的警示小标签 */
+  .tag-custom.warn,.ctag.warn{
+    background:#d9a44126;color:var(--warn-fg);border-color:#d9a44155;
+  }
 
   /* ---------- preview ---------- */
   .preview{margin:14px 20px;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
@@ -491,6 +495,9 @@
     <div class="row">
       <label class="btn" for="fileInput">📂 导入 colors.json</label>
       <input type="file" id="fileInput" accept=".json,application/json" class="hidden">
+      <label class="btn btn-ghost" for="configFileInput" title="从已有的 weasel/squirrel custom.yaml 里把配色读回来，加入下面的颜色卡片">📥 导入已有配置配色</label>
+      <input type="file" id="configFileInput" accept=".yaml,.yml,text/yaml,application/x-yaml" class="hidden">
+      <button id="btnClearImported" class="btn-ghost btn-sm hidden" title="把从配置文件读回来的颜色全部移除（导入的 colors.json 不受影响）">🗑 清除导入的配色</button>
       <button id="btnReloadFile" class="btn-ghost" title="重新读取与本页同目录的 colors.json">🔄 重新读取 colors.json</button>
       <button id="btnPaste" class="btn-ghost">✎ 粘贴 JSON</button>
       <button id="btnSample" class="btn-ghost">↺ 恢复示例色板</button>
@@ -589,11 +596,11 @@
     </div>
     <div class="wins">
       <div class="win-box">
-        <div class="win-tag">浅色方案 <b id="pvLightKey"></b> <i id="pvLightChip" style="background:#fff"></i></div>
+        <div class="win-tag"><span id="pvLightTag">浅色方案</span> <b id="pvLightKey"></b> <i id="pvLightChip" style="background:#fff"></i></div>
         <div class="rime" id="pvLight"></div>
       </div>
       <div class="win-box">
-        <div class="win-tag">深色方案 <b id="pvDarkKey"></b> <i id="pvDarkChip" style="background:#000"></i></div>
+        <div class="win-tag"><span id="pvDarkTag">深色方案</span> <b id="pvDarkKey"></b> <i id="pvDarkChip" style="background:#000"></i></div>
         <div class="rime" id="pvDark"></div>
       </div>
     </div>
@@ -1012,7 +1019,13 @@ const GEN = (function () {
      做法：按缩进把 YAML 切成"块"，只在 patch 的 preset_color_schemes / style
      两级上做合并，其余内容（注释、别的 patch 项、用户独有的配色）原样保留。 */
 
-  function indentOf(line) { const m = /^[ \t]*/.exec(line); return m ? m[0].length : 0; }
+  function indentOf(line) {
+    const m = /^[ \t]*/.exec(line);
+    if (!m) return 0;
+    let n = 0;
+    for (let i = 0; i < m[0].length; i++) n += (m[0][i] === '\t' ? 4 : 1);   // tab 按 4 列算
+    return n;
+  }
   function isSkippableLine(line) {
     const t = String(line).trim();
     return t === '' || t.charAt(0) === '#' || t === '---' || t === '...';
@@ -1236,6 +1249,247 @@ const GEN = (function () {
     return { text: text, report: report };
   }
 
+  /* ---------------- 从已有 custom.yaml 里读回配色 ---------------- */
+
+  /** 0xRRGGBB / 0xRRGGBBAA / #RGB 等按 color_format 还原成 RRGGBB（大写） */
+  function colorValueToSix(value, colorFormat) {
+    let s = String(value == null ? '' : value).trim().replace(/^["']|["']$/g, '');
+    if (/^#/.test(s)) s = s.slice(1);
+    else if (/^0x/i.test(s)) s = s.slice(2);
+    if (!/^[0-9a-fA-F]+$/.test(s)) return null;
+    const fmt = String(colorFormat || 'argb').toLowerCase();
+    const swap = (fmt === 'bgra' || fmt === 'abgr');
+    let rgb;
+    if (s.length === 8) {
+      rgb = (fmt === 'rgba' || fmt === 'bgra') ? s.slice(0, 6) : s.slice(2);   // 末字节还是首字节是 alpha
+    } else if (s.length === 6) {
+      rgb = s;
+    } else {
+      return null;
+    }
+    if (swap) rgb = rgb.slice(4, 6) + rgb.slice(2, 4) + rgb.slice(0, 2);       // BGR -> RGB
+    return rgb.toUpperCase();
+  }
+
+  /** 取颜色值里的 alpha（0~1）；没有则返回 null */
+  function colorAlpha(value, colorFormat) {
+    let s = String(value == null ? '' : value).trim().replace(/^["']|["']$/g, '');
+    if (/^#/.test(s)) s = s.slice(1);
+    else if (/^0x/i.test(s)) s = s.slice(2);
+    if (!/^[0-9a-fA-F]{8}$/.test(s)) return null;
+    const fmt = String(colorFormat || 'argb').toLowerCase();
+    const a = (fmt === 'rgba' || fmt === 'bgra') ? s.slice(6, 8) : s.slice(0, 2);
+    return parseInt(a, 16) / 255;
+  }
+
+  /** 按顶层逗号切分（引号内的逗号、括号内的逗号都不算） */
+  function splitTopLevel(text) {
+    const out = [];
+    let q = null, depth = 0, cur = '';
+    String(text == null ? '' : text).split('').forEach(function (ch) {
+      if (q) { cur += ch; if (ch === q) q = null; return; }
+      if (ch === '"' || ch === "'") { q = ch; cur += ch; return; }
+      if (ch === '{' || ch === '[') depth++;
+      else if (ch === '}' || ch === ']') { if (depth > 0) depth--; }
+      if (ch === ',' && depth === 0) { out.push(cur); cur = ''; return; }
+      cur += ch;
+    });
+    if (cur.trim()) out.push(cur);
+    return out.map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+
+  /**
+   * 解析一个方案块里的字段
+   * 兼容：缩进写法、多行 { } 写法、单行 { ... } 写法、行尾注释、引号值
+   */
+  function parseSchemeFields(lines) {
+    const fields = {};
+    const raw = (Array.isArray(lines) ? lines.join('\n') : String(lines == null ? '' : lines)).replace(/^\uFEFF/, '');
+    let body = raw.trim();
+    if (!/^\{/.test(body)) body = body.replace(/^\s*("?[^"\s][^":]*"?)\s*:/, '').trim();  // 去掉最外层键名
+    if (/^\{/.test(body)) body = body.replace(/^\{\s*/, '').replace(/\}\s*$/, '');        // 只剥最外层花括号
+    splitTopLevel(body.replace(/\r?\n/g, ',')).forEach(function (piece) {
+      const m = /^("?[^"\s][^":]*"?)\s*:\s*([\s\S]*)$/.exec(piece);
+      if (!m) return;
+      const key = m[1].replace(/^"|"$/g, '');
+      let val = m[2].trim().replace(/,\s*$/, '');
+      if (!val) return;                               // 只有键名没值（例如最外层的 key:）
+      val = val.replace(/\s+#[^\s"']*$/, '').trim();  // 行尾注释
+      if (/^".*"$/.test(val) || /^'.*'$/.test(val)) val = val.slice(1, -1);
+      if (val !== '') fields[key] = val;
+    });
+    return fields;
+  }
+
+  /** 从第一个 '{' 开始，取出一段配平的花括号文本 */
+  function takeBalancedBraces(text) {
+    const s = String(text == null ? '' : text);
+    const start = s.indexOf('{');
+    if (start < 0) return '';
+    let depth = 0, q = null;
+    for (let i = start; i < s.length; i++) {
+      const ch = s[i];
+      if (q) { if (ch === q) q = null; continue; }
+      if (ch === '"' || ch === "'") { q = ch; continue; }
+      if (ch === '{') depth++;
+      else if (ch === '}') { depth--; if (depth === 0) return s.slice(start, i + 1); }
+    }
+    return s.slice(start);
+  }
+
+  /** 解析「方案名: {字段}」这种流式内容 -> [{key, fields}] */
+  function schemesFromFlowBody(text) {
+    const flow = String(text == null ? '' : text).trim().replace(/^\{\s*/, '').replace(/\}\s*$/, '');
+    const out = [];
+    splitTopLevel(flow.replace(/\r?\n/g, ',')).forEach(function (piece) {
+      const m = /^("?[^"\s][^":]*"?)\s*:\s*([\s\S]*)$/.exec(piece);
+      if (!m) return;
+      const fields = parseSchemeFields(m[2]);
+      if (Object.keys(fields).length) out.push({ key: m[1].replace(/^"|"$/g, ''), fields: fields });
+    });
+    return out;
+  }
+
+  /** 解析 preset_color_schemes 块（缩进式 / 流式 / 两者混用都支持） */
+  function schemesFromPcsBlock(pcs) {
+    const lines = (pcs && pcs.lines) || [];
+    const head = lines[0] || '';
+    const body = lines.slice(1);
+    // 值以 { 开头 -> 整段按流式处理（花括号配平，完全不受换行/缩进影响）
+    if (/:\s*\{/.test(head)) {
+      const text = head.replace(/^[^:]*:/, '') + '\n' + body.join('\n');
+      const seg = takeBalancedBraces(text) || text;
+      const flow = schemesFromFlowBody(seg);
+      if (flow.length) return flow;
+    }
+    // 缩进式：逐行判断"这一行是不是新方案"（缩进回退到比字段更浅即视为新方案）
+    const blocks = [];
+    let cur = null, fieldIndent = null;
+    body.forEach(function (line) {
+      if (isSkippableLine(line)) { if (cur) cur.lines.push(line); return; }
+      const key = yamlKeyOf(line);
+      const ind = indentOf(line);
+      const isNew = key !== null &&
+        (cur === null || (fieldIndent === null ? ind <= indentOf(cur.lines[0]) : ind < fieldIndent));
+      if (isNew) {
+        cur = { key: key, lines: [line] };
+        blocks.push(cur);
+        fieldIndent = null;
+      } else if (cur) {
+        cur.lines.push(line);
+        if (key !== null && fieldIndent === null && ind > indentOf(cur.lines[0])) fieldIndent = ind;
+      }
+    });
+    if (blocks.length) return blocks.map(function (b) { return { key: b.key, fields: parseSchemeFields(b.lines) }; });
+    return schemesFromFlowBody(body.join('\n'));      // 兜底：整段当流式看
+  }
+
+  /** 从 custom.yaml 文本里提取所有配色方案 -> [{key, fields}] */
+  function extractSchemes(text) {
+    const raw = String(text == null ? '' : text).replace(/^\uFEFF/, '');   // 去掉 BOM
+    const top = splitYamlBlocks(raw.split(/\r?\n/), 0);
+    const patch = top.filter(function (b) { return b.key === 'patch'; })[0];
+    if (!patch) return [];
+    const pb = splitYamlBlocks(patch.lines.slice(1), yamlChildIndent(patch));
+    const out = [];
+    // ① preset_color_schemes 块（写了几处就合并几处）
+    pb.filter(function (b) { return b.key === 'preset_color_schemes'; }).forEach(function (b) {
+      out.push.apply(out, schemesFromPcsBlock(b));
+    });
+    // ② 路径写法 preset_color_schemes/xxx（允许与 ① 同时出现）
+    pb.filter(function (b) { return /^preset_color_schemes\//.test(b.key || ''); }).forEach(function (b) {
+      out.push({ key: b.key.replace(/^preset_color_schemes\//, ''), fields: parseSchemeFields(b.lines) });
+    });
+    // ③ 整个 patch 都是流式：patch: { preset_color_schemes: { … } }
+    if (!out.length && /:\s*\{/.test(patch.lines[0] || '')) {
+      const flat = patch.lines[0].replace(/^[^:]*:/, '') + '\n' + patch.lines.slice(1).join('\n');
+      const m = /["']?preset_color_schemes["']?\s*:\s*\{/.exec(flat);
+      if (m) out.push.apply(out, schemesFromFlowBody(takeBalancedBraces(flat.slice(m.index + m[0].length - 1))));
+    }
+    return out;
+  }
+
+  /** 解析不出配色时，告诉用户文件里到底有什么 */
+  function diagnoseConfig(text) {
+    const raw = String(text == null ? '' : text).replace(/^\uFEFF/, '');
+    const top = splitYamlBlocks(raw.split(/\r?\n/), 0).filter(function (b) { return b.key; });
+    const patch = top.filter(function (b) { return b.key === 'patch'; })[0];
+    const pb = patch ? splitYamlBlocks(patch.lines.slice(1), yamlChildIndent(patch)).filter(function (b) { return b.key; }) : [];
+    const bits = [];
+    bits.push('顶层键：' + (top.map(function (b) { return b.key; }).join('、') || '（空文件？）'));
+    if (patch) bits.push('patch 下的键：' + (pb.map(function (b) { return b.key; }).join('、') || '（没有内容）'));
+    else bits.push('没有找到 patch: 段');
+    const m = /(?:^|\s)"?(?:style\/)?color_scheme"?\s*:\s*([^\s,}]+)/.exec(raw);
+    if (m) bits.push('它指定的配色是「' + m[1].replace(/["']/g, '') + '」，但方案内容不在这个文件里（属于内置或别的文件）');
+    return bits.join('；') + '。';
+  }
+
+  /** 颜色的饱和度（0~1），用来挑出"最有代表性"的那个颜色 */
+  function sixSaturation(six) {
+    const n = parseInt(six, 16);
+    const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+    if (mx === mn) return 0;
+    const l = (mx + mn) / 510;
+    return l > 0.5 ? (mx - mn) / (510 - mx - mn) : (mx - mn) / (mx + mn);
+  }
+
+  /** 接近纯白或纯黑 */
+  function isExtremeSix(six) {
+    const n = parseInt(six, 16);
+    const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    const hi = r > 240 && g > 240 && b > 240;
+    const lo = r < 15 && g < 15 && b < 15;
+    return hi || lo;
+  }
+
+  /** 在一组候选色里挑代表色：优先有彩色的，其次排除黑白，最后才按顺序取 */
+  function pickRepresentativeSix(cands, backSix) {
+    const list = (cands || []).filter(Boolean);
+    const chromatic = list.filter(function (c) { return sixSaturation(c) > 0.08; });
+    const notExtreme = list.filter(function (c) { return !isExtremeSix(c); });
+    const pool = chromatic.length ? chromatic : (notExtreme.length ? notExtreme : list);
+    if (!pool.length) return backSix || null;
+    return pool.slice().sort(function (a, b) { return sixSaturation(b) - sixSaturation(a); })[0];
+  }
+
+  /** 提取结果 -> 调色板颜色；<key> 与 <key>_dark 自动配成一张卡 */
+  function schemesToColors(schemes) {
+    const list = Array.isArray(schemes) ? schemes : [];
+    const byKey = {};
+    list.forEach(function (s) { byKey[s.key] = s; });
+    const used = {};
+    const out = [];
+    list.forEach(function (s) {
+      if (used[s.key]) return;
+      const isDark = /_dark$/.test(s.key);
+      const baseKey = isDark ? s.key.replace(/_dark$/, '') : s.key;
+      const light = isDark ? null : s;
+      const dark = light ? (byKey[s.key + '_dark'] || null) : s;
+      const main = light || s;
+      const f = main.fields || {};
+      // 代表色：优先有彩色的高亮色，其次排除纯黑纯白，最后回退到背景色
+      const cands = [f.hilited_candidate_text_color, f.hilited_candidate_back_color, f.text_color]
+        .map(function (v) { return colorValueToSix(v, f.color_format); });
+      const six = pickRepresentativeSix(cands, colorValueToSix(f.back_color, f.color_format));
+      used[main.key] = true;
+      if (dark && dark !== main) used[dark.key] = true;
+      if (!six) return;                                  // 认不出颜色就跳过
+      const name = String(f.name || baseKey).replace(/·\s*暗$/, '') || baseKey;
+      out.push({
+        pinyin: baseKey,
+        hex: '#' + six,
+        six: six,
+        name: name,
+        key: baseKey + '::' + six + '::imp',
+        imported: true,
+        fields: light ? light.fields : null,
+        fieldsDark: light ? (dark ? dark.fields : null) : main.fields
+      });
+    });
+    return out;
+  }
+
   /** 把合并结果说成人话 */
   function describeMerge(report) {
     if (!report) return '';
@@ -1270,6 +1524,19 @@ const GEN = (function () {
     buildYaml: buildYaml,
     mergeYaml: mergeYaml,
     describeMerge: describeMerge,
+    colorValueToSix: colorValueToSix,
+    colorAlpha: colorAlpha,
+    parseSchemeFields: parseSchemeFields,
+    extractSchemes: extractSchemes,
+    schemesFromPcsBlock: schemesFromPcsBlock,
+    schemesFromFlowBody: schemesFromFlowBody,
+    takeBalancedBraces: takeBalancedBraces,
+    diagnoseConfig: diagnoseConfig,
+    splitTopLevel: splitTopLevel,
+    schemesToColors: schemesToColors,
+    pickRepresentativeSix: pickRepresentativeSix,
+    sixSaturation: sixSaturation,
+    isExtremeSix: isExtremeSix,
     splitYamlBlocks: splitYamlBlocks,
     yamlChildIndent: yamlChildIndent,
     indentOf: indentOf,
@@ -1829,6 +2096,7 @@ const state = {
   mergeUser: null,     // { text, name } 用户选来合并的已有文件
   platform: 'weasel',  // 当前平台：weasel / squirrel
   platformOpts: {},    // 各平台各自的参数，切换时互不覆盖
+  clearKind: 'custom', // 清除确认弹窗当前处理的是自定义色还是导入色
   loadBase: '',        // 载入信息正文（重复色提醒会追加在后面）
   loadKind: ''
 };
@@ -2028,21 +2296,31 @@ function addCustomColor(hexValue, nameValue, pinyinValue) {
   return true;
 }
 
-/** 同步"清除全部自定义颜色"按钮的可用状态 */
+/** 同步"清除自定义颜色 / 清除导入配色"按钮的可用状态 */
 function syncCustomControls() {
   const btn = $('#btnClearCustom');
-  if (!btn) return;
+  const imp = $('#btnClearImported');
   const n = state.colors.filter(function (c) { return c.custom; }).length;
-  btn.disabled = n === 0;
-  btn.textContent = n ? ('🗑 清除 ' + n + ' 个自定义颜色') : '🗑 清除全部自定义颜色';
+  const m = state.colors.filter(function (c) { return c.imported; }).length;
+  if (btn) {
+    btn.disabled = n === 0;
+    btn.textContent = n ? ('🗑 清除 ' + n + ' 个自定义颜色') : '🗑 清除全部自定义颜色';
+  }
+  if (imp) {
+    imp.classList.toggle('hidden', m === 0);
+    imp.textContent = '🗑 清除 ' + m + ' 个导入的配色';
+  }
 }
 
-/** 删除一个自定义颜色（只允许删 custom 标记的颜色） */
-function deleteCustomColor(key) {
+/** 删除一个自定义颜色 / 从配置导入的颜色 */
+function deletePaletteColor(key) {
   const at = state.colors.findIndex(function (c) { return c.key === key; });
   if (at < 0) return false;
   const color = state.colors[at];
-  if (!color.custom) { toast('「' + color.name + '」来自导入的 colors.json，不能这样删除'); return false; }
+  if (!color.custom && !color.imported) {
+    toast('「' + color.name + '」来自导入的 colors.json，不能这样删除');
+    return false;
+  }
 
   state.colors.splice(at, 1);
   state.selected.delete(key);
@@ -2096,10 +2374,11 @@ function randomizeCustomColor() {
   return hex;
 }
 
-/* ---------------- 清除自定义颜色的确认弹窗 ---------------- */
+/* ---------------- 清除自定义/导入配色的确认弹窗 ---------------- */
 function askClearCustomColors() {
   const custom = state.colors.filter(function (c) { return c.custom; });
   if (!custom.length) { toast('当前没有自定义颜色'); return false; }
+  $('#clearCustomTitle').textContent = '🗑 清除全部自定义颜色';
   $('#clearCustomText').textContent = '确定删除这 ' + custom.length +
     ' 个通过取色轮盘添加的颜色吗？导入/粘贴的 colors.json 颜色不受影响。';
   $('#clearCustomList').innerHTML = '';
@@ -2108,6 +2387,7 @@ function askClearCustomColors() {
     onPick: function () {},
     onRemove: function () {}
   });
+  state.clearKind = 'custom';
   const dlg = $('#clearCustomDialog');
   if (!dlg.open) dlg.showModal();
   return true;
@@ -2139,6 +2419,157 @@ function doClearCustomColors() {
 
 /** 兼容旧名字 */
 function clearCustomColors() { return askClearCustomColors(); }
+
+/** 统计调色板里的同名 / 同键名情况，供小标签使用（O(n)） */
+function refreshDupMap() {
+  const byName = {}, byPin = {};
+  state.colors.forEach(function (c) {
+    const n = String(c.name == null ? '' : c.name).trim().toLowerCase();
+    const p = String(c.pinyin == null ? '' : c.pinyin).trim().toLowerCase();
+    if (n) byName[n] = (byName[n] || 0) + 1;
+    if (p) byPin[p] = (byPin[p] || 0) + 1;
+  });
+  const map = {};
+  state.colors.forEach(function (c) {
+    const n = String(c.name == null ? '' : c.name).trim().toLowerCase();
+    const p = String(c.pinyin == null ? '' : c.pinyin).trim().toLowerCase();
+    map[c.key] = { name: !!n && byName[n] > 1, pinyin: !!p && byPin[p] > 1 };
+  });
+  state.dupMap = map;
+  return map;
+}
+
+/** 把颜色值转换成 CSS 颜色（带 alpha） */
+function cssFromValue(v, fmt, fallback) {
+  const s = GEN.colorValueToSix(v, fmt);
+  if (!s) return fallback;
+  const a = GEN.colorAlpha(v, fmt);
+  if (a === null || a >= 1) return '#' + s;
+  const n = parseInt(s, 16);
+  return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+}
+
+/** 印在颜色胶囊 / 卡片上的小标签 */
+function paletteTags(c) {
+  const tags = [];
+  if (c.imported) tags.push({ text: '配置', warn: false, title: '这个颜色是从已有配置文件里读回来的' });
+  else if (c.custom) tags.push({ text: '自定义', warn: false, title: '这个颜色是通过取色轮盘添加的' });
+  const dup = (state.dupMap || {})[c.key];
+  if (dup && dup.pinyin) tags.push({ text: '键名冲突', warn: true, title: '与色板里另一个配色的 pinyin 相同，生成的 YAML 会出现重复节点（后者覆盖前者）' });
+  else if (dup && dup.name) tags.push({ text: '重名', warn: true, title: '与色板里另一个配色同名，生成文件里会出现两个相同的 name' });
+  return tags;
+}
+
+/* ---------------- 从已有配置里导入配色 ---------------- */
+/** 把配置里的原始配色字段转成预览用的颜色对象 */
+function previewFromFields(f) {
+  if (!f) return null;
+  const fmt = f.color_format;
+  const back = cssFromValue(f.back_color, fmt, '#FFFFFF');
+  const hlText = cssFromValue(f.hilited_candidate_text_color, fmt, cssFromValue(f.text_color, fmt, '#000000'));
+  return {
+    back: back,
+    border: cssFromValue(f.border_color, fmt, back),
+    text: cssFromValue(f.candidate_text_color, fmt, cssFromValue(f.text_color, fmt, '#454545')),
+    label: cssFromValue(f.label_color, fmt, '#8E8E8E'),
+    hlBack: cssFromValue(f.hilited_candidate_back_color, fmt, '#CCCCCC'),
+    hlText: hlText,
+    hlLabel: cssFromValue(f.hilited_label_color, fmt, hlText)
+  };
+}
+
+/** 导入一份已有配置：提取配色 -> 加入颜色卡片（并自动选中第一张） */
+function importConfigText(text, fileName) {
+  const schemes = GEN.extractSchemes(text);
+  if (!schemes.length) {
+    showLoadMsg('「' + fileName + '」里没找到配色方案：' + GEN.diagnoseConfig(text), 'err');
+    return 0;
+  }
+  const colors = GEN.schemesToColors(schemes);
+  if (!colors.length) {
+    const keys = Object.keys(schemes[0].fields || {}).slice(0, 8).join('、') || '（一个字段都没读到）';
+    showLoadMsg('「' + fileName + '」解析到 ' + schemes.length + ' 个方案，但都没读到颜色值；' +
+      '第一个方案「' + schemes[0].key + '」读到的字段：' + keys, 'err');
+    return 0;
+  }
+  const have = {};
+  state.colors.forEach(function (c) { have[c.key] = true; });
+  const added = colors.filter(function (c) { return !have[c.key]; });
+  const skipped = colors.length - added.length;
+  if (!added.length) {
+    showLoadMsg('「' + fileName + '」里的 ' + colors.length + ' 个配色都已经导入过了', 'warn');
+    return 0;
+  }
+  state.colors = state.colors.concat(added);
+  // 整批放进生成列表（预览列表、底部条、生成结果弹窗都会同步）
+  added.forEach(function (c) { state.selected.add(c.key); });
+  state.focusKey = added[0].key;
+  state.flash = added.map(function (c) { return c.key; });
+  $('#srcCount').textContent = String(state.colors.length);
+  if ($('#srcName')) $('#srcName').textContent = 'colors.json + 导入的配置';
+
+  refreshDupMap();
+  const dupN = added.filter(function (c) {
+    const d = state.dupMap[c.key];
+    return d && (d.name || d.pinyin);
+  }).length;
+
+  const list = visibleColors();
+  const at = list.findIndex(function (c) { return c.key === added[0].key; });
+  if (at >= 0) state.page = Math.floor(at / gridMetrics().size) + 1;
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+  renderLoadMsg();
+  setTimeout(function () { state.flash = []; }, 900);
+  showLoadMsg('已从「' + fileName + '」读回 ' + added.length + ' 个配色，已全部加入生成列表' +
+    (skipped ? '（跳过 ' + skipped + ' 个重复）' : '') +
+    (dupN ? '；其中 ' + dupN + ' 个与现有颜色同名或同键名，已用小标签标出' : ''), dupN ? 'warn' : 'ok');
+  toast('已导入 ' + added.length + ' 个配色并加入生成列表：' +
+    added.slice(0, 4).map(function (c) { return c.name; }).join('、') + (added.length > 4 ? ' 等' : ''));
+  return added.length;
+}
+
+function readConfigFile(file) {
+  const reader = new FileReader();
+  reader.onload = function () {
+    try { importConfigText(String(reader.result), file.name); }
+    catch (err) { showLoadMsg('导入配置失败：' + err.message, 'err'); }
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+/** 清除所有从配置里导入的颜色 */
+function doClearImported() {
+  const imported = state.colors.filter(function (c) { return c.imported; });
+  if (!imported.length) { toast('当前没有导入的配色'); return false; }
+  imported.forEach(function (c) { state.selected.delete(c.key); });
+  state.colors = state.colors.filter(function (c) { return !c.imported; });
+  if (!state.colors.some(function (c) { return c.key === state.focusKey; })) state.focusKey = null;
+  $('#srcCount').textContent = String(state.colors.length);
+  renderGrid();
+  renderPreview();
+  syncActionBar();
+  renderLoadMsg();
+  toast('已清除 ' + imported.length + ' 个导入的配色');
+  return true;
+}
+
+function askClearImported() {
+  const n = state.colors.filter(function (c) { return c.imported; }).length;
+  if (!n) { toast('当前没有导入的配色'); return false; }
+  $('#clearCustomText').textContent = '确定移除这 ' + n + ' 个从配置文件里读回来的配色吗？' +
+    '（导入的 colors.json 和你自己加的自定义颜色不受影响）';
+  $('#clearCustomTitle').textContent = '🗑 清除导入的配色';
+  $('#clearCustomList').innerHTML = '';
+  renderColorChips($('#clearCustomList'), state.colors.filter(function (c) { return c.imported; }), {
+    activeKey: state.focusKey, onPick: function () {}, onRemove: function () {}
+  });
+  state.clearKind = 'imported';
+  const dlg = $('#clearCustomDialog');
+  if (!dlg.open) dlg.showModal();
+  return true;
+}
 
 /* ---------------- 筛选与分页 ---------------- */
 function visibleColors() {
@@ -2176,6 +2607,7 @@ function currentSlice() {
 function renderGrid() {
   const grid = $('#grid');
   const info = currentSlice();
+  refreshDupMap();
   grid.innerHTML = '';
   if (!info.list.length) {
     const d = document.createElement('div');
@@ -2198,7 +2630,8 @@ function renderGrid() {
       card.dataset.key = c.key;
       card.title = c.name + ' · ' + c.pinyin + ' · ' + c.hex +
         '\n单击：预览这个颜色\n右上角 ' + (inList ? '✓' : '＋') + '：' + (inList ? '移出生成列表' : '加入生成列表') + '（双击也可加入）' +
-        (c.custom ? '\n自定义颜色：可在上方预览区点「删除这个自定义颜色」移除' : '');
+        (c.custom ? '\n自定义颜色：可在上方预览区点「删除这个自定义颜色」移除' : '') +
+        (c.imported ? '\n来自配置文件：预览区会显示它原本的真实配色' : '');
       card.innerHTML =
         '<span class="eyebadge">预览中</span>' +
         '<span class="swatch"><i style="background:' + c.hex + '"></i></span>' +
@@ -2206,7 +2639,9 @@ function renderGrid() {
           '<span class="cname"></span>' +
           '<span class="cpinyin"></span>' +
           '<span class="chex"></span>' +
-          (c.custom ? '<span class="ctag">自定义</span>' : '') +
+          paletteTags(c).map(function (t) {
+            return '<span class="ctag' + (t.warn ? ' warn' : '') + '">' + t.text + '</span>';
+          }).join('') +
         '</span>' +
         '<button type="button" class="addbtn" aria-pressed="' + (inList ? 'true' : 'false') + '">' +
           '<i></i>' +
@@ -2457,13 +2892,13 @@ function renderColorChips(box, colors, opts) {
     main.title = c.name + ' · ' + c.pinyin + ' · ' + c.hex + '（点击预览这个颜色）';
     main.innerHTML = '<i style="background:' + c.hex + '"></i>';
     main.appendChild(document.createTextNode(c.name));
-    if (c.custom) {                       // 三处列表共用：自定义颜色带标记
+    paletteTags(c).forEach(function (t) {          // 三处列表共用：来源 + 重名/键名冲突标记
       const tag = document.createElement('b');
-      tag.className = 'tag-custom';
-      tag.textContent = '自定义';
-      tag.title = '这个颜色是通过取色轮盘添加的';
+      tag.className = 'tag-custom' + (t.warn ? ' warn' : '');
+      tag.textContent = t.text;
+      tag.title = t.title;
       main.appendChild(tag);
-    }
+    });
     main.addEventListener('click', function () { opts.onPick(c); });
 
     const x = document.createElement('button');
@@ -2535,9 +2970,22 @@ function updatePreviewActions(color) {
   addBtn.setAttribute('aria-pressed', inList ? 'true' : 'false');
 
   const isCustom = !!color.custom;
-  delBtn.classList.toggle('hidden', !isCustom);
-  if (isCustom) delBtn.title = '从色板里删除自定义颜色「' + color.name + '」（导入的 colors.json 不受影响）';
-  tag.classList.toggle('hidden', !isCustom);
+  const isImported = !!color.imported;
+  const removable = isCustom || isImported;
+  delBtn.classList.toggle('hidden', !removable);
+  if (removable) {
+    delBtn.textContent = isImported ? '🗑 删除这个导入的配色' : '🗑 删除这个自定义颜色';
+    delBtn.title = isImported
+      ? '从色板里删除从配置文件读回的「' + color.name + '」（colors.json 不受影响）'
+      : '从色板里删除自定义颜色「' + color.name + '」（导入的 colors.json 不受影响）';
+  }
+  tag.classList.toggle('hidden', !removable);
+  if (isImported) {
+    const d = (state.dupMap || {})[color.key];
+    tag.textContent = (d && d.pinyin) ? '来自配置文件 · 键名冲突' : ((d && d.name) ? '来自配置文件 · 重名' : '来自配置文件');
+  } else if (isCustom) {
+    tag.textContent = '自定义颜色';
+  }
 }
 
 function renderPreview() {
@@ -2548,13 +2996,14 @@ function renderPreview() {
   if (!c) c = selectedColors()[0] || state.colors[0] || null;
   if (c) state.focusKey = c.key;      // 预览对象与「预览中」角标始终一致
   syncFocusBadges();
+  refreshDupMap();
   renderPreviewPicker(c);
   updatePreviewActions(c);
   if (!c) return;
 
   const selCount = state.selected.size;
   $('#pvName').textContent = '：' + c.name + ' · ' + c.pinyin +
-    (state.selected.has(c.key) ? '（已在生成列表）' : '（未加入生成列表）');
+    (c.imported ? '（来自配置文件）' : (state.selected.has(c.key) ? '（已在生成列表）' : '（未加入生成列表）'));
   $('#pvLightKey').textContent = c.pinyin;
   $('#pvDarkKey').textContent = c.pinyin + '_dark';
   $('#pvLightChip').style.background = c.hex;
@@ -2571,6 +3020,31 @@ function renderPreview() {
     : { radius: o.layout.round_corner, radiusSel: o.layout.round_corner,
         borderW: o.layout.border, shadow: 0, spacing: o.layout.candidate_spacing };
 
+  // 从配置文件导入的配色：直接用它原本的真实配色渲染
+  if (c.imported && (c.fields || c.fieldsDark)) {
+    const cfgLight = previewFromFields(c.fields) || previewFromFields(c.fieldsDark);
+    const cfgDark = previewFromFields(c.fieldsDark);
+    if (c.fields && c.fieldsDark) {
+      $('#pvLightTag').textContent = '原配置 · 浅色';
+      $('#pvDarkTag').textContent = '原配置 · 深色';
+    } else {
+      $('#pvLightTag').textContent = '原配置（真实配色）';
+      $('#pvDarkTag').textContent = '本工具生成 · 深色';
+    }
+    $('#pvLightKey').textContent = c.pinyin;
+    $('#pvDarkKey').textContent = c.pinyin + '_dark';
+    $('#pvLightChip').style.background = cfgLight.back;
+    $('#pvDarkChip').style.background = (cfgDark || cfgLight).back;
+    drawWindow($('#pvLight'), cfgLight, frame);
+    drawWindow($('#pvDark'), cfgDark || {
+      back: '#000000', border: '#000000', text: '#717171', label: '#717171',
+      hlBack: c.hex, hlText: '#FFFFFF', hlLabel: '#FFFFFF'
+    }, frame);
+    return;
+  }
+
+  $('#pvLightTag').textContent = '浅色方案';
+  $('#pvDarkTag').textContent = '深色方案';
   // 浅色：选中项 = 原色文字 + 同色 15% 透明底；未选中文字 0x454545、序号 0x8E8E8E
   drawWindow($('#pvLight'), {
     back: '#FFFFFF', border: '#FFFFFF', text: '#454545', label: '#8E8E8E',
@@ -2977,12 +3451,11 @@ document.addEventListener('drop', function (e) {
   e.preventDefault();
   const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
   if (!f) return;
-  if (/\.(ya?ml)$/i.test(f.name)) {          // 拖入 yaml -> 合并进生成结果
-    if (!$('#outputDialog').open) { showLoadMsg('先点「⚙ 生成 weasel.custom.yaml」，再把要合并的 yaml 拖进来', 'err'); return; }
-    readMergeFile(f);
+  if (/\.(ya?ml)$/i.test(f.name)) {          // 拖入 yaml -> 读回里面的配色
+    readConfigFile(f);
     return;
   }
-  if (!/\.json$/i.test(f.name)) { showLoadMsg('请拖入 .json（颜色）或 .yaml（要合并的配置）文件', 'err'); return; }
+  if (!/\.json$/i.test(f.name)) { showLoadMsg('请拖入 .json（颜色）或 .yaml（已有配置）文件', 'err'); return; }
   readJsonFile(f);
 });
 
@@ -3044,18 +3517,26 @@ $('#btnRandom').addEventListener('click', randomPick);
 $('#btnClearCustomCancel').addEventListener('click', function () { $('#clearCustomDialog').close(); });
 $('#btnClearCustomOk').addEventListener('click', function () {
   $('#clearCustomDialog').close();
-  doClearCustomColors();
+  if (state.clearKind === 'imported') doClearImported();
+  else doClearCustomColors();
 });
 $('#clearCustomDialog').addEventListener('click', function (e) {
   if (e.target === this) this.close();
 });
 $('#btnDeleteCustom').addEventListener('click', function () {
-  const c = state.focusKey
+  const color = state.focusKey
     ? state.colors.filter(function (x) { return x.key === state.focusKey; })[0]
     : null;
-  if (!c) return;
-  deleteCustomColor(c.key);
+  if (!color) return;
+  deletePaletteColor(color.key);
 });
+/* 导入已有配置 / 清除导入的配色 */
+$('#configFileInput').addEventListener('change', function (e) {
+  const f = e.target.files && e.target.files[0];
+  if (f) readConfigFile(f);
+  e.target.value = '';
+});
+$('#btnClearImported').addEventListener('click', askClearImported);
 [$('#customName'), $('#customPinyin')].forEach(function (el) {
   el.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') { e.preventDefault(); $('#btnAddColor').click(); }
