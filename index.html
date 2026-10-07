@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rime 主题生成器 · weasel.custom.yaml</title>
+<title>Rime 主题生成器 · 小狼毫 / 鼠须管</title>
 <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
 <script>
   /* 尽早确定主题，避免首屏闪一下另一种配色 */
@@ -146,6 +146,25 @@
   .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
   #btnTheme{min-width:104px;justify-content:center}
   #btnFreeze{min-width:136px;justify-content:center}
+  /* 平台切换 */
+  .platform-switch{
+    display:inline-flex;gap:3px;margin-top:12px;padding:3px;
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  }
+  .plat-btn{
+    border:0;background:transparent;color:var(--muted);border-radius:9px;
+    padding:7px 14px;font-size:13px;font-weight:600;gap:7px;
+  }
+  .plat-btn:hover{background:var(--card-2);color:var(--text);border-color:transparent}
+  .plat-btn.active{
+    background:var(--accent);color:var(--accent-ink);border-color:transparent;
+    box-shadow:0 4px 14px -8px #4ade80cc;
+  }
+  .plat-btn.active:hover{background:var(--accent);color:var(--accent-ink)}
+  .plat-only{display:none !important}
+  .plat-only.on{display:grid !important;grid-column:1/-1;gap:12px;
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .plat-note{grid-column:1/-1;margin:0;font-size:12px;color:var(--muted);line-height:1.6}
   #btnRandom{border-color:var(--accent-2);color:var(--accent-2)}
   #btnRandom:hover{background:#38bdf81f;border-color:var(--accent-2)}
   /* 随机抽中的卡片弹一下 */
@@ -448,8 +467,12 @@
 
   <header class="top">
     <div class="brand">
-      <h1>Rime 输入法·中国色主题生成器 <span>· weasel.custom.yaml</span></h1>
-      <p>单击色卡 = 预览候选窗效果；点色卡右上角 <b>＋</b> 或预览区的「加入生成列表」= 放进要生成的颜色（可多选）→ 生成 <code class="k">weasel.custom.yaml</code>，自动写入 <code class="k">{pinyin}</code> 与 <code class="k">{pinyin}_dark</code> 两套配色。</p>
+      <h1>Rime 输入法·中国色主题生成器 <span id="h1File">· weasel.custom.yaml</span></h1>
+      <p>单击色卡 = 预览候选窗效果；点色卡右上角 <b>＋</b> 或预览区的「加入生成列表」= 放进要生成的颜色（可多选）→ 生成配置文件，自动写入 <code class="k">{pinyin}</code> 与 <code class="k">{pinyin}_dark</code> 两套配色。</p>
+      <div class="platform-switch" id="platformSwitch" role="tablist" aria-label="选择输入法平台">
+        <button type="button" class="plat-btn" data-plat="weasel" role="tab" aria-selected="false">🪟 Windows · 小狼毫</button>
+        <button type="button" class="plat-btn" data-plat="squirrel" role="tab" aria-selected="false">🍎 macOS · 鼠须管</button>
+      </div>
     </div>
     <div class="head-right">
       <div class="source" id="sourceInfo">
@@ -491,7 +514,7 @@
         <label class="field">rime_version
           <input type="text" id="optRimeVer" value="1.13.1">
         </label>
-        <h4>style</h4>
+        <h4>style（通用）</h4>
         <label class="field">font_face
           <input type="text" id="optFontFace" value="Source Han Sans SC">
         </label>
@@ -501,18 +524,43 @@
         <label class="field">label_font_point
           <input type="number" id="optLabelFontPoint" value="10" step="1">
         </label>
-        <div class="switch" style="align-self:end"><input type="checkbox" id="optBlur" checked><label for="optBlur">blur</label></div>
         <div class="switch" style="align-self:end"><input type="checkbox" id="optHorizontal" checked><label for="optHorizontal">horizontal</label></div>
         <div class="switch" style="align-self:end"><input type="checkbox" id="optInlinePreedit" checked><label for="optInlinePreedit">inline_preedit</label></div>
-        <h4>style / layout</h4>
-        <label class="field">border<input type="number" id="layBorder" value="2" step="1"></label>
-        <label class="field">candidate_spacing<input type="number" id="layCandidateSpacing" value="12" step="1"></label>
-        <label class="field">hilite_padding<input type="number" id="layHilitePadding" value="4" step="1"></label>
-        <label class="field">hilite_spacing<input type="number" id="layHiliteSpacing" value="2" step="1"></label>
-        <label class="field">margin_x<input type="number" id="layMarginX" value="6" step="1"></label>
-        <label class="field">margin_y<input type="number" id="layMarginY" value="6" step="1"></label>
-        <label class="field">round_corner<input type="number" id="layRoundCorner" value="5" step="1"></label>
-        <label class="field">spacing<input type="number" id="laySpacing" value="5" step="1"></label>
+
+        <!-- 小狼毫专属 -->
+        <div class="plat-only" data-plat="weasel">
+          <h4>小狼毫 style（Weasel）</h4>
+          <div class="switch" style="align-self:end"><input type="checkbox" id="optBlur" checked><label for="optBlur">blur</label></div>
+          <label class="field">layout / border<input type="number" id="layBorder" value="2" step="1"></label>
+          <label class="field">layout / candidate_spacing<input type="number" id="layCandidateSpacing" value="12" step="1"></label>
+          <label class="field">layout / hilite_padding<input type="number" id="layHilitePadding" value="4" step="1"></label>
+          <label class="field">layout / hilite_spacing<input type="number" id="layHiliteSpacing" value="2" step="1"></label>
+          <label class="field">layout / margin_x<input type="number" id="layMarginX" value="6" step="1"></label>
+          <label class="field">layout / margin_y<input type="number" id="layMarginY" value="6" step="1"></label>
+          <label class="field">layout / round_corner<input type="number" id="layRoundCorner" value="5" step="1"></label>
+          <label class="field">layout / spacing<input type="number" id="laySpacing" value="5" step="1"></label>
+        </div>
+
+        <!-- 鼠须管专属 -->
+        <div class="plat-only" data-plat="squirrel">
+          <h4>鼠须管 style（Squirrel）</h4>
+          <p class="plat-note">macOS 的 style 是扁平的 <code class="k">style/xxx</code> 选项，这里用等价的嵌套写法输出；留空的 color_scheme 不会写进文件（可在输入法菜单里手动切换配色）。</p>
+          <label class="field">color_scheme
+            <input type="text" id="sqColorScheme" placeholder="留空 = 不指定，如 bohelv">
+          </label>
+          <label class="field">color_scheme_dark
+            <input type="text" id="sqColorSchemeDark" placeholder="留空 = 不指定，如 bohelv_dark">
+          </label>
+          <label class="field">comment_font_point<input type="number" id="sqCommentFontPoint" value="13" step="1"></label>
+          <label class="field">corner_radius<input type="number" id="sqCornerRadius" value="6" step="1"></label>
+          <label class="field">hilited_corner_radius<input type="number" id="sqHilitedCornerRadius" value="6" step="1"></label>
+          <label class="field">border_height<input type="number" id="sqBorderHeight" value="0" step="1"></label>
+          <label class="field">border_width<input type="number" id="sqBorderWidth" value="0" step="1"></label>
+          <label class="field">line_spacing<input type="number" id="sqLineSpacing" value="6" step="1"></label>
+          <label class="field">candidate_spacing<input type="number" id="sqCandidateSpacing" value="12" step="1"></label>
+          <label class="field">shadow_size<input type="number" id="sqShadowSize" value="4" step="1"></label>
+          <div class="switch" style="align-self:end"><input type="checkbox" id="sqTranslucency"><label for="sqTranslucency">translucency</label></div>
+        </div>
 
         <h4>自定义颜色（加入色板时自动放进生成列表并预览）</h4>
         <div class="row custom-row">
@@ -618,7 +666,7 @@
   <div class="dhead">
     <h3 id="outTitle">weasel.custom.yaml</h3>
     <span class="oname" id="outName"></span>
-    <p>复制或下载后放进小狼毫 Rime 用户目录（右键托盘图标 →「用户文件夹」），然后「重新部署」。若已有同名文件，请在 <code class="k">patch:</code> 下合并内容。</p>
+    <p id="outHint">复制或下载后放进小狼毫 Rime 用户目录（右键托盘图标 →「用户文件夹」），然后「重新部署」。若已有同名文件，请在 <code class="k">patch:</code> 下合并内容。</p>
   </div>
   <div class="dup-warn hidden" id="outWarn"></div>
   <div class="color-strip">
@@ -634,10 +682,10 @@
     <pre class="code" id="code" tabindex="0"></pre>
   </div>
   <div class="dfoot">
-    <label class="btn-sm btn-ghost" for="mergeFileInput" title="选择你现有的 weasel.custom.yaml，把本次配色合并进去（保留你的其它设置）">🔀 合并已有文件…</label>
+    <label class="btn-sm btn-ghost" for="mergeFileInput" id="mergeLabel" title="选择你现有的 custom.yaml，把本次配色合并进去（保留你的其它设置）">🔀 合并已有文件…</label>
     <input type="file" id="mergeFileInput" accept=".yaml,.yml,text/yaml,application/x-yaml" class="hidden">
     <button class="btn-sm" id="btnCopy">📋 复制</button>
-    <button class="btn-sm btn-primary" id="btnDownload">⬇ 下载 weasel.custom.yaml</button>
+    <button class="btn-sm btn-primary" id="btnDownload">⬇ 下载 <span id="dlName">weasel.custom.yaml</span></button>
     <button class="btn-ghost" id="btnCloseOut">关闭（Esc）</button>
   </div>
 </dialog>
@@ -822,7 +870,36 @@ const GEN = (function () {
     return lines;
   }
 
+  /* ---------------- 平台档案：Windows 小狼毫 / macOS 鼠须管 ---------------- */
+  const PLATFORMS = {
+    weasel: {
+      id: 'weasel',
+      icon: '🪟',
+      name: 'Windows · 小狼毫',
+      short: 'Windows',
+      app: '小狼毫（Weasel）',
+      fileName: 'weasel.custom.yaml',
+      dirHint: '右键托盘图标 →「用户文件夹」',
+      distributionCodeName: 'Weasel',
+      generator: 'Weasel::UIStyleSettings',
+      styleKind: 'weasel'
+    },
+    squirrel: {
+      id: 'squirrel',
+      icon: '🍎',
+      name: 'macOS · 鼠须管',
+      short: 'macOS',
+      app: '鼠须管（Squirrel）',
+      fileName: 'squirrel.custom.yaml',
+      dirHint: '菜单栏输入法图标 →「用户文件夹」（~/Library/Rime）',
+      distributionCodeName: 'Squirrel',
+      generator: 'Squirrel::UIStyleSettings',
+      styleKind: 'squirrel'
+    }
+  };
+
   const DEFAULT_OPTIONS = {
+    platform: 'weasel',
     author: 'rxhaol',
     distributionVersion: '0.17.4',
     rimeVersion: '1.13.1',
@@ -838,17 +915,50 @@ const GEN = (function () {
     }
   };
 
-  /** 生成完整的 weasel.custom.yaml 文本 */
+  /** 鼠须管的 style 段是一组扁平的 style/xxx 选项（这里用等价的嵌套写法） */
+  const SQUIRREL_OPTIONS = {
+    platform: 'squirrel',
+    author: 'rxhaol',
+    distributionVersion: '0.16.2',
+    rimeVersion: '1.13.1',
+    fontFace: 'PingFang SC',
+    fontPoint: 16,
+    labelFontPoint: 13,
+    commentFontPoint: 13,
+    horizontal: true,
+    inlinePreedit: false,
+    colorScheme: '',
+    colorSchemeDark: '',
+    cornerRadius: 6,
+    hilitedCornerRadius: 6,
+    borderHeight: 0,
+    borderWidth: 0,
+    lineSpacing: 6,
+    candidateSpacing: 12,
+    shadowSize: 4,
+    translucency: false
+  };
+
+  const DEFAULTS_BY_PLATFORM = { weasel: DEFAULT_OPTIONS, squirrel: SQUIRREL_OPTIONS };
+
+  function platformInfo(id) { return PLATFORMS[id] || PLATFORMS.weasel; }
+  function platformDefaults(id) { return DEFAULTS_BY_PLATFORM[id] || DEFAULT_OPTIONS; }
+
+  /** 生成 custom.yaml 文本（options.platform 决定小狼毫 / 鼠须管） */
   function buildYaml(colors, options) {
-    const o = Object.assign({}, DEFAULT_OPTIONS, options || {});
-    if (options && options.layout) o.layout = Object.assign({}, DEFAULT_OPTIONS.layout, options.layout);
+    const opts = options || {};
+    const pid = PLATFORMS[opts.platform] ? opts.platform : 'weasel';
+    const prof = platformInfo(pid);
+    const base = platformDefaults(pid);
+    const o = Object.assign({}, base, opts);
+    if (opts.layout) o.layout = Object.assign({}, base.layout || DEFAULT_OPTIONS.layout, opts.layout);
     if (!o.modifiedTime) o.modifiedTime = new Date();
 
     const out = [];
     out.push('customization:');
-    out.push('  distribution_code_name: Weasel');
+    out.push('  distribution_code_name: ' + prof.distributionCodeName);
     out.push('  distribution_version: ' + o.distributionVersion);
-    out.push('  generator: "Weasel::UIStyleSettings"');
+    out.push('  generator: "' + prof.generator + '"');
     out.push('  modified_time: "' + ctimeString(o.modifiedTime) + '"');
     out.push('  rime_version: ' + o.rimeVersion);
     out.push('patch:');
@@ -860,6 +970,30 @@ const GEN = (function () {
       out.push('    ' + c.pinyin + '_dark:');
       out.push.apply(out, block(schemeFields(c.six, c.name, o.author, true)));
     });
+
+    if (prof.styleKind === 'squirrel') {
+      out.push('  style:');
+      const s = [];
+      if (o.colorScheme) s.push(['color_scheme', o.colorScheme]);
+      if (o.colorSchemeDark) s.push(['color_scheme_dark', o.colorSchemeDark]);
+      s.push(['border_height', o.borderHeight]);
+      s.push(['border_width', o.borderWidth]);
+      s.push(['candidate_spacing', o.candidateSpacing]);
+      s.push(['comment_font_point', o.commentFontPoint]);
+      s.push(['corner_radius', o.cornerRadius]);
+      s.push(['font_face', '"' + o.fontFace + '"']);
+      s.push(['font_point', o.fontPoint]);
+      s.push(['hilited_corner_radius', o.hilitedCornerRadius]);
+      s.push(['horizontal', o.horizontal]);
+      s.push(['inline_preedit', o.inlinePreedit]);
+      s.push(['label_font_point', o.labelFontPoint]);
+      s.push(['line_spacing', o.lineSpacing]);
+      s.push(['shadow_size', o.shadowSize]);
+      s.push(['translucency', o.translucency]);
+      s.sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
+      s.forEach(function (kv) { out.push('    ' + kv[0] + ': ' + kv[1]); });
+      return out.join('\n') + '\n';
+    }
 
     out.push('  style:');
     out.push('    blur: ' + o.blur);
@@ -874,7 +1008,7 @@ const GEN = (function () {
     return out.join('\n') + '\n';
   }
 
-  /* ---------------- 与用户已有 weasel.custom.yaml 合并 ----------------
+  /* ---------------- 与用户已有 custom.yaml 合并 ----------------
      做法：按缩进把 YAML 切成"块"，只在 patch 的 preset_color_schemes / style
      两级上做合并，其余内容（注释、别的 patch 项、用户独有的配色）原样保留。 */
 
@@ -1139,7 +1273,11 @@ const GEN = (function () {
     splitYamlBlocks: splitYamlBlocks,
     yamlChildIndent: yamlChildIndent,
     indentOf: indentOf,
-    DEFAULT_OPTIONS: DEFAULT_OPTIONS
+    PLATFORMS: PLATFORMS,
+    platformInfo: platformInfo,
+    platformDefaults: platformDefaults,
+    DEFAULT_OPTIONS: DEFAULT_OPTIONS,
+    SQUIRREL_OPTIONS: SQUIRREL_OPTIONS
   };
 })();
 /* =======================================================================
@@ -1676,6 +1814,7 @@ const MIN_COL_PX = 146;       // 与 CSS grid 的 minmax(146px,1fr) 保持一致
 const THEME_KEY = 'rime-gen-theme';
 const FREEZE_KEY = 'rime-gen-freeze';
 const PV_KEY = 'rime-gen-pv';
+const PLATFORM_KEY = 'rime-gen-platform';
 const COLORS_FILE = 'colors.json';   // 与本页同目录的颜色文件
 
 const state = {
@@ -1688,6 +1827,8 @@ const state = {
   loadingFile: false,  // 正在读取同目录 colors.json
   pureYaml: '',        // 本次生成的原始 YAML（未合并）
   mergeUser: null,     // { text, name } 用户选来合并的已有文件
+  platform: 'weasel',  // 当前平台：weasel / squirrel
+  platformOpts: {},    // 各平台各自的参数，切换时互不覆盖
   loadBase: '',        // 载入信息正文（重复色提醒会追加在后面）
   loadKind: ''
 };
@@ -2420,22 +2561,38 @@ function renderPreview() {
   $('#pvDarkChip').style.background = c.hex;
 
   const alpha = 0x26 / 255;
+  const o = readOptions();
+  const isMac = o.platform === 'squirrel';
+  // 候选窗外观随平台：小狼毫看 layout.round_corner / border，鼠须管看 corner_radius / border / shadow
+  const frame = isMac
+    ? { radius: o.cornerRadius, radiusSel: o.hilitedCornerRadius,
+        borderW: Math.max(o.borderWidth || 0, o.borderHeight || 0), shadow: o.shadowSize || 0,
+        spacing: o.candidateSpacing }
+    : { radius: o.layout.round_corner, radiusSel: o.layout.round_corner,
+        borderW: o.layout.border, shadow: 0, spacing: o.layout.candidate_spacing };
+
   // 浅色：选中项 = 原色文字 + 同色 15% 透明底；未选中文字 0x454545、序号 0x8E8E8E
   drawWindow($('#pvLight'), {
     back: '#FFFFFF', border: '#FFFFFF', text: '#454545', label: '#8E8E8E',
     hlBack: hexToRgba(c.six, alpha), hlText: c.hex, hlLabel: c.hex
-  });
+  }, frame);
   // 深色：选中项 = 原色实心底 + 白色文字/序号；未选中文字与序号 0x717171
   drawWindow($('#pvDark'), {
     back: '#000000', border: '#000000', text: '#717171', label: '#717171',
     hlBack: c.hex, hlText: '#FFFFFF', hlLabel: '#FFFFFF'
-  });
+  }, frame);
 }
 
-function drawWindow(el, t) {
+function drawWindow(el, t, frame) {
+  const f = frame || {};
   el.style.background = t.back;
-  el.style.border = '1px solid ' + t.border;
+  el.style.border = (f.borderW ? f.borderW + 'px solid ' + t.border : '1px solid ' + t.border);
+  el.style.borderRadius = (f.radius || 5) + 'px';
+  el.style.boxShadow = f.shadow
+    ? '0 ' + Math.max(1, Math.round(f.shadow / 2)) + 'px ' + Math.max(2, f.shadow) + 'px rgba(0,0,0,.35)'
+    : '0 10px 26px -14px #000c';
   el.style.color = t.text;
+  el.style.padding = '8px 10px';
   el.innerHTML = '';
   const pre = document.createElement('div');
   pre.className = 'preedit';
@@ -2443,9 +2600,11 @@ function drawWindow(el, t) {
   pre.textContent = 'ni hao';
   const cands = document.createElement('div');
   cands.className = 'cands';
+  cands.style.gap = ((f.spacing ? Math.min(f.spacing, 16) : 2) / 4) + 'px';
   PREVIEW_CANDIDATES.forEach(function (item, i) {
     const d = document.createElement('div');
     d.className = 'cand' + (i === 0 ? ' sel' : '');
+    d.style.borderRadius = (f.radiusSel || 4) + 'px';
     const idx = document.createElement('span');
     idx.className = 'idx';
     idx.textContent = item.idx;
@@ -2466,18 +2625,19 @@ function drawWindow(el, t) {
   el.appendChild(cands);
 }
 
-/* ---------------- 高级设置读取 ---------------- */
+/* ---------------- 高级设置读写（按平台分别记忆） ---------------- */
 function readOptions() {
   return {
+    platform: state.platform,
     author: $('#optAuthor').value.trim() || 'rxhaol',
     distributionVersion: $('#optDistVer').value.trim() || '0.17.4',
     rimeVersion: $('#optRimeVer').value.trim() || '1.13.1',
     fontFace: $('#optFontFace').value.trim() || 'Source Han Sans SC',
     fontPoint: numOr($('#optFontPoint').value, 12),
     labelFontPoint: numOr($('#optLabelFontPoint').value, 10),
-    blur: $('#optBlur').checked,
     horizontal: $('#optHorizontal').checked,
     inlinePreedit: $('#optInlinePreedit').checked,
+    blur: $('#optBlur').checked,
     layout: {
       border: numOr($('#layBorder').value, 2),
       candidate_spacing: numOr($('#layCandidateSpacing').value, 12),
@@ -2487,8 +2647,109 @@ function readOptions() {
       margin_y: numOr($('#layMarginY').value, 6),
       round_corner: numOr($('#layRoundCorner').value, 5),
       spacing: numOr($('#laySpacing').value, 5)
-    }
+    },
+    colorScheme: $('#sqColorScheme').value.trim(),
+    colorSchemeDark: $('#sqColorSchemeDark').value.trim(),
+    commentFontPoint: numOr($('#sqCommentFontPoint').value, 13),
+    cornerRadius: numOr($('#sqCornerRadius').value, 6),
+    hilitedCornerRadius: numOr($('#sqHilitedCornerRadius').value, 6),
+    borderHeight: numOr($('#sqBorderHeight').value, 0),
+    borderWidth: numOr($('#sqBorderWidth').value, 0),
+    lineSpacing: numOr($('#sqLineSpacing').value, 6),
+    candidateSpacing: numOr($('#sqCandidateSpacing').value, 12),
+    shadowSize: numOr($('#sqShadowSize').value, 4),
+    translucency: $('#sqTranslucency').checked
   };
+}
+
+function applyOptions(o) {
+  const set = function (sel, v) { const el = $(sel); if (el && v !== undefined && v !== null) el.value = v; };
+  const check = function (sel, v) { const el = $(sel); if (el) el.checked = !!v; };
+  const d = GEN.platformDefaults(state.platform) || {};
+  const v = Object.assign({}, d, o || {});
+  set('#optAuthor', v.author);
+  set('#optDistVer', v.distributionVersion);
+  set('#optRimeVer', v.rimeVersion);
+  set('#optFontFace', v.fontFace);
+  set('#optFontPoint', v.fontPoint);
+  set('#optLabelFontPoint', v.labelFontPoint);
+  check('#optHorizontal', v.horizontal);
+  check('#optInlinePreedit', v.inlinePreedit);
+  check('#optBlur', v.blur);
+  const lay = Object.assign({}, d.layout || {}, v.layout || {});
+  set('#layBorder', lay.border);
+  set('#layCandidateSpacing', lay.candidate_spacing);
+  set('#layHilitePadding', lay.hilite_padding);
+  set('#layHiliteSpacing', lay.hilite_spacing);
+  set('#layMarginX', lay.margin_x);
+  set('#layMarginY', lay.margin_y);
+  set('#layRoundCorner', lay.round_corner);
+  set('#laySpacing', lay.spacing);
+  set('#sqColorScheme', v.colorScheme || '');
+  set('#sqColorSchemeDark', v.colorSchemeDark || '');
+  set('#sqCommentFontPoint', v.commentFontPoint);
+  set('#sqCornerRadius', v.cornerRadius);
+  set('#sqHilitedCornerRadius', v.hilitedCornerRadius);
+  set('#sqBorderHeight', v.borderHeight);
+  set('#sqBorderWidth', v.borderWidth);
+  set('#sqLineSpacing', v.lineSpacing);
+  set('#sqCandidateSpacing', v.candidateSpacing);
+  set('#sqShadowSize', v.shadowSize);
+  check('#sqTranslucency', v.translucency);
+}
+
+/* ---------------- 平台切换 ---------------- */
+function detectPlatform() {
+  const ua = (typeof navigator !== 'undefined' &&
+    ((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent)) || '';
+  return /mac|iphone|ipad|ipod/i.test(String(ua)) ? 'squirrel' : 'weasel';
+}
+
+/** 与平台相关的所有文案 / 显示状态 */
+function syncPlatformUI() {
+  const p = GEN.platformInfo(state.platform);
+  $('#h1File').textContent = '· ' + p.fileName;
+  $('#outTitle').textContent = p.fileName;
+  $('#dlName').textContent = p.fileName;
+  $('#outHint').innerHTML = '复制或下载后放进 ' + p.app + ' 的 Rime 用户目录' + p.dirHint +
+    '，然后「重新部署」。若已有同名文件，可用下面的「🔀 合并已有文件…」保留你的其它设置。';
+  $('#usageNote').innerHTML = '用法：把下载得到的 <code class="k">' + p.fileName + '</code> 放进 ' + p.app +
+    ' 的 Rime 用户目录（' + p.dirHint + '），然后「重新部署」。' +
+    '若目标目录里已有同名文件，用弹窗里的「🔀 合并已有文件…」合并，或手动在 <code class="k">patch:</code> 下合并，避免覆盖你原有的自定义项。';
+  $('#mergeLabel').title = '选择你现有的 ' + p.fileName + '，把本次配色合并进去（保留你的其它设置）';
+  document.querySelectorAll('.plat-only').forEach(function (g) {
+    g.classList.toggle('on', g.dataset.plat === state.platform);
+  });
+  document.querySelectorAll('.plat-btn').forEach(function (b) {
+    const on = b.dataset.plat === state.platform;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+}
+
+function switchPlatform(id, persist) {
+  if (!GEN.PLATFORMS[id] || id === state.platform) { syncPlatformUI(); return; }
+  state.platformOpts[state.platform] = readOptions();          // 存下旧平台的设置
+  state.platform = id;
+  applyOptions(state.platformOpts[id]);                        // 载入新平台的设置（没有就用该平台默认值）
+  if (persist !== false) { try { localStorage.setItem(PLATFORM_KEY, id); } catch (e) {} }
+  syncPlatformUI();
+  renderPreview();                                             // 候选窗圆角/阴影随平台变化
+  const dlg = $('#outputDialog');
+  if (dlg.open && selectedColors().length) buildOutput(true);  // 弹窗开着就按新平台重新生成
+}
+
+$('#platformSwitch').addEventListener('click', function (e) {
+  const btn = e.target.closest ? e.target.closest('.plat-btn') : null;
+  if (btn) switchPlatform(btn.dataset.plat);
+});
+
+function initPlatform() {
+  let saved = null;
+  try { saved = localStorage.getItem(PLATFORM_KEY); } catch (e) {}
+  state.platform = (saved === 'weasel' || saved === 'squirrel') ? saved : detectPlatform();
+  applyOptions(null);          // 用该平台的默认值填表
+  syncPlatformUI();
 }
 
 /* ---------------- 生成（模态窗口）/ 下载 ---------------- */
@@ -2527,7 +2788,6 @@ function applyMerge() {
   $('#mergeBar').classList.remove('hidden');
   return true;
 }
-
 /** 读取用户选择的 weasel.custom.yaml 并合并 */
 function mergeWithUserText(text, fileName) {
   if (!selectedColors().length) { toast('请先选择至少一个颜色卡片'); return false; }
@@ -2675,8 +2935,8 @@ function readColorsFile(manual) {
   return tryLoadColorsFile().then(function (r) {
     state.loadingFile = false;
     if (r.ok) {
-      showLoadMsg('已加载默认 ' + COLORS_FILE + '：' + state.colors.length + ' 个颜色', 'ok');
-      toast(manual ? '已重新读取 ' + COLORS_FILE : '颜色 ' + COLORS_FILE);
+      showLoadMsg('已读取同目录 ' + COLORS_FILE + '：' + state.colors.length + ' 个颜色', 'ok');
+      toast(manual ? '已重新读取 ' + COLORS_FILE : '颜色来自同目录 ' + COLORS_FILE);
       return true;
     }
     const hint = fileHint(r.why);
@@ -2866,8 +3126,9 @@ function fallbackCopy(text) {
 }
 
 $('#btnDownload').addEventListener('click', function () {
-  download('weasel.custom.yaml', $('#code').textContent);
-  toast('已下载 weasel.custom.yaml');
+  const name = GEN.platformInfo(state.platform).fileName;
+  download(name, $('#code').textContent);
+  toast('已下载 ' + name);
 });
 
 $('#btnCloseOut').addEventListener('click', function () {
@@ -2918,6 +3179,7 @@ $('#outputDialog').addEventListener('click', function (e) {
 
 /* ---------------- 启动 ---------------- */
 initTheme();
+initPlatform();
 applyFreeze(readFlag(FREEZE_KEY, true), false);
 applyPvCollapsed(readFlag(PV_KEY, false), false);
 // 颜色优先来自与本页同目录的 colors.json；读不到再退回内置示例色板（会给出提示）
